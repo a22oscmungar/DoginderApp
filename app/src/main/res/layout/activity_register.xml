@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+
+    tools:context=".RegisterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="23sp"
+            android:layout_gravity="center"
+            android:text="REGISTRO"/>
+
+        <EditText
+            android:id="@+id/etNombre"
+            android:layout_width="match_parent"
+            android:layout_height="150px"
+            android:hint="NOMBRE"/>
+        <EditText
+            android:id="@+id/etApellidos"
+            android:layout_width="match_parent"
+            android:layout_height="150px"
+            android:hint="APELLIDOS"/>
+        <EditText
+            android:id="@+id/etMail"
+            android:layout_width="match_parent"
+            android:layout_height="150px"
+            android:hint="MAIL"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSiguiente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SIGUIENTE"
+            />
+
+        <ImageView
+            android:id="@+id/ivFoto"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:src="@drawable/two"
+            android:layout_margin="50px"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SELECCIONA IMAGEN"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRegistrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="REGISTRAR"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="IR AL SWIPER"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

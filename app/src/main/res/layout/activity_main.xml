@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="25dp">
+        <EditText
+            android:id="@+id/etDistancia"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:hint="Distancia en km"
+            android:inputType="number"
+            android:textAlignment="center"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Buscar"
+            android:id="@+id/btnBuscar"/>
+        <com.yalantis.library.Koloda
+            android:id="@+id/koloda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:koloda_card_layout="@layout/item_koloda" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRegistro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="IR AL REGISTRO"/>
+    </LinearLayout>
+
+</LinearLayout>
