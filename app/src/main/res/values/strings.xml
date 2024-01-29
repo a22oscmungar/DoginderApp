@@ -1,3 +1,53 @@
 <resources>
     <string name="app_name">doginder6</string>
+    <string-array name="razas_de_perro">
+        <item>Labrador Retriever</item>
+        <item>Golden Retriever</item>
+        <item>German Shepherd</item>
+        <item>Bulldog</item>
+        <item>Poodle</item>
+        <item>Beagle</item>
+        <item>Rottweiler</item>
+        <item>Boxer</item>
+        <item>Dachshund</item>
+        <item>Siberian Husky</item>
+        <item>Doberman Pinscher</item>
+        <item>Shih Tzu</item>
+        <item>Great Dane</item>
+        <item>Chihuahua</item>
+        <item>Pomeranian</item>
+        <item>Yorkshire Terrier</item>
+        <item>Border Collie</item>
+        <item>Shetland Sheepdog</item>
+        <item>Shiba Inu</item>
+        <item>French Bulldog</item>
+        <item>Australian Shepherd</item>
+        <item>Basset Hound</item>
+        <item>Chow Chow</item>
+        <item>Cocker Spaniel</item>
+        <item>Maltese</item>
+        <item>Pug</item>
+        <item>Saint Bernard</item>
+        <item>Doberman</item>
+        <item>Miniature Schnauzer</item>
+        <item>Great Pyrenees</item>
+        <item>Alaskan Malamute</item>
+        <item>Whippet</item>
+        <item>Airedale Terrier</item>
+        <item>Irish Setter</item>
+        <item>Staffordshire Bull Terrier</item>
+        <item>Scottish Terrier</item>
+        <item>English Mastiff</item>
+        <item>Italian Greyhound</item>
+        <item>Rhodesian Ridgeback</item>
+        <item>Newfoundland</item>
+        <item>Bernese Mountain Dog</item>
+        <item>Irish Wolfhound</item>
+        <item>Chinese Shar-Pei</item>
+        <item>Australian Cattle Dog</item>
+        <item>Basenji</item>
+        <item>Miniature Pinscher</item>
+        <item>Shetland Sheepdog</item>
+        <item>Greyhound</item>
+    </string-array>
 </resources>

@@ -43,8 +43,6 @@ public class SwipeAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        Log.d("prueba", "getView: "+list.get(position).getNombreUsu());
         View view;
         if (convertView==null){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_koloda,parent,false);
@@ -65,21 +63,15 @@ public class SwipeAdapter extends BaseAdapter {
         btnSi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("prueba", "onClick: " + user.getIdUsu());
                 MainActivity.koloda.onButtonClick(true);
             }
         });
         btnNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("prueba", "onClick: " + user.getIdUsu());
                 MainActivity.koloda.onButtonClick(false);
             }
         });
-
-
-        Log.d("pruebaUrl", url);
-
         return view;
     }
 }

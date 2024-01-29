@@ -22,11 +22,16 @@ public interface doginderAPI {
             @Part("longitude") RequestBody longitude,
             @Part("surname") RequestBody surname,
             @Part("mailUsu") RequestBody mailUsu,
+
             @Part MultipartBody.Part imagenFile
     );
     @GET("/users/nearby")
     Call<List<UserResponse.Usuario>> getNearbyUsers(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("radius") int radius);
 
+    @POST("/login")
+    Call<Usuario> loginUser(@Body UserRequest userRequest);
 
+    @GET("/users/validateMail")
+    Call<Usuario> verifyMail(@Query("mailUsu")String mailUsu);
 
 }

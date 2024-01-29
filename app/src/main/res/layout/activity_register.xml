@@ -20,57 +20,261 @@
             android:textAlignment="center"
             android:textSize="23sp"
             android:layout_gravity="center"
-            android:text="REGISTRO"/>
+            android:text="SOBRE TI"/>
+
+        <EditText
+            android:id="@+id/etMail1"
+            android:layout_width="match_parent"
+            android:layout_height="150px"
+            android:hint="Introduce tu correo electronico"
+            android:visibility="gone"/>
+        <EditText
+            android:id="@+id/etMail2"
+            android:layout_width="match_parent"
+            android:layout_height="150px"
+            android:hint="Confirma tu correo electronico"
+            android:visibility="gone"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnConfirmarMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CONFIRMAR MAIL"
+            android:visibility="gone"/>
+
+
 
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:hint="NOMBRE"/>
+            android:hint="NOMBRE"
+            android:visibility="gone"/>
         <EditText
             android:id="@+id/etApellidos"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:hint="APELLIDOS"/>
+            android:hint="APELLIDOS"
+            android:visibility="gone"/>
+        <RadioGroup
+            android:id="@+id/rgGenero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:visibility="gone">
+            <RadioButton
+                android:id="@+id/rbHombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HOMBRE"/>
+            <RadioButton
+                android:id="@+id/rbMujer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MUJER"/>
+            <RadioButton
+                android:id="@+id/rbOtro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OTRO/PREFIERO NO DECIRLO"/>
+        </RadioGroup>
         <EditText
-            android:id="@+id/etMail"
+            android:id="@+id/etEdadPersona"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:hint="MAIL"/>
+            android:hint="Tu edad"
+            android:inputType="number"
+            android:visibility="gone"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSiguiente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SIGUIENTE"
+            android:visibility="gone"
             />
 
-        <ImageView
-            android:id="@+id/ivFoto"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_gravity="center"
-            android:src="@drawable/two"
-            android:layout_margin="50px"/>
+        <EditText
+            android:id="@+id/etPass1"
+            android:layout_width="match_parent"
+            android:layout_height="150px"
+            android:inputType="textPassword"
+            android:hint="CONTRASEÑA"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/etPass2"
+            android:layout_width="match_parent"
+            android:layout_height="150px"
+            android:inputType="textPassword"
+            android:hint="CONFIRMA TU CONTRASEÑA"
+            android:visibility="gone"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnFoto"
+            android:id="@+id/btnPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SELECCIONA IMAGEN"/>
+            android:text="CONFIRMAR CONTRASEÑA"
+            android:visibility="gone"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnRegistrar"
+        <ScrollView
+            android:id="@+id/svMascota"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="REGISTRAR"/>
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TU MASCOTA"
+                    android:textStyle="bold"
+                    android:textSize="35sp"
+                    android:textAlignment="center"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnMain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="IR AL SWIPER"/>
+                <EditText
+                    android:id="@+id/etNombreMascota"
+                    android:layout_width="match_parent"
+                    android:layout_height="150px"
+                    android:hint="Su nombre"
+                    android:visibility="gone"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Su raza: "
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone"/>
+                <Spinner
+                    android:id="@+id/spinnerRaza"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/tvSexo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="Cual es su sexo?"/>
+                <RadioGroup
+                    android:id="@+id/rgSexoPerro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hembra"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Macho"/>
+
+                </RadioGroup>
+
+                <ImageView
+                    android:id="@+id/ivFoto"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/two"
+                    android:layout_margin="50px"
+                    android:visibility="gone"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnFoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="SELECCIONA IMAGEN"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/etDescripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:hint="Describele aquí!"
+                    android:layout_marginTop="25dp"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/etEdad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Edad (en años humanos)"
+                    android:visibility="gone"
+                    />
+                <TextView
+                    android:id="@+id/tvRelacionHumanos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Como se lleva con humanos?"
+                    android:visibility="gone"
+                    />
+                <RadioGroup
+                    android:id="@+id/rgRelacionPersonas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bien"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Indiferente"
+                        android:layout_marginHorizontal="70dp"
+                        />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mal"/>
+                </RadioGroup>
+                <TextView
+                    android:id="@+id/tvRelacionMascotas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+
+                    android:text="Y con otros animales?"/>
+                <RadioGroup
+                    android:id="@+id/rgRelacionMascotas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bien"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Indiferente"
+                        android:layout_marginHorizontal="70dp"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mal"/>
+                </RadioGroup>
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnRegistrar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="REGISTRAR"/>
+            </LinearLayout>
+
+        </ScrollView>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
