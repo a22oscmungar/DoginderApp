@@ -22,6 +22,16 @@ public interface doginderAPI {
             @Part("longitude") RequestBody longitude,
             @Part("surname") RequestBody surname,
             @Part("mailUsu") RequestBody mailUsu,
+            @Part("pass") RequestBody pass,
+            @Part("age") RequestBody age,
+            @Part("gender") RequestBody gender,
+            @Part("petName") RequestBody petName,
+            @Part("petAge") RequestBody petAge,
+            @Part("petGender") RequestBody petGender,
+            @Part("petBreed") RequestBody petBreed,
+            @Part("petDescription") RequestBody petDescription,
+            @Part("petFriendlyPets") RequestBody petFriendlyPets,
+            @Part("petFriendlyPeople") RequestBody petFriendlyPeople,
 
             @Part MultipartBody.Part imagenFile
     );

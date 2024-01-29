@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     list.addAll(users);
                     for (int i = 0; i < list.size(); i++) {
                         //Log.d("pruebaLista", "onUsersReceived: " + list.get(i).getNombreUsu());
-                        Log.d("PruebaLista", "Response: " + users.get(i).getNombreUsu());
+                        Log.d("PruebaLista", "Response: " + users.get(i).toString());
                     }
                     Log.d("prueba", "onUsersReceived: " + list.size());
                     if (list.size() != 0 && list != null) {

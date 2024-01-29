@@ -6,17 +6,18 @@ public class Usuario {
     public Ubi ubi;
     public String apellidosUsu;
     public String mailUsu;
-    public String imageURL;
     public String pass;
 
-    public Usuario(int idUsu, String nombreUsu, Ubi ubi, String apellidosUsu, String mailUsu, String imageURL, String pass ){
+    public Mascota mascota;
+
+    public Usuario(int idUsu, String nombreUsu, Ubi ubi, String apellidosUsu, String mailUsu, String pass, Mascota mascota ){
         this.idUsu = idUsu;
         this.nombreUsu = nombreUsu;
         this.ubi = ubi;
         this.apellidosUsu = apellidosUsu;
         this.mailUsu = mailUsu;
-        this.imageURL = imageURL;
         this.pass = pass;
+        this.mascota = mascota;
     }
 
     public int getIdUsu() {
@@ -59,20 +60,20 @@ public class Usuario {
         this.mailUsu = mailUsu;
     }
 
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
-
     public String getPass() {
         return pass;
     }
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public Mascota getMascota() {
+        return mascota;
+    }
+
+    public void setMascota(Mascota mascota) {
+        this.mascota = mascota;
     }
 
     public class Ubi{
@@ -109,8 +110,8 @@ public class Usuario {
                 ", ubi=" + ubi +
                 ", apellidosUsu='" + apellidosUsu + '\'' +
                 ", mailUsu='" + mailUsu + '\'' +
-                ", imageURL='" + imageURL + '\'' +
                 ", pass='" + pass + '\'' +
+                ", mascota=" + mascota +
                 '}';
     }
 }

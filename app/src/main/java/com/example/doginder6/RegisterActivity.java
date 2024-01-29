@@ -298,6 +298,7 @@ public class RegisterActivity extends AppCompatActivity {
         RequestBody surnameRequestBody = (apellidos != null) ? RequestBody.create(MediaType.parse("text/plain"), apellidos) : RequestBody.create(MediaType.parse("text/plain"), "");
         RequestBody mailRequestBody = (mail != null) ? RequestBody.create(MediaType.parse("text/plain"), mail) : RequestBody.create(MediaType.parse("text/plain"), "");
         RequestBody passRequestBody = (pass1 !=null) ? RequestBody.create(MediaType.parse("text/plain"), pass1) :  RequestBody.create(MediaType.parse("text/plain"), "" );
+        RequestBody sexoPersonaRequestBody = (genero != null) ? RequestBody.create(MediaType.parse("text/plain"), genero) : RequestBody.create(MediaType.parse("text/plain"), "");
         RequestBody nombreMascotaRequestBody = (nombreMascota != null) ? RequestBody.create(MediaType.parse("text/plain"), nombreMascota) : RequestBody.create(MediaType.parse("text/plain"), "");
         RequestBody edadPerroRequestBody = (edadPerro != 0) ? RequestBody.create(MediaType.parse("text/plain"), String.valueOf(edadPerro)) : RequestBody.create(MediaType.parse("text/plain"), "");
         RequestBody descripcionRequestBody = (descripcion != null) ? RequestBody.create(MediaType.parse("text/plain"), descripcion) : RequestBody.create(MediaType.parse("text/plain"), "");
@@ -305,6 +306,7 @@ public class RegisterActivity extends AppCompatActivity {
         RequestBody relacionMascotasRequestBody = (relacionMascotas != null) ? RequestBody.create(MediaType.parse("text/plain"), relacionMascotas) : RequestBody.create(MediaType.parse("text/plain"), "");
         RequestBody sexoPerroRequestBody = (sexoPerro != null) ? RequestBody.create(MediaType.parse("text/plain"), sexoPerro) : RequestBody.create(MediaType.parse("text/plain"), "");
         RequestBody edadPersonaRequestBody = (edadPersona != 0) ? RequestBody.create(MediaType.parse("text/plain"), String.valueOf(edadPersona)) : RequestBody.create(MediaType.parse("text/plain"), "");
+        RequestBody razaRequestBody = (raza != null) ? RequestBody.create(MediaType.parse("text/plain"), raza) : RequestBody.create(MediaType.parse("text/plain"), "");
 
         MultipartBody.Part imagenPart = MultipartBody.Part.createFormData("imagenFile", file.getName(), imageRequestBody);
 
@@ -319,7 +321,7 @@ public class RegisterActivity extends AppCompatActivity {
         doginderAPI = retrofit.create(doginderAPI.class);
 
         // Utilizar directamente los RequestBody en lugar de userRequestBody
-        Call<Void> call = doginderAPI.registerUser(nameRequestBody, latitudeRequestBody, longitudeRequestBody, surnameRequestBody, mailRequestBody, imagenPart);
+        Call<Void> call = doginderAPI.registerUser(nameRequestBody, latitudeRequestBody, longitudeRequestBody, surnameRequestBody, mailRequestBody, passRequestBody, edadPersonaRequestBody, sexoPersonaRequestBody, nombreMascotaRequestBody, edadPerroRequestBody, sexoPerroRequestBody, razaRequestBody, descripcionRequestBody, relacionMascotasRequestBody, relacionPersonasRequestBody, imagenPart);
 
         call.enqueue(new Callback<Void>() {
             @Override

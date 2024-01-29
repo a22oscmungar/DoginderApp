@@ -52,11 +52,13 @@ public class SwipeAdapter extends BaseAdapter {
         UserResponse.Usuario user = list.get(position);
         ShapeableImageView imageView = view.findViewById(R.id.image);
         TextView tvNombre = view.findViewById(R.id.tvNombre);
+        TextView tvNombreMascota = view.findViewById(R.id.tvNombreMascota);
         ImageView btnNo = view.findViewById(R.id.btnNo);
         ImageView btnSi = view.findViewById(R.id.btnSi);
 
         tvNombre.setText(user.getNombreUsu());
-        String url = "http://doginder.dam.inspedralbes.cat:3745"+user.getImageUrl();
+        tvNombreMascota.setText(user.getNombreMascota());
+        String url = "http://doginder.dam.inspedralbes.cat:3745"+user.getFotoMascota();
         Picasso.get().load(url).error(R.drawable.two).into(imageView);
         //http://doginder.dam.inspedralbes.cat:3745/uploads/perro1.jpg
 
