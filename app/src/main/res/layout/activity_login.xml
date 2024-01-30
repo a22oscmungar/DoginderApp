@@ -26,19 +26,17 @@
             android:layout_width="match_parent"
             android:layout_height="150px"
             android:hint="CORREO ELECTRONICO"
+            android:text="o@o.com"
             />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/black"/>
+
 
         <EditText
             android:id="@+id/etContrasena"
             android:layout_width="match_parent"
             android:layout_height="150px"
             android:hint="CONTRASEÑA"
+            android:text="1234"
+            android:inputType="textPassword"
             />
 
         <androidx.appcompat.widget.AppCompatButton

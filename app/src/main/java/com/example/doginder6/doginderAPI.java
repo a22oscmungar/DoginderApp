@@ -39,7 +39,7 @@ public interface doginderAPI {
     Call<List<UserResponse.Usuario>> getNearbyUsers(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("radius") int radius);
 
     @POST("/login")
-    Call<Usuario> loginUser(@Body UserRequest userRequest);
+    Call<Usuario2> loginUser(@Body UserRequest userRequest);
 
     @GET("/users/validateMail")
     Call<Usuario> verifyMail(@Query("mailUsu")String mailUsu);

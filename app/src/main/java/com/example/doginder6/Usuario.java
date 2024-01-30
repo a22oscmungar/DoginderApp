@@ -1,23 +1,66 @@
 package com.example.doginder6;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Usuario {
+    @SerializedName("idUsu")
     public int idUsu;
+    @SerializedName("nombreUsu")
     public String nombreUsu;
-    public Ubi ubi;
+    @SerializedName("ubiUsu")
+    public Ubi ubiUsu;
+    @SerializedName("apellidosUsu")
     public String apellidosUsu;
+    @SerializedName("mailUsu")
     public String mailUsu;
+    @SerializedName("pass")
     public String pass;
+    @SerializedName("genero")
+    public String genero;
+    @SerializedName("edadUsu")
+    public int edadUsu;
 
-    public Mascota mascota;
+    @SerializedName("mascotaId")
+    public int mascotaId;
+    @SerializedName("nombre")
+    public String nombre;
+    @SerializedName("edad")
+    public String edad;
+    @SerializedName("sexo")
+    public String sexo;
+    @SerializedName("foto")
+    public String foto;
+    @SerializedName("descripcion")
+    public String descripcion;
+    @SerializedName("relacionHumanos")
+    public String relacionHumanos;
+    @SerializedName("relacionMascotas")
+    public String relacionMascotas;
+    @SerializedName("raza")
+    public String raza;
+    @SerializedName("idHumano")
+    public int idHumano;
 
-    public Usuario(int idUsu, String nombreUsu, Ubi ubi, String apellidosUsu, String mailUsu, String pass, Mascota mascota ){
+
+    public Usuario(int idUsu, String nombreUsu, Ubi ubiUsu, String apellidosUsu, String mailUsu, String pass, int edadUsu, String genero, int mascotaId, String nombre, String edad, String sexo, String descripcion, String foto, String raza, String relacionMascotas, String relacionHumanos, int idHumano) {
         this.idUsu = idUsu;
         this.nombreUsu = nombreUsu;
-        this.ubi = ubi;
+        this.ubiUsu = ubiUsu;
         this.apellidosUsu = apellidosUsu;
         this.mailUsu = mailUsu;
         this.pass = pass;
-        this.mascota = mascota;
+        this.edadUsu = edadUsu;
+        this.genero = genero;
+        this.mascotaId = mascotaId;
+        this.nombre = nombre;
+        this.edad = edad;
+        this.sexo = sexo;
+        this.descripcion = descripcion;
+        this.foto = foto;
+        this.raza = raza;
+        this.relacionMascotas = relacionMascotas;
+        this.relacionHumanos = relacionHumanos;
+        this.idHumano = idHumano;
     }
 
     public int getIdUsu() {
@@ -37,11 +80,11 @@ public class Usuario {
     }
 
     public Ubi getUbi() {
-        return ubi;
+        return ubiUsu;
     }
 
     public void setUbi(Ubi ubi) {
-        this.ubi = ubi;
+        this.ubiUsu = ubi;
     }
 
     public String getApellidosUsu() {
@@ -68,14 +111,6 @@ public class Usuario {
         this.pass = pass;
     }
 
-    public Mascota getMascota() {
-        return mascota;
-    }
-
-    public void setMascota(Mascota mascota) {
-        this.mascota = mascota;
-    }
-
     public class Ubi{
         public double x;
         public double y;
@@ -100,6 +135,112 @@ public class Usuario {
         public void setY(double y) {
             this.y = y;
         }
+
+
+    }
+
+    public Ubi getUbiUsu() {
+        return ubiUsu;
+    }
+
+    public void setUbiUsu(Ubi ubiUsu) {
+        this.ubiUsu = ubiUsu;
+    }
+
+    public int getEdadUsu() {
+        return edadUsu;
+    }
+
+    public void setEdadUsu(int edadUsu) {
+        this.edadUsu = edadUsu;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public int getMascotaId() {
+        return mascotaId;
+    }
+
+    public void setMascotaId(int mascotaId) {
+        this.mascotaId = mascotaId;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getEdad() {
+        return edad;
+    }
+
+    public void setEdad(String edad) {
+        this.edad = edad;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public String getRaza() {
+        return raza;
+    }
+
+    public void setRaza(String raza) {
+        this.raza = raza;
+    }
+
+    public String getRelacionMascotas() {
+        return relacionMascotas;
+    }
+
+    public void setRelacionMascotas(String relacionMascotas) {
+        this.relacionMascotas = relacionMascotas;
+    }
+
+    public String getRelacionHumanos() {
+        return relacionHumanos;
+    }
+
+    public void setRelacionHumanos(String relacionHumanos) {
+        this.relacionHumanos = relacionHumanos;
+    }
+
+    public int getIdHumano() {
+        return idHumano;
+    }
+
+    public void setIdHumano(int idHumano) {
+        this.idHumano = idHumano;
     }
 
     @Override
@@ -107,11 +248,22 @@ public class Usuario {
         return "Usuario{" +
                 "idUsu=" + idUsu +
                 ", nombreUsu='" + nombreUsu + '\'' +
-                ", ubi=" + ubi +
+                ", ubiUsu=" + ubiUsu +
                 ", apellidosUsu='" + apellidosUsu + '\'' +
                 ", mailUsu='" + mailUsu + '\'' +
                 ", pass='" + pass + '\'' +
-                ", mascota=" + mascota +
+                ", edadUsu='" + edadUsu + '\'' +
+                ", genero='" + genero + '\'' +
+                ", mascotaId=" + mascotaId +
+                ", nombre='" + nombre + '\'' +
+                ", edad='" + edad + '\'' +
+                ", sexo='" + sexo + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", foto='" + foto + '\'' +
+                ", raza='" + raza + '\'' +
+                ", relacionMascotas='" + relacionMascotas + '\'' +
+                ", relacionHumanos='" + relacionHumanos + '\'' +
+                ", idHumano=" + idHumano +
                 '}';
     }
 }

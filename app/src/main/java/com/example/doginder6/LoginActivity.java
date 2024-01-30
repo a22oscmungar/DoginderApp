@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import retrofit2.Call;
@@ -24,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     public Button btnLogin;
     public Retrofit retrofit;
     public doginderAPI doginderAPI;
-    public Usuario user;
+    public Usuario2 user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Introduce una contraseña!", Toast.LENGTH_LONG).show();
         }else{
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://doginder.dam.inspedralbes.cat:3745/")
+                    .baseUrl("http://192.168.170.1:3745/")
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                     .build();
 
@@ -79,22 +81,32 @@ public class LoginActivity extends AppCompatActivity {
             UserRequest userRequest = new UserRequest(usuario, pass);
             Log.d("prueba", userRequest.getMailUsu() +" "+ userRequest.getPassUsu());
 
-            Call<Usuario> call = doginderAPI.loginUser(userRequest);
-            call.enqueue(new Callback<Usuario>() {
+            Call<Usuario2> call = doginderAPI.loginUser(userRequest);
+            call.enqueue(new Callback<Usuario2>() {
                 @Override
-                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                    if(response.body() != null){
+                public void onResponse(Call<Usuario2> call, Response<Usuario2> response) {
+                    if(response.isSuccessful() && response.body() != null){
                         Log.d("prueba", "call exitoso");
+                        //Log.d("prueba", "onResponse response: "+ response.body());
+
                         user = response.body();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        /*Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);*/
+                        Log.d("prueba", "onResponse user: "+ user.toString());
+
+                        DataBaseHelper db = new DataBaseHelper(LoginActivity.this, "MiPerfil", null, 1);
+
+                        db.insertUsu(user);
+                        db.insertMasc(user);
+
+
                     }else{
                     Toast.makeText(LoginActivity.this, "Algo va mal, revisa los datos", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<Usuario> call, Throwable t) {
+                public void onFailure(Call<Usuario2> call, Throwable t) {
                     Log.d("prueba", "onFailure: "+ t.getMessage());
                 }
             });
