@@ -5,6 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
 import android.content.Intent;
@@ -13,6 +16,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +25,9 @@ import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.GsonBuilder;
 import com.yalantis.library.Koloda;
 
@@ -53,171 +60,73 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnBuscar = findViewById(R.id.btnBuscar);
-        etDistancia = findViewById(R.id.etDistancia);
-        btnRegistro = findViewById(R.id.btnRegistro);
+        BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
 
-        btnRegistro.setOnClickListener(new View.OnClickListener() {
+        bottomAppBar.setOnMenuItemClickListener(new BottomAppBar.OnMenuItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivity(intent);
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent;
+                switch(item.getItemId()){
+                    case R.id.registro:
+                        intent = new Intent(MainActivity.this, RegisterActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.login:
+                        intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.main:
+                        Toast.makeText(MainActivity.this, "Ya estas en el main", Toast.LENGTH_SHORT).show();
+                }
+                return false;
             }
         });
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText("Pestaña 1"));
+        tabLayout.addTab(tabLayout.newTab().setText("Pestaña 2"));
 
-        // Verificar y solicitar permisos
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            // Si los permisos ya están otorgados, obtener la ubicación
-            getLastLocation();
-        } else {
-            // Si no, solicitar permisos
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_LOCATION_PERMISSION);
-        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new FragmentSwiper())
+                .commit();
 
-        btnBuscar.setOnClickListener(new View.OnClickListener() {
+        // Manejar eventos de cambio de pestaña
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View v) {
-                distancia = Integer.parseInt(etDistancia.getText().toString());
-                Log.d("prueba", "onCreate: " + distancia);
-                //koloda.reloadAdapterData();
-                llamarUsuarios();
-            }
-        });
-    }
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.d("FragmentSwiper", "onTabSelected" + tab.getPosition());
+                switch (tab.getPosition()) {
+                    case 0:
+                        Log.d("FragmentSwiper", "FragmentSwiper");
 
-    public void llamarUsuarios() {
-        if (distancia == 0) {
-            Toast.makeText(this, "Introduce una distancia", Toast.LENGTH_LONG).show();
-        } else {
-            //Log.d("prueba", "onCreate: " + distancia);
-            recibirUsuarios(new UserCallback() {
-                @Override
-                public void onUsersReceived(List<UserResponse.Usuario> users) {
-                    // Actualizar la lista y el adaptador aquí
-                    if (list == null) {
-                        list = new ArrayList<>();
-                    } else {
-                        list.clear();
-                    }
-                    list.addAll(users);
-                    for (int i = 0; i < list.size(); i++) {
-                        //Log.d("pruebaLista", "onUsersReceived: " + list.get(i).getNombreUsu());
-                        Log.d("PruebaLista", "Response: " + users.get(i).toString());
-                    }
-                    Log.d("prueba", "onUsersReceived: " + list.size());
-                    if (list.size() != 0 && list != null) {
-                        koloda = findViewById(R.id.koloda);
-                        swipeAdapter = new SwipeAdapter(MainActivity.this, list);
-                        koloda.setAdapter(swipeAdapter);
-                        swipeAdapter.notifyDataSetChanged();
-                    } else {
-                        Toast.makeText(MainActivity.this, "No hay usuarios cerca", Toast.LENGTH_LONG).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(String errorMessage) {
-                    Log.d("TAG1", "onFailure: " + errorMessage);
-                }
-            });
-        }
-    }
-
-
-    public void recibirUsuarios(UserCallback callback) {
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://doginder.dam.inspedralbes.cat:3745/")
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
-                .build();
-
-        doginderAPI = retrofit.create(doginderAPI.class);
-
-        //UserNearbyRequest userNearbyRequest = new UserNearbyRequest(41.3851, 2.1734, 15);
-        //Location lastKnownLocation = locationHelper.getLastKnownLocation();
-
-        Log.d("prueba", "datos pre call: " + latitude + " " + longitude);
-        Call<List<UserResponse.Usuario>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia);
-        //Call<List<UserResponse.Usuario>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia);
-
-        call.enqueue(new Callback<List<UserResponse.Usuario>>() {
-            @Override
-            public void onResponse(Call<List<UserResponse.Usuario>> call, Response<List<UserResponse.Usuario>> response) {
-                if (response.isSuccessful()) {
-                    callback.onUsersReceived(response.body());
-                } else {
-                    callback.onFailure("Error en la respuesta: " + response.message());
+                        // Cargar el primer fragmento
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new FragmentSwiper())
+                                .commit();
+                        break;
+                    /*case 1:
+                        // Cargar el segundo fragmento
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new Fragment2())
+                                .commit();
+                        break;*/
+                    // Añadir más casos según sea necesario
                 }
             }
 
             @Override
-            public void onFailure(Call<List<UserResponse.Usuario>> call, Throwable t) {
-                callback.onFailure("Error en la llamada: " + t.getMessage());
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // No se necesita implementar en este ejemplo
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                // No se necesita implementar en este ejemplo
             }
         });
-
     }
 
-    public interface UserCallback {
-        void onUsersReceived(List<UserResponse.Usuario> users);
 
-        void onFailure(String errorMessage);
-    }
-
-    // Método para obtener la última ubicación conocida
-    private void getLastLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            // Aquí obtienes la ubicación del usuario
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                            Log.d("prueba", "Es esta ubi: " + latitude + " " + longitude);
-                            // Puedes hacer lo que necesites con la ubicación aquí
-
-                            llamarUsuarios();
-                        }
-                    }
-                });
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_LOCATION_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permiso concedido, obtener la ubicación
-                getLastLocation();
-            } else {
-                // Permiso denegado, puedes mostrar un mensaje o tomar otras acciones
-            }
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Detener las actualizaciones de ubicación al destruir la actividad
-        if (locationHelper != null) {
-            locationHelper.removeLocationUpdates();
-        }
-    }
 
 }
 

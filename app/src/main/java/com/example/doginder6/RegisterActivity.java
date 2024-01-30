@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,6 +34,7 @@ import android.location.LocationListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
@@ -75,6 +77,28 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
+
+        bottomAppBar.setOnMenuItemClickListener(new BottomAppBar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent;
+                switch(item.getItemId()){
+                    case R.id.registro:
+                        Toast.makeText(RegisterActivity.this, "Ya estas en el registro", Toast.LENGTH_SHORT).show();
+                    case R.id.login:
+                        intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.main:
+                        Intent intent2 = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(intent2);
+                }
+                return false;
+            }
+        });
+
         genero = "";
 
         btnSiguiente = findViewById(R.id.btnSiguiente);
