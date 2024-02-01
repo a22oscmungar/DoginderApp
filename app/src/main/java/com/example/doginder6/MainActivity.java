@@ -83,8 +83,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Pestaña 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Pestaña 2"));
+        tabLayout.addTab(tabLayout.newTab().setText("Swipe"));
+        tabLayout.addTab(tabLayout.newTab().setText("Mi perfil"));
+        tabLayout.addTab(tabLayout.newTab().setText("Chat"));
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new FragmentSwiper())
@@ -104,12 +105,18 @@ public class MainActivity extends AppCompatActivity {
                                 .replace(R.id.fragment_container, new FragmentSwiper())
                                 .commit();
                         break;
-                    /*case 1:
+                    case 1:
                         // Cargar el segundo fragmento
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new Fragment2())
+                                .replace(R.id.fragment_container, new FragmentPerfil())
                                 .commit();
-                        break;*/
+                        break;
+                    case 2:
+                        // Cargar el segundo fragmento
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new FragmentChat())
+                                .commit();
+                        break;
                     // Añadir más casos según sea necesario
                 }
             }

@@ -46,7 +46,7 @@ public class Usuario2 {
         this.raza = raza;
     }
 
-    public class Ubi{
+    public static class Ubi{
         public double x;
         public double y;
 

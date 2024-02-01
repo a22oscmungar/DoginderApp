@@ -3,6 +3,7 @@ package com.example.doginder6;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -27,6 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     public Retrofit retrofit;
     public doginderAPI doginderAPI;
     public Usuario2 user;
+    public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
+    public final String URL2 = "http://192.168.19.159:3745/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Introduce una contraseña!", Toast.LENGTH_LONG).show();
         }else{
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.170.1:3745/")
+                    .baseUrl(URL)
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                     .build();
 
@@ -95,11 +98,17 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("prueba", "onResponse user: "+ user.toString());
 
                         DataBaseHelper db = new DataBaseHelper(LoginActivity.this, "MiPerfil", null, 1);
-
+                        db.borrarTodosLosDatos();
                         db.insertUsu(user);
-                        db.insertMasc(user);
 
+                        SharedPreferences preferences = getSharedPreferences("credenciales", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        Log.d("usuario", "login "+ user.getIdUsu());
+                        editor.putInt("id", user.getIdUsu());
+                        editor.apply();
 
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
                     }else{
                     Toast.makeText(LoginActivity.this, "Algo va mal, revisa los datos", Toast.LENGTH_SHORT).show();
                     }

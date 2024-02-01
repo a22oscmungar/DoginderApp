@@ -1,7 +1,9 @@
 package com.example.doginder6;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -60,7 +62,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     COLUMN_NOMRAZA + " TEXT, " +
                     COLUMN_RELACIONMASCO + " TEXT, " +
                     COLUMN_RELACIONPERSONAS + " TEXT," +
-                    COLUMN_IDHUMANO + " INTEGER);";
+                    COLUMN_IDHUMANO + " INTEGER, " +
+                    "FOREIGN KEY(" + COLUMN_IDHUMANO + ") REFERENCES " + TABLEUSU_NAME + "(" + COLUMN_IDUSU + "));";
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -77,25 +81,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public long insertUsu(Usuario2 usuario2) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
 
-        values.put(COLUMN_IDUSU, usuario2.idUsu);
-        values.put(COLUMN_NOMUSU, usuario2.nombreUsu);
-        values.put(COLUMN_PASSUSU, usuario2.pass);
-        values.put(COLUMN_CORREUUSU, usuario2.mailUsu);
-        values.put(COLUMN_COGNOMUSU, usuario2.apellidosUsu);
-        values.put(COLUMN_EDADUSU, usuario2.edadUsu);
-        values.put(COLUMN_GENEROUSU, usuario2.genero);
-        values.put(COLUMN_LATITUDUSU, usuario2.ubiUsu.x);
-        values.put(COLUMN_LONGITUDUSU, usuario2.ubiUsu.y);
+        Log.d("pruebaInsertUsu", "insertUsu: " + usuario2.toString());
 
-        long result = db.insert(TABLEUSU_NAME, null, values);
+        // Verificar si el usuario ya existe
+        if (usuarioNoExiste(db, usuario2.idUsu)) {
+            ContentValues values = new ContentValues();
 
-        db.close();
+            values.put(COLUMN_IDUSU, usuario2.idUsu);
+            values.put(COLUMN_NOMUSU, usuario2.nombreUsu);
+            values.put(COLUMN_PASSUSU, usuario2.pass);
+            values.put(COLUMN_CORREUUSU, usuario2.mailUsu);
+            values.put(COLUMN_COGNOMUSU, usuario2.apellidosUsu);
+            values.put(COLUMN_EDADUSU, usuario2.edadUsu);
+            values.put(COLUMN_GENEROUSU, usuario2.genero);
+            values.put(COLUMN_LATITUDUSU, usuario2.ubiUsu.x);
+            values.put(COLUMN_LONGITUDUSU, usuario2.ubiUsu.y);
 
-        Log.d("prueba", "insertUsu: "+ result);
+            long result = db.insert(TABLEUSU_NAME, null, values);
 
-        return result;
+            Log.d("prueba", "insertUsu: " + result);
+
+            insertMasc(usuario2);
+
+            db.close();
+
+
+            return result;
+        } else {
+            Log.d("prueba", "Usuario con ID " + usuario2.idUsu + " ya existe.");
+            return -1; // Indica que no se realizó la inserción
+        }
     }
 
     public long insertMasc(Usuario2 usuario2){
@@ -121,4 +137,119 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         return result;
     }
+
+    public Usuario2 getUsuarioCompleto(int idUsuario) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Usuario2 usuario2 = null;
+        String stringId = String.valueOf(idUsuario);
+
+        // Consulta a la tabla USUARIO
+        Cursor cursorUsuario = db.query(TABLEUSU_NAME, null, null, null, null, null, null);
+        Log.d("prueba", "getUsuarioCompleto: " + cursorUsuario.getCount());
+
+        if (cursorUsuario != null && cursorUsuario.moveToFirst()) {
+            // Obtén los datos del usuario
+            int idUsuIndex = cursorUsuario.getColumnIndex("idUsuario");
+            int nombreUsuIndex = cursorUsuario.getColumnIndex(COLUMN_NOMUSU);
+            int passIndex = cursorUsuario.getColumnIndex(COLUMN_PASSUSU);
+            int mailUsuIndex = cursorUsuario.getColumnIndex(COLUMN_CORREUUSU);
+            int apellidosUsuIndex = cursorUsuario.getColumnIndex(COLUMN_COGNOMUSU);
+            int edadUsuIndex = cursorUsuario.getColumnIndex(COLUMN_EDADUSU);
+            int generoIndex = cursorUsuario.getColumnIndex(COLUMN_GENEROUSU);
+            int latitudIndex = cursorUsuario.getColumnIndex(COLUMN_LATITUDUSU);
+            int longitudIndex = cursorUsuario.getColumnIndex(COLUMN_LONGITUDUSU);
+
+            if (idUsuIndex != -1 && nombreUsuIndex != -1 && passIndex != -1 &&
+                    mailUsuIndex != -1 && apellidosUsuIndex != -1 && edadUsuIndex != -1 &&
+                    generoIndex != -1 && latitudIndex != -1 && longitudIndex != -1) {
+                int idUsu = cursorUsuario.getInt(idUsuIndex);
+                String nombreUsu = cursorUsuario.getString(nombreUsuIndex);
+                String pass = cursorUsuario.getString(passIndex);
+                String mailUsu = cursorUsuario.getString(mailUsuIndex);
+                String apellidosUsu = cursorUsuario.getString(apellidosUsuIndex);
+                int edadUsu = cursorUsuario.getInt(edadUsuIndex);
+                String genero = cursorUsuario.getString(generoIndex);
+                double latitud = cursorUsuario.getDouble(latitudIndex);
+                double longitud = cursorUsuario.getDouble(longitudIndex);
+
+                // Consulta a la tabla MASCOTA
+                Cursor cursorMascota = db.query(TABLEMASC_NAME, null, COLUMN_IDHUMANO + "=?",
+                        new String[]{String.valueOf(idUsuario)}, null, null, null);
+
+                if (cursorMascota != null && cursorMascota.moveToFirst()) {
+                    // Obtén los datos de la mascota
+                    int mascotaIdIndex = cursorMascota.getColumnIndex(COLUMN_IDMASCO);
+                    int nombreMascotaIndex = cursorMascota.getColumnIndex(COLUMN_NOMMASCO);
+                    int edadMascotaIndex = cursorMascota.getColumnIndex(COLUMN_EDADMASCO);
+                    int sexoMascotaIndex = cursorMascota.getColumnIndex(COLUMN_GENEROMASCO);
+                    int descripcionMascotaIndex = cursorMascota.getColumnIndex(COLUMN_DESCRIPCIONMASCO);
+                    int fotoMascotaIndex = cursorMascota.getColumnIndex(COLUMN_FOTOMASCO);
+                    int razaIndex = cursorMascota.getColumnIndex(COLUMN_NOMRAZA);
+                    int relacionMascotasIndex = cursorMascota.getColumnIndex(COLUMN_RELACIONMASCO);
+                    int relacionHumanosIndex = cursorMascota.getColumnIndex(COLUMN_RELACIONPERSONAS);
+                    int idHumanoIndex = cursorMascota.getColumnIndex(COLUMN_IDHUMANO);
+
+                    if (mascotaIdIndex != -1 && nombreMascotaIndex != -1 && edadMascotaIndex != -1 &&
+                            sexoMascotaIndex != -1 && descripcionMascotaIndex != -1 && fotoMascotaIndex != -1 &&
+                            razaIndex != -1 && relacionMascotasIndex != -1 && relacionHumanosIndex != -1 &&
+                            idHumanoIndex != -1) {
+
+                        int mascotaId = cursorMascota.getInt(mascotaIdIndex);
+                        String nombreMascota = cursorMascota.getString(nombreMascotaIndex);
+                        int edadMascota = cursorMascota.getInt(edadMascotaIndex);
+                        String sexoMascota = cursorMascota.getString(sexoMascotaIndex);
+                        String descripcionMascota = cursorMascota.getString(descripcionMascotaIndex);
+                        String fotoMascota = cursorMascota.getString(fotoMascotaIndex);
+                        String raza = cursorMascota.getString(razaIndex);
+                        String relacionMascotas = cursorMascota.getString(relacionMascotasIndex);
+                        String relacionHumanos = cursorMascota.getString(relacionHumanosIndex);
+                        int idHumano = cursorMascota.getInt(idHumanoIndex);
+
+                        // Crea un objeto Usuario2 con los datos de ambas tablas
+                        usuario2 = new Usuario2(idUsu, new Usuario2.Ubi(latitud, longitud), nombreUsu, apellidosUsu, mailUsu, pass, genero, edadUsu, mascotaId, nombreMascota, edadMascota, sexoMascota, descripcionMascota, fotoMascota, relacionHumanos, relacionMascotas, idHumano, raza);
+                        Log.d("usuario", usuario2.toString());
+                    }
+
+                    // Cierra los cursores
+                    if (cursorUsuario != null) {
+                        cursorUsuario.close();
+                    }
+                    if (cursorMascota != null) {
+                        cursorMascota.close();
+                    }
+                }
+            }
+        }
+
+
+        // Cierra la conexión
+        db.close();
+
+        return usuario2;
+    }
+
+    private boolean usuarioNoExiste(SQLiteDatabase db, int idUsuario) {
+        String query = "SELECT * FROM " + TABLEUSU_NAME + " WHERE " + COLUMN_IDUSU + " = ?";
+        Log.d("pruebaQuery", query);
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(idUsuario)});
+        boolean noExiste = (cursor.getCount() == 0);
+        cursor.close();
+        return noExiste;
+    }
+
+    public void borrarTodosLosDatos() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Borra todos los registros de la tabla MASCOTA
+        db.delete(TABLEMASC_NAME, null, null);
+        Log.d("pruebaDelete", "Mascotas borradas");
+
+        // Borra todos los registros de la tabla USUARIO
+        db.delete(TABLEUSU_NAME, null, null);
+        Log.d("pruebaDelete", "Usuarios borrados");
+
+        // Cierra la conexión
+        db.close();
+    }
+
 }

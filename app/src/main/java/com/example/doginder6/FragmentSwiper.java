@@ -1,6 +1,7 @@
 package com.example.doginder6;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -141,7 +142,9 @@ public class FragmentSwiper extends Fragment {
         //Location lastKnownLocation = locationHelper.getLastKnownLocation();
 
         Log.d("prueba", "datos pre call: " + latitude + " " + longitude);
-        Call<List<UserResponse.Usuario>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia);
+        SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
+        int idUsu = preferences.getInt("id", 0);
+        Call<List<UserResponse.Usuario>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia, idUsu);
         //Call<List<UserResponse.Usuario>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia);
 
         call.enqueue(new Callback<List<UserResponse.Usuario>>() {
