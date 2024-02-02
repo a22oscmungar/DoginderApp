@@ -24,6 +24,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.GsonBuilder;
 import com.yalantis.library.Koloda;
+import com.yalantis.library.KolodaListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class FragmentSwiper extends Fragment {
     public SwipeAdapter swipeAdapter;
     Button btnBuscar;
     EditText etDistancia;
-    private List<UserResponse.Usuario> list;
+    private List<Usuario2> list;
     public static Koloda koloda;
     Retrofit retrofit;
     int distancia = 25;
@@ -56,8 +57,8 @@ public class FragmentSwiper extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_swiper, container, false);
         btnBuscar = rootView.findViewById(R.id.btnBuscar);
         etDistancia = rootView.findViewById(R.id.etDistancia);
+        koloda = rootView.findViewById(R.id.koloda);
 
-        Toast.makeText(rootView.getContext(), "carga", Toast.LENGTH_SHORT).show();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(rootView.getContext());
 
         // Verificar y solicitar permisos
@@ -87,7 +88,7 @@ public class FragmentSwiper extends Fragment {
     };
 
     public interface UserCallback {
-        void onUsersReceived(List<UserResponse.Usuario> users);
+        void onUsersReceived(List<Usuario2> users);
 
         void onFailure(String errorMessage);
     }
@@ -99,7 +100,7 @@ public class FragmentSwiper extends Fragment {
             //Log.d("prueba", "onCreate: " + distancia);
             recibirUsuarios(new UserCallback() {
                 @Override
-                public void onUsersReceived(List<UserResponse.Usuario> users) {
+                public void onUsersReceived(List<Usuario2> users) {
                     // Actualizar la lista y el adaptador aquí
                     if (list == null) {
                         list = new ArrayList<>();
@@ -113,10 +114,40 @@ public class FragmentSwiper extends Fragment {
                     }
                     Log.d("prueba", "onUsersReceived: " + list.size());
                     if (list.size() != 0 && list != null) {
-                        koloda = rootView.findViewById(R.id.koloda);
-                        swipeAdapter = new SwipeAdapter(rootView.getContext(), list);
+                        SwipeAdapter.UserClickListener userClickListener = new SwipeAdapter.UserClickListener() {
+                            @Override
+                            public void onSwipeRight(Usuario2 user) {
+
+                            }
+
+                            @Override
+                            public void onSwipeLeft(Usuario2 user) {
+
+                            }
+
+                            @Override
+                            public void onClickRight(Usuario2 user) {
+
+                            }
+
+                            @Override
+                            public void onClickLeft(Usuario2 user) {
+
+                            }
+
+                            @Override
+                            public void onLongPress(Usuario2 user) {
+
+                            }
+                        };
+
+                            swipeAdapter = new SwipeAdapter(rootView.getContext(), list, koloda, userClickListener);
+
                         koloda.setAdapter(swipeAdapter);
+
+
                         swipeAdapter.notifyDataSetChanged();
+
                     } else {
                         Toast.makeText(rootView.getContext(), "No hay usuarios cerca", Toast.LENGTH_LONG).show();
                     }
@@ -144,12 +175,12 @@ public class FragmentSwiper extends Fragment {
         Log.d("prueba", "datos pre call: " + latitude + " " + longitude);
         SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
         int idUsu = preferences.getInt("id", 0);
-        Call<List<UserResponse.Usuario>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia, idUsu);
+        Call<List<Usuario2>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia, idUsu);
         //Call<List<UserResponse.Usuario>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia);
 
-        call.enqueue(new Callback<List<UserResponse.Usuario>>() {
+        call.enqueue(new Callback<List<Usuario2>>() {
             @Override
-            public void onResponse(Call<List<UserResponse.Usuario>> call, Response<List<UserResponse.Usuario>> response) {
+            public void onResponse(Call<List<Usuario2>> call, Response<List<Usuario2>> response) {
                 if (response.isSuccessful()) {
                     callback.onUsersReceived(response.body());
                 } else {
@@ -158,7 +189,7 @@ public class FragmentSwiper extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<UserResponse.Usuario>> call, Throwable t) {
+            public void onFailure(Call<List<Usuario2>> call, Throwable t) {
                 callback.onFailure("Error en la llamada: " + t.getMessage());
             }
         });

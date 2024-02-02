@@ -36,7 +36,7 @@ public interface doginderAPI {
             @Part MultipartBody.Part imagenFile
     );
     @GET("/users/nearby")
-    Call<List<UserResponse.Usuario>> getNearbyUsers(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("radius") int radius, @Query("idUsu") int idUsu);
+    Call<List<Usuario2>> getNearbyUsers(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("radius") int radius, @Query("idUsu") int idUsu);
 
     @POST("/login")
     Call<Usuario2> loginUser(@Body UserRequest userRequest);
