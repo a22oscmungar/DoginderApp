@@ -30,37 +30,21 @@ public class LoginActivity extends AppCompatActivity {
     public Usuario2 user;
     public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
     public final String URL2 = "http://192.168.19.159:3745/";
+    Button btnIrRegistro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
-
-        bottomAppBar.setOnMenuItemClickListener(new BottomAppBar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent;
-                switch(item.getItemId()){
-                    case R.id.registro:
-                        intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.login:
-                        Toast.makeText(LoginActivity.this, "Ya estas en el login", Toast.LENGTH_SHORT).show();
-                    case R.id.main:
-                        intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        break;
-                }
-                return false;
-            }
-        });
-
         etUsuario = findViewById(R.id.etUsuario);
         etContrasena = findViewById(R.id.etContrasena);
         btnLogin = findViewById(R.id.btnLogin);
+        btnIrRegistro = findViewById(R.id.btnIrRegistro);
+        btnIrRegistro.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
 
         btnLogin.setOnClickListener(v -> login());
     }

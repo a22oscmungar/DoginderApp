@@ -140,8 +140,11 @@ public class FragmentSwiper extends Fragment {
 
                             }
                         };
+                        SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
+                        int idUsu =  preferences.getInt("id", 0);
+                        Log.d("pruebaSwipeLike", "Le paso el Idusu: "+ idUsu);
 
-                            swipeAdapter = new SwipeAdapter(rootView.getContext(), list, koloda, userClickListener);
+                            swipeAdapter = new SwipeAdapter(rootView.getContext(), list, koloda, userClickListener,idUsu);
 
                         koloda.setAdapter(swipeAdapter);
 

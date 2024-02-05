@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import com.google.android.material.imageview.ShapeableImageView;
@@ -21,18 +22,30 @@ import com.yalantis.library.KolodaListener;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class SwipeAdapter extends BaseAdapter {
     private Context context;
     public List<Usuario2> list;
     public Koloda koloda;
     private UserClickListener userClickListener;
     private int currentIndex = 0;
+    public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
+    public final String URL2 = "http://192.168.19.88:3745/";
+    public Retrofit retrofit;
+    public doginderAPI doginderAPI;
+    public int idUsu;
 
-    public SwipeAdapter(Context context, List<Usuario2> list, Koloda koloda, UserClickListener userClickListener){
+    public SwipeAdapter(Context context, List<Usuario2> list, Koloda koloda, UserClickListener userClickListener, int idUsu){
         this.context = context;
         this.list = list;
         this.koloda = koloda;
         this.userClickListener = userClickListener;
+        this.idUsu = idUsu;
 
         configureKolodaListener();
 
@@ -163,7 +176,9 @@ public class SwipeAdapter extends BaseAdapter {
                     userClickListener.onSwipeRight(user);
                     currentIndex++;
                     Log.d("pruebaListener", "Current index: " + currentIndex + " I: "+ i);
-                    Toast.makeText(context, "Has hecho swipe a la derecha a " + user.getNombre()+ " id: "+ user.getIdUsu(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Has hecho swipe a la derecha a " + user.getNombre()+ " id: "+ user.getIdUsu(), Toast.LENGTH_SHORT).show();
+                    darLike(idUsu, user.getIdUsu());
+                    Log.d("pruebaSwipeLike", "idUsu1: " + idUsu + " idUsu2: " + user.getIdUsu());
                 }
             }
 
@@ -173,8 +188,9 @@ public class SwipeAdapter extends BaseAdapter {
                     Usuario2 user = list.get(currentIndex);
                     userClickListener.onSwipeLeft(user);
                     currentIndex++;
-                    Log.d("pruebaListener", "Current index: " + currentIndex + " I: "+ i);
-                    Toast.makeText(context, "Has hecho swipe a la izquierda a " + user.getNombre() + " id: "+ user.getIdUsu(), Toast.LENGTH_SHORT).show();
+                    //Log.d("pruebaListener", "Current index: " + currentIndex + " I: "+ i);
+                    //Toast.makeText(context, "Has hecho swipe a la izquierda a " + user.getNombre() + " id: "+ user.getIdUsu(), Toast.LENGTH_SHORT).show();
+                    darDislike(idUsu, user.getIdUsu());
                 }
             }
 
@@ -203,6 +219,59 @@ public class SwipeAdapter extends BaseAdapter {
             }
         });
     }
+
+    public void darLike(int idUsu1, int idUsu2){
+        retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .build();
+
+        doginderAPI = retrofit.create(doginderAPI.class);
+
+        Call<Void> call = doginderAPI.enviarInteraccion(idUsu1, idUsu2, "LIKE");
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()){
+                    Toast.makeText(context, "Has dado like!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "notSuccesfull", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, "onFailure", Toast.LENGTH_SHORT).show();
+                Log.d("pruebaSwipe", t.getMessage());
+            }
+        });
+    };
+
+    public void darDislike(int idUsu1, int idUsu2){
+        retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .build();
+
+        doginderAPI = retrofit.create(doginderAPI.class);
+
+        Call<Void> call = doginderAPI.enviarInteraccion(idUsu1, idUsu2, "DISLIKE");
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()){
+                    Toast.makeText(context, "Has dado dislike!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "notSuccesfull", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, "onFailure", Toast.LENGTH_SHORT).show();
+            }
+        });
+    };
 
 
 

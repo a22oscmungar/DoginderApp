@@ -10,10 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="50dp"
         >
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/banner"/>
+
         <TextView
+            android:padding="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="LOGIN"
@@ -27,6 +32,7 @@
             android:layout_height="150px"
             android:hint="CORREO ELECTRONICO"
             android:text="o@o.com"
+            android:paddingHorizontal="50dp"
             />
 
 
@@ -37,6 +43,8 @@
             android:hint="CONTRASEÑA"
             android:text="1234"
             android:inputType="textPassword"
+            android:paddingHorizontal="50dp"
+
             />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -47,19 +55,17 @@
             android:text="INICIAR SESIÓN"
             android:layout_gravity="center"/>
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottomAppBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
-                app:menu="@menu/bottom_navigation_menu"
-                />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
+            android:layout_height="wrap_content"
+            android:text="Aun no estás registrado?"
+            android:textAlignment="center"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnIrRegistro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="REGISTRAR USUARIO"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
