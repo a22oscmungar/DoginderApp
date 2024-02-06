@@ -50,7 +50,7 @@ public class FragmentChat extends Fragment {
         noChats = rootView.findViewById(R.id.tvNoChats);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        chatAdapter = new ChatAdapter();
+        chatAdapter = new ChatAdapter(this.getContext());
         recyclerView.setAdapter(chatAdapter);
 
 

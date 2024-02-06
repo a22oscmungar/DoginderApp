@@ -1,6 +1,11 @@
 package com.example.doginder6;
 
-public class Usuario2 {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Usuario2 implements Parcelable {
     public Ubi ubiUsu;
     public int idUsu;
     public String nombreUsu;
@@ -46,13 +51,78 @@ public class Usuario2 {
         this.raza = raza;
     }
 
-    public static class Ubi{
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(ubiUsu, flags);
+        dest.writeInt(idUsu);
+        dest.writeString(nombreUsu);
+        dest.writeString(apellidosUsu);
+        dest.writeString(mailUsu);
+        dest.writeString(pass);
+        dest.writeString(genero);
+        dest.writeInt(edadUsu);
+        dest.writeInt(mascotaId);
+        dest.writeString(nombre);
+        dest.writeInt(edad);
+        dest.writeString(sexo);
+        dest.writeString(foto);
+        dest.writeString(descripcion);
+        dest.writeString(relacionHumanos);
+        dest.writeString(relacionMascotas);
+        dest.writeInt(idHumano);
+        dest.writeString(raza);
+    }
+
+    public static final Parcelable.Creator<Usuario2> CREATOR = new Parcelable.Creator<Usuario2>() {
+        @Override
+        public Usuario2 createFromParcel(Parcel source) {
+            return new Usuario2(source);
+        }
+
+        @Override
+        public Usuario2[] newArray(int size) {
+            return new Usuario2[size];
+        }
+    };
+
+    private Usuario2(Parcel in) {
+        ubiUsu = in.readParcelable(Ubi.class.getClassLoader());
+        idUsu = in.readInt();
+        nombreUsu = in.readString();
+        apellidosUsu = in.readString();
+        mailUsu = in.readString();
+        pass = in.readString();
+        genero = in.readString();
+        edadUsu = in.readInt();
+        mascotaId = in.readInt();
+        nombre = in.readString();
+        edad = in.readInt();
+        sexo = in.readString();
+        foto = in.readString();
+        descripcion = in.readString();
+        relacionHumanos = in.readString();
+        relacionMascotas = in.readString();
+        idHumano = in.readInt();
+        raza = in.readString();
+    }
+
+    public static class Ubi implements Parcelable{
         public double x;
         public double y;
 
         public Ubi(double x, double y) {
             this.x = x;
             this.y = y;
+        }
+
+        private Ubi(Parcel in) {
+            x = in.readDouble();
+            y = in.readDouble();
         }
 
         public double getX() {
@@ -78,6 +148,28 @@ public class Usuario2 {
                     ", y=" + y +
                     '}';
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeDouble(x);
+            dest.writeDouble(y);
+        }
+        public static final Parcelable.Creator<Ubi> CREATOR = new Parcelable.Creator<Ubi>() {
+            @Override
+            public Ubi createFromParcel(Parcel in) {
+                return new Ubi(in);
+            }
+
+            @Override
+            public Ubi[] newArray(int size) {
+                return new Ubi[size];
+            }
+        };
     }
 
     public Ubi getUbiUsu() {

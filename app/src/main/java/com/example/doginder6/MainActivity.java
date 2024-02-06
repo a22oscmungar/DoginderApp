@@ -31,6 +31,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.GsonBuilder;
 import com.yalantis.library.Koloda;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,11 +55,15 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationHelper locationHelper;
+    public SocketManager socketManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        socketManager = new SocketManager();
+        socketManager.connect();
+        socketManager.match();
 
         BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
 
@@ -131,7 +136,16 @@ public class MainActivity extends AppCompatActivity {
                 // No se necesita implementar en este ejemplo
             }
         });
+
     }
+
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+        socketManager.disconnect();
+    }
+
 
 
 
