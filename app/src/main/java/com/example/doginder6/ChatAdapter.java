@@ -14,10 +14,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
-    private ArrayList<ChatItem> chatItems;
+    private List<Usuario2> chatItems;
 
     // Constructor
     public ChatAdapter() {
@@ -25,7 +26,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     }
 
     // Método para establecer la lista de elementos de chat
-    public void setChatItems(ArrayList<ChatItem> chatItems) {
+    public void setChatItems(List<Usuario2> chatItems) {
         this.chatItems = chatItems;
         notifyDataSetChanged(); // Notificar al adaptador que los datos han cambiado
     }
@@ -39,13 +40,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        ChatItem chatItem = chatItems.get(position);
+        Usuario2 chatItem = chatItems.get(position);
 
         // Aquí configuras tus vistas con los datos del ChatItem
-        holder.tvNombreMascota.setText(chatItem.getNombreUsuario());
+        holder.tvNombreMascota.setText(chatItem.getNombre());
 
         Glide.with(holder.itemView.getContext())
-                .load("http://doginder.dam.inspedralbes.cat:3745"+chatItem.getFotoPerfil())  // Reemplaza con tu recurso de imagen
+                .load("http://doginder.dam.inspedralbes.cat:3745"+chatItem.getFoto())  // Reemplaza con tu recurso de imagen
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.ivFotoMascota);
         // Puedes agregar más configuraciones según tus necesidades

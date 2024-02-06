@@ -20,6 +20,8 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.yalantis.library.Koloda;
 import com.yalantis.library.KolodaListener;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -86,15 +88,23 @@ public class SwipeAdapter extends BaseAdapter {
         TextView tvSexo = view.findViewById(R.id.tvSexo);
         ImageButton btnMas = view.findViewById(R.id.btnMas);
         ImageButton btnUser = view.findViewById(R.id.btnUser);
+        TextView tvDescripcion = view.findViewById(R.id.tvDescripcion);
+        TextView tvRelacionMascotas = view.findViewById(R.id.tvRelacionMascotas);
+        TextView tvRelacionHumanos = view.findViewById(R.id.tvRelacionHumanos);
 
         tvNombre.setText(user.getNombre());
         String url = "http://doginder.dam.inspedralbes.cat:3745"+user.getFoto();
         Picasso.get().load(url).error(R.drawable.two).into(imageView);
         //http://doginder.dam.inspedralbes.cat:3745/uploads/perro1.jpg
 
-        tvEdad.setText(String.valueOf(user.getEdad()) + " año/s");
+        String añoString = (user.getEdad() > 1) ? " años" : " año";
+
+        tvEdad.setText(String.valueOf(user.getEdad()) + añoString);
         tvRaza.setText(user.getRaza());
         tvSexo.setText(user.getSexo());
+        tvDescripcion.setText(user.getDescripcion());
+        tvRelacionMascotas.setText("Como se lleva con otras mascotas? " + user.getRelacionMascotas() );
+        tvRelacionHumanos.setText("Como se lleva con humanos? " + user.getRelacionHumanos());
 
         btnSi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,10 +222,6 @@ public class SwipeAdapter extends BaseAdapter {
 
             @Override
             public void onCardLongPress(int i) {
-                if (userClickListener != null) {
-                    Usuario2 user = list.get(i);
-                    userClickListener.onLongPress(user);
-                }
             }
         });
     }

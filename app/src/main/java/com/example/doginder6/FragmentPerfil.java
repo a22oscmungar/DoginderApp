@@ -41,6 +41,15 @@ public class FragmentPerfil extends Fragment {
         TextView edad = rootView.findViewById(R.id.tvEdadMascota);
         TextView sexo = rootView.findViewById(R.id.tvSexoMascota);
         TextView descripcion = rootView.findViewById(R.id.tvDescripcionMascota);
+        TextView relacionMascotas = rootView.findViewById(R.id.tvRelacionMascotas);
+        TextView relacionHumanos = rootView.findViewById(R.id.tvRelacionHumanos);
+        TextView nombreHumano = rootView.findViewById(R.id.tvNombreHumano);
+        TextView edadHumano = rootView.findViewById(R.id.tvEdadHumano);
+        TextView generoHumano = rootView.findViewById(R.id.tvGeneroHumano);
+
+        String añoString = (usuario.getEdad() > 1) ? " años" : " año";
+
+
 
         nombre.setText(usuario.getNombre().toUpperCase());
         String url = "http://doginder.dam.inspedralbes.cat:3745"+usuario.getDescripcion();
@@ -53,9 +62,14 @@ public class FragmentPerfil extends Fragment {
                 .into(foto);
 
         raza.setText(usuario.getRaza());
-        edad.setText(String.valueOf(usuario.getEdad()) + " años");
+        edad.setText(String.valueOf(usuario.getEdad()) + añoString);
         sexo.setText(usuario.getSexo());
         descripcion.setText(usuario.getFoto());
+        relacionMascotas.setText("Como se lleva con otras mascotas? "+ usuario.getRelacionMascotas());
+        relacionHumanos.setText("Como se lleva con humanos? " + usuario.getRelacionHumanos());
+        nombreHumano.setText(usuario.getNombreUsu() + " " + usuario.getApellidosUsu());
+        edadHumano.setText(usuario.getEdadUsu() + " años");
+        generoHumano.setText(usuario.getGenero());
 
 
         return rootView;

@@ -47,4 +47,6 @@ public interface doginderAPI {
     @GET("/interaccion")
     Call<Void> enviarInteraccion(@Query("idUsu1")int idUsu1, @Query("idUsu2") int idUsu2, @Query("tipoInteraccion") String tipoInteraccion);
 
+    @GET("/matches")
+    Call<List<Usuario2>> getMatches(@Query("idUsu") int idUsu);
 }
