@@ -78,27 +78,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
-
-        bottomAppBar.setOnMenuItemClickListener(new BottomAppBar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent;
-                switch(item.getItemId()){
-                    case R.id.registro:
-                        Toast.makeText(RegisterActivity.this, "Ya estas en el registro", Toast.LENGTH_SHORT).show();
-                    case R.id.login:
-                        intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.main:
-                        Intent intent2 = new Intent(RegisterActivity.this, MainActivity.class);
-                        startActivity(intent2);
-                }
-                return false;
-            }
-        });
-
         genero = "";
 
         btnSiguiente = findViewById(R.id.btnSiguiente);

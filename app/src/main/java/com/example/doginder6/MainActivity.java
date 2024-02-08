@@ -42,7 +42,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements SocketListener{
+public class MainActivity extends AppCompatActivity implements SocketListener, MatchListener{
     public SwipeAdapter swipeAdapter;
     Button btnBuscar, btnRegistro;
     EditText etDistancia;
@@ -201,6 +201,11 @@ public class MainActivity extends AppCompatActivity implements SocketListener{
 
         // Conecta el socket
         socketManager.connect();
+    }
+
+    @Override
+    public void onMatch() {
+        Toast.makeText(this, "¡Match!", Toast.LENGTH_SHORT).show();
     }
 }
 

@@ -21,7 +21,7 @@
             android:padding="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="LOGIN"
+            android:text="@string/tvIniciarSesion"
             android:textSize="40sp"
             android:textStyle="bold|italic"
             android:textAlignment="center"/>
@@ -30,7 +30,7 @@
             android:id="@+id/etUsuario"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:hint="CORREO ELECTRONICO"
+            android:hint="@string/etCorreoElectronico"
             android:text="o@o.com"
             android:paddingHorizontal="50dp"
             />
@@ -40,7 +40,7 @@
             android:id="@+id/etContrasena"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:hint="CONTRASEÑA"
+            android:hint="@string/etContrasena"
             android:text="1234"
             android:inputType="textPassword"
             android:paddingHorizontal="50dp"
@@ -52,19 +52,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="50dp"
-            android:text="INICIAR SESIÓN"
+            android:text="@string/tvIniciarSesion"
             android:layout_gravity="center"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Aun no estás registrado?"
+            android:text="@string/tvAunNoEstasRegistrado"
             android:textAlignment="center"/>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnIrRegistro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="REGISTRAR USUARIO"
+            android:text="@string/btnIrRegistro"
             android:layout_gravity="center"/>
     </LinearLayout>
 

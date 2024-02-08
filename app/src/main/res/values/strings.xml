@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">doginder6</string>
+    <string name="app_name">doginder</string>
     <string-array name="razas_de_perro">
+        <item>Sin raza</item>
         <item>Labrador Retriever</item>
         <item>Golden Retriever</item>
         <item>German Shepherd</item>
@@ -50,4 +51,40 @@
         <item>Shetland Sheepdog</item>
         <item>Greyhound</item>
     </string-array>
+
+
+    <string name="tvIniciarSesion">Iniciar sesión</string>
+    <string name="etCorreoElectronico"> ejemplo@ejemplo.com</string>
+    <string name="etContrasena">CONTRASEÑA</string>
+    <string name="tvAunNoEstasRegistrado">Aun no estás registrado?</string>
+    <string name="btnIrRegistro">Ir a registro</string>
+    <string name="tituloRegistro">REGISTRO DE USUARIO</string>
+    <string name="tvSobreTi">SOBRE TI</string>
+    <string name="etCorreoElectronicoRegistro">Introduce tu correo electronico</string>
+    <string name="etConfirmaCorreo">Confirma tu correo electronico</string>
+    <string name="btnConfirmaCorreo">CONFIRMAR CORREO</string>
+    <string name="etNombre">Tu nombre</string>
+    <string name="etApellidos">Tus apellidos</string>
+    <string name="rbHombre">Hombre</string>
+    <string name="rbMujer">Mujer</string>
+    <string name="rbOtro">Otro / Prefio no decirlo</string>
+    <string name="etEdad">Tu edad</string>
+    <string name="btnSiguiente">CONTINUAR</string>
+    <string name="etContrasenaRegistro">Contraseña</string>
+    <string name="etConfirmaContrasena" >Confirma tu contraseña</string>
+    <string name="tituloMascota">SOBRE TU MASCOTA</string>
+    <string name="etNombreMascota">Su nombre</string>
+    <string name="tvRaza">Su raza</string>
+    <string name="tvSexo">Su sexo</string>
+    <string name="rbMacho">Macho</string>
+    <string name="rbHembra">Hembra</string>
+    <string name="btnImagen">AÑADIR IMAGEN</string>
+    <string name="etDescripcion">Describele aquí!</string>
+    <string name="etEdadMascota">Su edad</string>
+    <string name="tvRelacionHumanos">Como se lleva con humanos?</string>
+    <string name="tvRelacionPerros">Como se lleva con otros perros?</string>
+    <string name="rbBien">Bien</string>
+    <string name="rbIndiferente">Indiferente</string>
+    <string name="rbMal">Mal</string>
+    <string name="btnRegistrar">REGISTRAR</string>
 </resources>

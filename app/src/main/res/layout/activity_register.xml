@@ -13,6 +13,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_margin="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tituloRegistro"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textSize="40sp"
+            android:textAlignment="center"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -20,26 +28,26 @@
             android:textAlignment="center"
             android:textSize="23sp"
             android:layout_gravity="center"
-            android:text="SOBRE TI"/>
+            android:text="@string/tvSobreTi"/>
 
         <EditText
             android:id="@+id/etMail1"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:hint="Introduce tu correo electronico"
+            android:hint="@string/etCorreoElectronicoRegistro"
             android:visibility="gone"/>
         <EditText
             android:id="@+id/etMail2"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:hint="Confirma tu correo electronico"
+            android:hint="@string/etConfirmaCorreo"
             android:visibility="gone"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnConfirmarMail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CONFIRMAR MAIL"
+            android:text="@string/btnConfirmaCorreo"
             android:visibility="gone"/>
 
 
@@ -48,13 +56,13 @@
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:hint="NOMBRE"
+            android:hint="@string/etNombre"
             android:visibility="gone"/>
         <EditText
             android:id="@+id/etApellidos"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:hint="APELLIDOS"
+            android:hint="@string/etApellidos"
             android:visibility="gone"/>
         <RadioGroup
             android:id="@+id/rgGenero"
@@ -67,23 +75,23 @@
                 android:id="@+id/rbHombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HOMBRE"/>
+                android:text="@string/rbHombre"/>
             <RadioButton
                 android:id="@+id/rbMujer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MUJER"/>
+                android:text="@string/rbMujer"/>
             <RadioButton
                 android:id="@+id/rbOtro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OTRO/PREFIERO NO DECIRLO"/>
+                android:text="@string/rbOtro"/>
         </RadioGroup>
         <EditText
             android:id="@+id/etEdadPersona"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:hint="Tu edad"
+            android:hint="@string/etEdad"
             android:inputType="number"
             android:visibility="gone"/>
 
@@ -91,7 +99,7 @@
             android:id="@+id/btnSiguiente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SIGUIENTE"
+            android:text="@string/btnSiguiente"
             android:visibility="gone"
             />
 
@@ -100,7 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="150px"
             android:inputType="textPassword"
-            android:hint="CONTRASEÑA"
+            android:hint="@string/etContrasenaRegistro"
             android:visibility="gone"/>
 
         <EditText
@@ -108,14 +116,14 @@
             android:layout_width="match_parent"
             android:layout_height="150px"
             android:inputType="textPassword"
-            android:hint="CONFIRMA TU CONTRASEÑA"
+            android:hint="@string/etConfirmaContrasena"
             android:visibility="gone"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CONFIRMAR CONTRASEÑA"
+            android:text="@string/btnSiguiente"
             android:visibility="gone"/>
 
         <ScrollView
@@ -129,7 +137,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TU MASCOTA"
+                    android:text="@string/tituloMascota"
                     android:textStyle="bold"
                     android:textSize="35sp"
                     android:textAlignment="center"/>
@@ -138,14 +146,14 @@
                     android:id="@+id/etNombreMascota"
                     android:layout_width="match_parent"
                     android:layout_height="150px"
-                    android:hint="Su nombre"
+                    android:hint="@string/etNombreMascota"
                     android:visibility="gone"/>
 
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Su raza: "
+                    android:text="@string/tvRaza"
                     android:layout_marginTop="20dp"
                     android:visibility="gone"/>
                 <Spinner
@@ -159,7 +167,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:text="Cual es su sexo?"/>
+                    android:text="@string/tvSexo"/>
                 <RadioGroup
                     android:id="@+id/rgSexoPerro"
                     android:layout_width="match_parent"
@@ -170,11 +178,11 @@
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hembra"/>
+                        android:text="@string/rbMacho"/>
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Macho"/>
+                        android:text="@string/rbHembra"/>
 
                 </RadioGroup>
 
@@ -183,7 +191,7 @@
                     android:layout_width="250dp"
                     android:layout_height="250dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/two"
+                    android:src="@drawable/imagen_doginder"
                     android:layout_margin="50px"
                     android:visibility="gone"/>
 
@@ -191,14 +199,14 @@
                     android:id="@+id/btnFoto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="SELECCIONA IMAGEN"
+                    android:text="@string/btnImagen"
                     android:visibility="gone"/>
 
                 <EditText
                     android:id="@+id/etDescripcion"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:hint="Describele aquí!"
+                    android:hint="@string/etDescripcion"
                     android:layout_marginTop="25dp"
                     android:visibility="gone"/>
 
@@ -206,14 +214,14 @@
                     android:id="@+id/etEdad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Edad (en años humanos)"
+                    android:hint="@string/etEdadMascota"
                     android:visibility="gone"
                     />
                 <TextView
                     android:id="@+id/tvRelacionHumanos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Como se lleva con humanos?"
+                    android:text="@string/tvRelacionHumanos"
                     android:visibility="gone"
                     />
                 <RadioGroup
@@ -225,17 +233,17 @@
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bien"/>
+                        android:text="@string/rbBien"/>
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Indiferente"
+                        android:text="@string/rbIndiferente"
                         android:layout_marginHorizontal="70dp"
                         />
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mal"/>
+                        android:text="@string/rbMal"/>
                 </RadioGroup>
                 <TextView
                     android:id="@+id/tvRelacionMascotas"
@@ -243,7 +251,7 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone"
 
-                    android:text="Y con otros animales?"/>
+                    android:text="@string/tvRelacionPerros"/>
                 <RadioGroup
                     android:id="@+id/rgRelacionMascotas"
                     android:layout_width="match_parent"
@@ -253,16 +261,16 @@
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bien"/>
+                        android:text="@string/rbMal"/>
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Indiferente"
+                        android:text="@string/rbIndiferente"
                         android:layout_marginHorizontal="70dp"/>
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mal"/>
+                        android:text="@string/rbIndiferente"/>
                 </RadioGroup>
 
 
@@ -271,22 +279,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="REGISTRAR"/>
+                    android:text="@string/btnRegistrar"/>
             </LinearLayout>
 
         </ScrollView>
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottomAppBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
-                app:menu="@menu/bottom_navigation_menu"
-                />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -116,5 +116,12 @@ public class SocketManager {
         socket.on(event, listener);
     }
 
+    public void addMatchListener(MatchListener listener) {
+        socket.on("match", args -> {
+            // Puedes hacer algo con el evento 'match', por ejemplo, mostrar un mensaje
+            listener.onMatch();
+        });
+    }
+
 }
 
