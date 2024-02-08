@@ -49,4 +49,7 @@ public interface doginderAPI {
 
     @GET("/matches")
     Call<List<Usuario2>> getMatches(@Query("idUsu") int idUsu);
+
+    @POST("/socketUpdate")
+    Call<Void> socketUpdate(@Query("idUsu") int idUsu, @Query("socketID") String socketID);
 }

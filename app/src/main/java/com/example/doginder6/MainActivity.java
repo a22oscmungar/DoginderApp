@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -41,7 +42,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SocketListener{
     public SwipeAdapter swipeAdapter;
     Button btnBuscar, btnRegistro;
     EditText etDistancia;
@@ -56,14 +57,17 @@ public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private LocationHelper locationHelper;
     public SocketManager socketManager;
+    public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
+    public final String URL2 = "http://192.168.19.159:3745/";
+    public String socketId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        socketManager = new SocketManager();
-        socketManager.connect();
-        socketManager.match();
+
+        configurarSocket();
 
         BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
 
@@ -146,9 +150,58 @@ public class MainActivity extends AppCompatActivity {
         socketManager.disconnect();
     }
 
+    public void updateSocket(){
+        Log.d("socket", "updateSocket funcion");
+        SharedPreferences preferences = getSharedPreferences("credenciales", MODE_PRIVATE);
+        int id = preferences.getInt("id", 0);
+
+        socketId = socketManager.getSocketId();
+        Log.d("pruebaSocket", "updateSocket funcion: " + socketId);
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .build();
+
+        doginderAPI = retrofit.create(doginderAPI.class);
+        Call<Void> call = doginderAPI.socketUpdate(id, socketId);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Log.d("socket", "socket actualizado");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d("socket", "onFailure: "+ t.getMessage());
+            }
+        });
+    }
 
 
+    @Override
+    public void onSocketConnected() {
+        String socketId = socketManager.getSocketId();
+        Log.d("pruebaSocket", "updateSocket funcion: " + socketId);
+        updateSocket();
+    }
 
+    @Override
+    public void onNuevoMensaje(String mensaje, int idUsu1, int idUsu2) {
+
+    }
+
+    private void configurarSocket() {
+        socketManager = new SocketManager(this);
+
+        // Agrega la actividad como escuchador del socket
+        socketManager.addSocketListener(this);
+
+        // Conecta el socket
+        socketManager.connect();
+    }
 }
 
 

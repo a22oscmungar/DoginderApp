@@ -16,6 +16,8 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.net.Socket;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,13 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Usuario2> call, Response<Usuario2> response) {
                     if(response.isSuccessful() && response.body() != null){
-                        Log.d("prueba", "call exitoso");
-                        //Log.d("prueba", "onResponse response: "+ response.body());
-
                         user = response.body();
-                        /*Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);*/
-                        Log.d("prueba", "onResponse user: "+ user.toString());
 
                         DataBaseHelper db = new DataBaseHelper(LoginActivity.this, "MiPerfil", null, 1);
                         db.borrarTodosLosDatos();
