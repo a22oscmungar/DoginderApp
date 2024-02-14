@@ -161,19 +161,6 @@ public class ChatActivity extends AppCompatActivity implements SocketListener{
         updateSocket();
     }
 
-    @Override
-    public void onNuevoMensaje(String mensaje, int idUsu1, int idUsu2) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("pruebaSocket", "llega el mensaje");
-                // Aquí puedes actualizar tu interfaz de usuario con el mensaje recibido
-                String mensajeMostrado = "Usuario " + idUsu1 + ": " + mensaje;
-                agregarMensajeAlScrollView("otro", mensajeMostrado);
-            }
-        });
-    }
-
     private Emitter.Listener nuevoMensaje = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {

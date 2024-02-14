@@ -10,10 +10,14 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.SpannableString;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,9 +66,10 @@ public class RegisterActivity extends AppCompatActivity {
     ScrollView svMascota;
     RadioGroup rgGenero, rgRelacionPersonas, rgRelacionMascotas, rgSexoPerro;
     Spinner spinnerRaza;
+    TextView oLogin, tvSobreTi, tvNombre, tvApellidos, tvMail, tvMail2, tvContrasena, tvContrasena2, tvGenero, tvEdad, tvSobreMascota;
 
     doginderAPI doginderAPI;
-    ImageView ivFoto;
+    ImageView ivFoto, ojo1, ojo2;
     double latitude = 0.0;
     double longitude = 0.0;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
@@ -80,6 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         genero = "";
 
+        //inicializamos los elementos
         btnSiguiente = findViewById(R.id.btnSiguiente);
         etName = findViewById(R.id.etNombre);
         etSurname = findViewById(R.id.etApellidos);
@@ -105,12 +111,47 @@ public class RegisterActivity extends AppCompatActivity {
         tvSexo = findViewById(R.id.tvSexo);
         tvRelacionMascotas = findViewById(R.id.tvRelacionMascotas);
         tvRelacionPersonas = findViewById(R.id.tvRelacionHumanos);
+        tvSobreTi = findViewById(R.id.tvSobreTi);
+        tvNombre = findViewById(R.id.tvNombre);
+        tvApellidos = findViewById(R.id.tvApellidos);
+        tvMail = findViewById(R.id.tvMail);
+        tvMail2 = findViewById(R.id.tvMail2);
+        tvContrasena = findViewById(R.id.tvContrasena);
+        tvContrasena2 = findViewById(R.id.tvConfirmaContrasena);
+        tvGenero = findViewById(R.id.tvGenero);
+        tvEdad = findViewById(R.id.tvEdadPersona);
+        ojo1 = findViewById(R.id.ojo1);
+        ojo2 = findViewById(R.id.ojo2);
+        tvSobreMascota = findViewById(R.id.tvSobreMascota);
+
+        //listener para ver la contraseña o esconderla
+        ojo1.setOnClickListener(v -> {
+            if (etPass1.getInputType() == 129) {
+                etPass1.setInputType(1);
+                ojo1.setImageResource(R.drawable.ojo_cerrado);
+            } else {
+                etPass1.setInputType(129);
+                ojo1.setImageResource(R.drawable.ojo_abierto);
+            }
+        });
+
+        ojo2.setOnClickListener(v -> {
+            if (etPass2.getInputType() == 129) {
+                etPass2.setInputType(1);
+                ojo2.setImageResource(R.drawable.ojo_cerrado);
+            } else {
+                etPass2.setInputType(129);
+                ojo2.setImageResource(R.drawable.ojo_abierto);
+            }
+        });
 
 
+        //adapter para las razas de los animales
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.razas_de_perro, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRaza.setAdapter(adapter);
 
+        //listener para el spinner de las razas
         spinnerRaza.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -123,11 +164,27 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //texto para el titulo con letras en naranja
+        String titulo = getString(R.string.tvSobreTi);
+        SpannableString textoParcial2 = new SpannableString(titulo);
+        int color2 = ContextCompat.getColor(this, R.color.naranjaMain);
+        ForegroundColorSpan colorSpan2 = new ForegroundColorSpan(color2);
+        textoParcial2.setSpan(colorSpan2, 7, titulo.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvSobreTi.setText(textoParcial2);
+
+        //hacemos visible lo del usuario
+        tvSobreTi.setVisibility(View.VISIBLE);
         etMail1.setVisibility(View.VISIBLE);
         etMail2.setVisibility(View.VISIBLE);
-        btnConfirmarMail.setVisibility(View.VISIBLE);
+        etPass1.setVisibility(View.VISIBLE);
+        etPass2.setVisibility(View.VISIBLE);
+        etEdadPersona.setVisibility(View.VISIBLE);
+        etName.setVisibility(View.VISIBLE);
+        etSurname.setVisibility(View.VISIBLE);
+        rgGenero.setVisibility(View.VISIBLE);
 
-        spinnerRaza.setVisibility(View.GONE);
+
+        //radriogrup para el genero de la persona
         rgGenero.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -140,6 +197,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //radiogrup para la relacion de la mascota con otras mascotas
         rgRelacionMascotas.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -150,6 +208,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //radiogrup para la relacion de la mascota con las personas
         rgRelacionPersonas.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -160,6 +219,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        //radiogrup para el sexo de la mascota
         rgSexoPerro.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -169,7 +229,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
+        // Inicializar el cliente de ubicación
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         // Verificar y solicitar permisos
@@ -184,21 +244,18 @@ public class RegisterActivity extends AppCompatActivity {
                     REQUEST_LOCATION_PERMISSION);
         }
 
+        //escondemos lo que no queremos que se vea
         btnFoto.setVisibility(View.GONE);
         ivFoto.setVisibility(View.GONE);
         btnRegistro.setVisibility(View.GONE);
-        etName.setVisibility(View.GONE);
-        etSurname.setVisibility(View.GONE);
-        btnSiguiente.setVisibility(View.GONE);
-        etPass1.setVisibility(View.GONE);
-        etPass2.setVisibility(View.GONE);
         btnPass.setVisibility(View.GONE);
-        rgGenero.setVisibility(View.GONE);
         svMascota.setVisibility(View.GONE);
         etDescripcion.setVisibility(View.GONE);
         tvSexo.setVisibility(View.GONE);
         rgSexoPerro.setVisibility(View.GONE);
+        spinnerRaza.setVisibility(View.GONE);
 
+        //boton para cuando ponemos info del usuario
         btnSiguiente.setOnClickListener(v ->{
             nombre = etName.getText().toString();
             apellidos = etSurname.getText().toString();
@@ -207,39 +264,85 @@ public class RegisterActivity extends AppCompatActivity {
                 edadPersona = Integer.parseInt(edadString);
 
                 Log.d("prueba", "onClick: " + nombre + " " + apellidos + " " + genero + " " + edadPersona);
-                etName.setVisibility(View.GONE);
-                etSurname.setVisibility(View.GONE);
-                rgGenero.setVisibility(View.GONE);
-                etEdadPersona.setVisibility(View.GONE);
-                btnSiguiente.setVisibility(View.GONE);
-                etPass1.setVisibility(View.VISIBLE);
-                etPass2.setVisibility(View.VISIBLE);
-                btnPass.setVisibility(View.VISIBLE);
-                btnPass.setOnClickListener(v2 ->{
-                    comprobarPass();
-                });
+
+                confirmarMail();
             }else{
                 Toast.makeText(this, "Faltan datos obligatorios!", Toast.LENGTH_SHORT).show();
             }
         });
 
+        //boton para confirmar el mail
         btnConfirmarMail.setOnClickListener(v ->{
             confirmarMail();
         });
+        //boton final
         btnRegistro.setOnClickListener(v -> {
             register();
         });
+
+        //texto para ir al login
+        oLogin = findViewById(R.id.tvOLogin);
+
+        //texto para ir al login con enlace
+        String texto = getString(R.string.oLogin);
+        int color = ContextCompat.getColor(this, R.color.naranjaMain);
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(color);
+        SpannableString textoParcial = new SpannableString(texto);
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(android.view.View widget) {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        };
+        textoParcial.setSpan(clickableSpan, 2, 15, 0);
+        textoParcial.setSpan(colorSpan, 2, 15, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        oLogin.setText(textoParcial);
+        oLogin.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
+        oLogin.setHighlightColor(Color.TRANSPARENT);
     }
 
+    //funcion que comprueba que las contraseñas sean iguales
     public void comprobarPass(){
+        //obtenemos los dos campos de las contraseñas
         pass1 = etPass1.getText().toString();
         pass2 = etPass2.getText().toString();
 
+        //primero comprobamos que los haya rellenado
         if(!pass1.isEmpty() && !pass2.isEmpty()){
+            //y luego si son iguales
             if (pass1.equals(pass2)){
+                //escondemos lo del usuario para mostrar lo de la mascota
                 etPass1.setVisibility(View.GONE);
                 etPass2.setVisibility(View.GONE);
                 btnPass.setVisibility(View.GONE);
+                tvSobreTi.setVisibility(View.GONE);
+                tvNombre.setVisibility(View.GONE);
+                tvApellidos.setVisibility(View.GONE);
+                etName.setVisibility(View.GONE);
+                etSurname.setVisibility(View.GONE);
+                tvMail.setVisibility(View.GONE);
+                tvMail2.setVisibility(View.GONE);
+                tvContrasena.setVisibility(View.GONE);
+                tvContrasena2.setVisibility(View.GONE);
+                ojo1.setVisibility(View.GONE);
+                ojo2.setVisibility(View.GONE);
+                tvGenero.setVisibility(View.GONE);
+                rgGenero.setVisibility(View.GONE);
+                tvEdad.setVisibility(View.GONE);
+                etEdadPersona.setVisibility(View.GONE);
+                btnSiguiente.setVisibility(View.GONE);
+
+                //colores para el titulo
+                String tituloMascota = getString(R.string.tituloMascota);
+                SpannableString textoParcial = new SpannableString(tituloMascota);
+                int color = ContextCompat.getColor(this, R.color.naranjaMain);
+                ForegroundColorSpan colorSpan = new ForegroundColorSpan(color);
+                textoParcial.setSpan(colorSpan, 6, tituloMascota.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tvSobreMascota.setText(textoParcial);
+
+                tvSobreMascota.setVisibility(View.VISIBLE);
                 ivFoto.setVisibility(View.VISIBLE);
                 btnFoto.setVisibility(View.VISIBLE);
                 btnRegistro.setVisibility(View.VISIBLE);
@@ -267,6 +370,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    //funcion para abrir el explorador de archivos
     private void openFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -274,6 +378,7 @@ public class RegisterActivity extends AppCompatActivity {
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
+    //funcion para registrar al usuario
     public void register() {
         // Convertir la imagen a RequestBody
         File file = new File(getRealPathFromURI(imageUri));
@@ -284,16 +389,17 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        // Obtener los valores de los campos de texto
         nombre = etName.getText().toString();
         apellidos = etSurname.getText().toString();
         mail = etMail1.getText().toString();
         edadPersona = Integer.parseInt(etEdadPersona.getText().toString());
-
         nombreMascota = etNombreMascota.getText().toString();
         edadPerro = Integer.parseInt(etEdadPerro.getText().toString());
         descripcion = etDescripcion.getText().toString();
         
         Log.d("pruebaRegistro", "entro al registro");
+        //pasamos a requestbody los valores
         RequestBody imageRequestBody = RequestBody.create(MediaType.parse("image/*"), file);
         RequestBody nameRequestBody = (nombre != null) ? RequestBody.create(MediaType.parse("text/plain"), nombre) : RequestBody.create(MediaType.parse("text/plain"), "");
         RequestBody latitudeRequestBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(latitude));
@@ -311,11 +417,13 @@ public class RegisterActivity extends AppCompatActivity {
         RequestBody edadPersonaRequestBody = (edadPersona != 0) ? RequestBody.create(MediaType.parse("text/plain"), String.valueOf(edadPersona)) : RequestBody.create(MediaType.parse("text/plain"), "");
         RequestBody razaRequestBody = (raza != null) ? RequestBody.create(MediaType.parse("text/plain"), raza) : RequestBody.create(MediaType.parse("text/plain"), "");
 
+        //la imagen tiene que ser un multipart
         MultipartBody.Part imagenPart = MultipartBody.Part.createFormData("imagenFile", file.getName(), imageRequestBody);
 
         Log.d("pruebaFoto", imageRequestBody.toString());
         Log.d("pruebaRegister", nameRequestBody.toString() + " " + latitudeRequestBody.toString() + " " + longitudeRequestBody.toString() + " " + surnameRequestBody.toString() + " " + imagenPart.toString());
 
+        //hacemos la llamada para registrar
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://doginder.dam.inspedralbes.cat:3745/")
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
@@ -348,6 +456,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
+    // Método para obtener la ruta real de la imagen seleccionada
     private String getRealPathFromURI(Uri contentUri) {
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getContentResolver().query(contentUri, projection, null, null, null);
@@ -389,10 +498,13 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
+    //funcion para comprobar que el mail sea valido y nuevo
     public void confirmarMail(){
+        //obtenemos los dos mails
         String mail1 = etMail1.getText().toString();
         String mail2 = etMail2.getText().toString();
 
+        //patron para comprobar que el mail sea valido
         String patron = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         Pattern pattern = Pattern.compile(patron);
         Matcher matcher = pattern.matcher(mail1);
@@ -400,6 +512,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         if(mail1.equals(mail2)){
             if(matcher.matches() && matcher2.matches()) {
+                // si los mails son iguales y validos, comprobamos que no esten registrados
                 retrofit = new Retrofit.Builder()
                         .baseUrl("http://doginder.dam.inspedralbes.cat:3745/")
                         .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
@@ -422,11 +535,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 etMail1.setVisibility(View.GONE);
                                 etMail2.setVisibility(View.GONE);
                                 btnConfirmarMail.setVisibility(View.GONE);
-                                etName.setVisibility(View.VISIBLE);
-                                etSurname.setVisibility(View.VISIBLE);
-                                btnSiguiente.setVisibility(View.VISIBLE);
-                                rgGenero.setVisibility(View.VISIBLE);
-                                etEdadPersona.setVisibility(View.VISIBLE);
+
+                                comprobarPass();
 
                             }
                         } else if (response.code() == 404) {
@@ -434,11 +544,8 @@ public class RegisterActivity extends AppCompatActivity {
                             etMail1.setVisibility(View.GONE);
                             etMail2.setVisibility(View.GONE);
                             btnConfirmarMail.setVisibility(View.GONE);
-                            etName.setVisibility(View.VISIBLE);
-                            etSurname.setVisibility(View.VISIBLE);
-                            btnSiguiente.setVisibility(View.VISIBLE);
-                            rgGenero.setVisibility(View.VISIBLE);
-                            etEdadPersona.setVisibility(View.VISIBLE);
+
+                            comprobarPass();
                         } else {
                             // Otro tipo de error
                             Log.d("prueba", "Error: " + response.code() + ", " + response.message());

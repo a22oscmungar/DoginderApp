@@ -36,6 +36,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,28 +69,6 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         setContentView(R.layout.activity_main);
 
         configurarSocket();
-
-        BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
-
-        bottomAppBar.setOnMenuItemClickListener(new BottomAppBar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent intent;
-                switch(item.getItemId()){
-                    case R.id.registro:
-                        intent = new Intent(MainActivity.this, RegisterActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.login:
-                        intent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.main:
-                        Toast.makeText(MainActivity.this, "Ya estas en el main", Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-        });
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Swipe"));
@@ -188,25 +167,44 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         updateSocket();
     }
 
-    @Override
+    /*@Override
     public void onNuevoMensaje(String mensaje, int idUsu1, int idUsu2) {
-
-    }
+        Toast.makeText(this, "Tienes un nuevo mensaje!", Toast.LENGTH_SHORT).show();
+    }*/
 
     private void configurarSocket() {
         socketManager = new SocketManager(this);
 
         // Agrega la actividad como escuchador del socket
         socketManager.addSocketListener(this);
-
+        socketManager.addMatchListener(this);
         // Conecta el socket
         socketManager.connect();
+        socketManager.on("match", nuevoMatch);
+
+
     }
 
     @Override
     public void onMatch() {
         Toast.makeText(this, "¡Match!", Toast.LENGTH_SHORT).show();
+        socketManager.notifyMatch(); // Asegúrate de agregar esto
     }
+
+    private Emitter.Listener nuevoMatch = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Nuevo match!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    };
+
+
+
 }
 
 

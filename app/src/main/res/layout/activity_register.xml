@@ -11,278 +11,482 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="20dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tituloRegistro"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:textSize="40sp"
-            android:textAlignment="center"/>
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="23sp"
-            android:layout_gravity="center"
-            android:text="@string/tvSobreTi"/>
+        <!-- Banner -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/banner_sin_back"
+            android:layout_margin="15dp"/>
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grisOscuro"/>
 
-        <EditText
-            android:id="@+id/etMail1"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:hint="@string/etCorreoElectronicoRegistro"
-            android:visibility="gone"/>
-        <EditText
-            android:id="@+id/etMail2"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:hint="@string/etConfirmaCorreo"
-            android:visibility="gone"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnConfirmarMail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btnConfirmaCorreo"
-            android:visibility="gone"/>
-
-
-
-        <EditText
-            android:id="@+id/etNombre"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:hint="@string/etNombre"
-            android:visibility="gone"/>
-        <EditText
-            android:id="@+id/etApellidos"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:hint="@string/etApellidos"
-            android:visibility="gone"/>
-        <RadioGroup
-            android:id="@+id/rgGenero"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:visibility="gone">
-            <RadioButton
-                android:id="@+id/rbHombre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rbHombre"/>
-            <RadioButton
-                android:id="@+id/rbMujer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rbMujer"/>
-            <RadioButton
-                android:id="@+id/rbOtro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rbOtro"/>
-        </RadioGroup>
-        <EditText
-            android:id="@+id/etEdadPersona"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:hint="@string/etEdad"
-            android:inputType="number"
-            android:visibility="gone"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSiguiente"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btnSiguiente"
-            android:visibility="gone"
-            />
-
-        <EditText
-            android:id="@+id/etPass1"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:inputType="textPassword"
-            android:hint="@string/etContrasenaRegistro"
-            android:visibility="gone"/>
-
-        <EditText
-            android:id="@+id/etPass2"
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:inputType="textPassword"
-            android:hint="@string/etConfirmaContrasena"
-            android:visibility="gone"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnPass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btnSiguiente"
-            android:visibility="gone"/>
-
+        <!-- Scroll view global -->
         <ScrollView
-            android:id="@+id/svMascota"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
+                <!-- Texto de bienvenida -->
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tituloMascota"
+                    android:text="@string/tituloRegistro"
                     android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:textColor="@color/naranjaMain"
+                    android:layout_marginTop="20dp"
                     android:textSize="35sp"
                     android:textAlignment="center"/>
-
-                <EditText
-                    android:id="@+id/etNombreMascota"
-                    android:layout_width="match_parent"
-                    android:layout_height="150px"
-                    android:hint="@string/etNombreMascota"
-                    android:visibility="gone"/>
-
-
+                <!-- Texto para ir al login -->
                 <TextView
+                    android:id="@+id/tvOLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/tvRaza"
-                    android:layout_marginTop="20dp"
-                    android:visibility="gone"/>
-                <Spinner
-                    android:id="@+id/spinnerRaza"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"/>
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:layout_margin="10dp"/>
 
+                <!-- Titulo sobre ti -->
                 <TextView
-                    android:id="@+id/tvSexo"
-                    android:layout_width="match_parent"
+                    android:id="@+id/tvSobreTi"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:text="@string/tvSexo"/>
-                <RadioGroup
-                    android:id="@+id/rgSexoPerro"
+                    android:textAlignment="center"
+                    android:textSize="23sp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="15dp"
+                    android:textStyle="bold"/>
+
+                <!-- Scroll usuario -->
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/rbMacho"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rbHembra"/>
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="30dp">
+                        <!-- Nombre y apellidos -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/tvNombre"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/etNombre"
+                                android:textStyle="bold"
+                                android:layout_weight="1"
+                                android:textSize="18sp"/>
+                            <TextView
+                                android:id="@+id/tvApellidos"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/etApellidos"
+                                android:textStyle="bold"
+                                android:layout_weight="1"
+                                android:textSize="18sp"/>
 
-                </RadioGroup>
+                        </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/ivFoto"
-                    android:layout_width="250dp"
-                    android:layout_height="250dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/imagen_doginder"
-                    android:layout_margin="50px"
-                    android:visibility="gone"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2"
+                            android:orientation="horizontal">
+                            <EditText
+                                android:id="@+id/etNombre"
+                                android:layout_width="match_parent"
+                                android:layout_height="150px"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/naranjaMain"
+                                android:layout_marginEnd="20dp"
+                                android:hint="@string/etNombre"/>
+                            <EditText
+                                android:id="@+id/etApellidos"
+                                android:layout_width="match_parent"
+                                android:layout_height="150px"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/naranjaMain"
+                                android:hint="@string/etApellidos"/>
+                        </LinearLayout>
+
+
+                        <!-- Correo electronico -->
+                        <TextView
+                            android:id="@+id/tvMail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/etCorreoElectronicoRegistro"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="15dp"/>
+                        <EditText
+                            android:id="@+id/etMail1"
+                            android:layout_width="match_parent"
+                            android:layout_height="150px"
+                            android:hint="@string/etCorreoElectronicoRegistro"
+                            android:backgroundTint="@color/naranjaMain"/>
+                        <TextView
+                            android:id="@+id/tvMail2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/etConfirmaCorreo"
+                            android:textStyle="bold"
+                            android:textSize="18sp"/>
+                        <EditText
+                            android:id="@+id/etMail2"
+                            android:layout_width="match_parent"
+                            android:layout_height="150px"
+                            android:hint="@string/etConfirmaCorreo"
+                            android:backgroundTint="@color/naranjaMain"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnConfirmarMail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/btnConfirmaCorreo"
+                            android:visibility="gone"/>
+
+                        <!-- Contraseña -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="2"
+                            android:layout_marginTop="15dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/tvContrasena"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/etContrasena"
+                                android:textStyle="bold"
+                                android:layout_weight="1"
+                                android:textSize="16sp"/>
+                            <TextView
+                                android:id="@+id/tvConfirmaContrasena"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/etConfirmaContrasena"
+                                android:textStyle="bold"
+                                android:layout_weight="1"
+                                android:textSize="16sp"/>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="10"
+                            android:orientation="horizontal">
+                            <EditText
+                                android:id="@+id/etPass1"
+                                android:layout_width="match_parent"
+                                android:layout_height="150px"
+                                android:inputType="textPassword"
+                                android:hint="@string/etContrasenaRegistro"
+                                android:layout_weight="4"
+                                android:backgroundTint="@color/naranjaMain"/>
+                            <ImageView
+                                android:id="@+id/ojo1"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_weight="1"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/ojo_abierto"/>
+                            <EditText
+                                android:id="@+id/etPass2"
+                                android:layout_width="match_parent"
+                                android:layout_height="150px"
+                                android:inputType="textPassword"
+                                android:hint="@string/etConfirmaContrasena"
+                                android:layout_weight="4"
+                                android:backgroundTint="@color/naranjaMain"/>
+                            <ImageView
+                                android:id="@+id/ojo2"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_weight="1"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ojo_abierto"/>
+                        </LinearLayout>
+
+
+                        <!-- Genero usuario -->
+
+                        <TextView
+                            android:id="@+id/tvGenero"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/etGenero"
+                            android:textSize="18sp"
+                            android:layout_marginTop="15dp"
+                            android:textStyle="bold"/>
+
+                        <RadioGroup
+                            android:id="@+id/rgGenero"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            >
+                            <RadioButton
+                                android:id="@+id/rbHombre"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rbHombre"/>
+                            <RadioButton
+                                android:id="@+id/rbMujer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rbMujer"/>
+                            <RadioButton
+                                android:id="@+id/rbOtro"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rbOtro"/>
+                        </RadioGroup>
+                        <TextView
+                            android:id="@+id/tvEdadPersona"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/etEdad"
+                            android:textStyle="bold"
+                            android:layout_marginTop="15dp"
+                            android:textSize="18sp"/>
+                        <EditText
+                            android:id="@+id/etEdadPersona"
+                            android:layout_width="match_parent"
+                            android:layout_height="150px"
+                            android:hint="@string/etEdad"
+                            android:inputType="number"
+                            android:backgroundTint="@color/naranjaMain"/>
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnSiguiente"
+                            android:layout_width="100dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/btnSiguiente"
+                            android:background="@drawable/rounded_image"
+                            android:backgroundTint="@color/naranjaBotones"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="35dp"
+                            />
+                    </LinearLayout>
+
+                </ScrollView>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnFoto"
+                    android:id="@+id/btnPass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/btnImagen"
+                    android:text="@string/btnSiguiente"
                     android:visibility="gone"/>
 
-                <EditText
-                    android:id="@+id/etDescripcion"
+                <!-- Scroll mascota -->
+                <ScrollView
+                    android:id="@+id/svMascota"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:hint="@string/etDescripcion"
-                    android:layout_marginTop="25dp"
-                    android:visibility="gone"/>
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="30dp"
+                        android:orientation="vertical">
+                        <!-- Titulo mascota -->
+                        <TextView
+                            android:id="@+id/tvSobreMascota"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="35sp"
+                            android:textAlignment="center"
+                            android:visibility="gone"/>
 
-                <EditText
-                    android:id="@+id/etEdad"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/etEdadMascota"
-                    android:visibility="gone"
-                    />
-                <TextView
-                    android:id="@+id/tvRelacionHumanos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tvRelacionHumanos"
-                    android:visibility="gone"
-                    />
-                <RadioGroup
-                    android:id="@+id/rgRelacionPersonas"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rbBien"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rbIndiferente"
-                        android:layout_marginHorizontal="70dp"
-                        />
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rbMal"/>
-                </RadioGroup>
-                <TextView
-                    android:id="@+id/tvRelacionMascotas"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
+                        <!-- nombre -->
+                        <EditText
+                            android:id="@+id/etNombreMascota"
+                            android:layout_width="match_parent"
+                            android:layout_height="150px"
+                            android:hint="@string/etNombreMascota"
+                            android:backgroundTint="@color/naranjaMain"
+                            android:visibility="gone"/>
 
-                    android:text="@string/tvRelacionPerros"/>
-                <RadioGroup
-                    android:id="@+id/rgRelacionMascotas"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rbMal"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rbIndiferente"
-                        android:layout_marginHorizontal="70dp"/>
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/rbIndiferente"/>
-                </RadioGroup>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tvRaza"
+                            android:layout_marginTop="20dp"
+                            android:visibility="gone"/>
+                        <!-- Raza -->
+                        <Spinner
+                            android:id="@+id/spinnerRaza"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="20dp"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/tvSexo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="17sp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            android:text="@string/tvSexo"/>
+                        <!-- genero perro -->
+                        <RadioGroup
+                            android:id="@+id/rgSexoPerro"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:visibility="gone"
+                            android:orientation="horizontal">
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rbMacho"/>
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rbHembra"/>
+
+                        </RadioGroup>
+
+                        <!-- imagen -->
+                        <ImageView
+                            android:id="@+id/ivFoto"
+                            android:layout_width="250dp"
+                            android:layout_height="250dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/nueva_imagen"
+                            android:background="@drawable/rounded_image"
+                            android:layout_margin="50px"
+                            android:visibility="gone"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnFoto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/btnImagen"
+                            android:background="@drawable/rounded_image"
+                            android:backgroundTint="@color/naranjaBotones"
+                            android:textColor="@color/white"
+                            android:visibility="gone"/>
+
+                        <!-- descripcion -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/banner_shadow"
+                            android:layout_margin="25dp">
+                            <EditText
+                                android:id="@+id/etDescripcion"
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:hint="@string/etDescripcion"
+                                android:backgroundTint="@color/white"
+                                android:visibility="gone"/>
+                        </LinearLayout>
 
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnRegistrar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/btnRegistrar"/>
+                        <!-- edad perro -->
+                        <EditText
+                            android:id="@+id/etEdad"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/etEdadMascota"
+                            android:visibility="gone"
+                            android:backgroundTint="@color/naranjaMain"
+                            />
+                        <TextView
+                            android:id="@+id/tvRelacionHumanos"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tvRelacionHumanos"
+                            android:visibility="gone"
+                            android:textStyle="bold"
+                            android:textSize="17sp"
+                            />
+                        <!-- relacion personas -->
+                        <RadioGroup
+                            android:id="@+id/rgRelacionPersonas"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:orientation="horizontal">
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rbBien"/>
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rbIndiferente"
+                                android:layout_marginHorizontal="55dp"
+                                />
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rbMal"/>
+                        </RadioGroup>
+                        <TextView
+                            android:id="@+id/tvRelacionMascotas"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:textStyle="bold"
+                            android:textSize="17sp"
+                            android:text="@string/tvRelacionPerros"/>
+                        <!-- relacion mascotas -->
+                        <RadioGroup
+                            android:id="@+id/rgRelacionMascotas"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:orientation="horizontal">
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rbBien"/>
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rbIndiferente"
+                                android:layout_marginHorizontal="55dp"/>
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/rbMal"/>
+                        </RadioGroup>
+
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnRegistrar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="20dp"
+                            android:text="@string/btnRegistrar"
+                            android:background="@drawable/rounded_image"
+                            android:backgroundTint="@color/naranjaBotones"
+                            android:textColor="@color/white"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                </ScrollView>
             </LinearLayout>
-
         </ScrollView>
+
 
 
     </LinearLayout>

@@ -2,17 +2,22 @@
 <resources>
     <string name="app_name">doginder</string>
     <string name="tvIniciarSesion">Iniciar sessió</string>
+    <string name="tvMail">Correu electrònic: </string>
     <string name="etCorreoElectronico"> exemple@exemple.com </string>
-    <string name="etContrasena">CONTRASENYA</string>
+    <string name="btnLogin">ENTRAR</string>
+    <string name="tvOlvidasteContrasena">Has oblidat la contrasenya?</string>
+    <string name="etContrasena">Contrasenya: </string>
     <string name="tvAunNoEstasRegistrado">Encara no estàs registrat?</string>
     <string name="btnIrRegistro">Anar a registre</string>
-    <string name="tituloRegistro">REGISTRE D\'USUARI</string>
+    <string name="tituloRegistro">REGISTRAT</string>
+    <string name="oLogin">o inicia sessió si ja tens un compte</string>
     <string name="tvSobreTi">SOBRE TU</string>
     <string name="etCorreoElectronicoRegistro">Introdueix el teu correu electrònic</string>
     <string name="etConfirmaCorreo">Confirma el teu correu electrònic</string>
     <string name="btnConfirmaCorreo">CONFIRMAR CORREU</string>
-    <string name="etNombre">El teu nom</string>
-    <string name="etApellidos">Els teus cognoms</string>
+    <string name="etNombre">Nom</string>
+    <string name="etApellidos">Cognoms</string>
+    <string name="etGenero">Indica el teu gènere</string>
     <string name="rbHombre">Home</string>
     <string name="rbMujer">Dona</string>
     <string name="rbOtro">Un altre / Prefereixo no dir-ho</string>
@@ -27,7 +32,7 @@
     <string name="rbMacho">Mascle</string>
     <string name="rbHembra">Femella</string>
     <string name="btnImagen">AFEGIR IMATGE</string>
-    <string name="etDescripcion">Descriu-la aquí!</string>
+    <string name="etDescripcion">Descriu-la aquí! La seva personalitat, el seu menjar preferit, per on li agrada passejar...</string>
     <string name="etEdadMascota">La seva edat</string>
     <string name="tvRelacionHumanos">Com es porta amb humans?</string>
     <string name="tvRelacionPerros">Com es porta amb altres gossos?</string>
@@ -35,4 +40,5 @@
     <string name="rbIndiferente">Indiferent</string>
     <string name="rbMal">Malament</string>
     <string name="btnRegistrar">REGISTRAR</string>
+    <string name="oRegistrate">o registra\'t aquí si no tens un compte</string>
 </resources>

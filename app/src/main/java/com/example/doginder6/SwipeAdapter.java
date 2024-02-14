@@ -239,7 +239,7 @@ public class SwipeAdapter extends BaseAdapter {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()){
-                    Toast.makeText(context, "Has dado like!", Toast.LENGTH_SHORT).show();
+
                 }else{
                     Toast.makeText(context, "notSuccesfull", Toast.LENGTH_SHORT).show();
                 }
@@ -266,7 +266,7 @@ public class SwipeAdapter extends BaseAdapter {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()){
-                    Toast.makeText(context, "Has dado dislike!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "Has dado dislike!", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context, "notSuccesfull", Toast.LENGTH_SHORT).show();
                 }

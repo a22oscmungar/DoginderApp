@@ -12,29 +12,69 @@
         android:orientation="vertical"
         >
 
+        <!-- Banner -->
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@drawable/banner"/>
+            android:layout_height="100dp"
+            android:src="@drawable/banner_sin_back"
+            android:layout_margin="15dp"
+            />
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grisOscuro"/>
 
+        <!-- titulo inicio sesion -->
         <TextView
-            android:padding="40dp"
+            android:paddingTop="18dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tvIniciarSesion"
             android:textSize="40sp"
-            android:textStyle="bold|italic"
-            android:textAlignment="center"/>
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="@color/naranjaMain"/>
+        <!-- texto para ir al registro -->
+        <TextView
+            android:id="@+id/tvORegistrate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:layout_margin="10dp"
+            />
 
+
+        <!-- correo electronico -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tvMail"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"/>
         <EditText
             android:id="@+id/etUsuario"
             android:layout_width="match_parent"
             android:layout_height="150px"
             android:hint="@string/etCorreoElectronico"
             android:text="o@o.com"
-            android:paddingHorizontal="50dp"
+            android:layout_marginHorizontal="50dp"
+            android:backgroundTint="@color/naranjaMain"
             />
 
+        <!-- contraseña -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/etContrasena"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            />
 
         <EditText
             android:id="@+id/etContrasena"
@@ -43,29 +83,54 @@
             android:hint="@string/etContrasena"
             android:text="1234"
             android:inputType="textPassword"
-            android:paddingHorizontal="50dp"
+            android:layout_marginHorizontal="50dp"
+            android:backgroundTint="@color/naranjaMain"
 
             />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="50dp"
-            android:text="@string/tvIniciarSesion"
-            android:layout_gravity="center"/>
-
+        <!-- olvidar contraseña -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/tvAunNoEstasRegistrado"
-            android:textAlignment="center"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnIrRegistro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btnIrRegistro"
-            android:layout_gravity="center"/>
+            android:text="@string/tvOlvidasteContrasena"
+            android:textAlignment="center"
+            android:layout_marginTop="25dp"
+            android:textSize="23sp"
+            android:padding="20dp"
+            android:clickable="true"
+            android:textStyle="bold"
+            />
+
+
+
+        <!-- boton iniciar sesion -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="-70dp"
+                android:background="@drawable/rounded_image"
+                android:backgroundTint="@color/naranjaBotones"
+                android:paddingHorizontal="80dp"
+                android:text="@string/btnLogin"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:layout_width="400dp"
+                android:layout_height="400dp"
+                android:src="@drawable/rastro_huellas"
+                android:layout_gravity="end"
+                android:layout_marginEnd="-50dp"
+                android:scaleType="centerCrop"/>
+        </FrameLayout>
+
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

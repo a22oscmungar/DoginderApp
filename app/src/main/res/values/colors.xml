@@ -3,5 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="naranjaFlojo">#FAB674</color>
-    <color name="naranjaMain">#FF8C00</color>
+    <color name="naranjaMain">#f8881c</color>
+    <color name="grisOscuro">#646966</color>
+    <color name="naranjaBotones">#ff9809</color>
+
 </resources>

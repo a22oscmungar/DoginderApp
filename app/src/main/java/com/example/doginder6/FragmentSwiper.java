@@ -178,7 +178,7 @@ public class FragmentSwiper extends Fragment {
         Log.d("prueba", "datos pre call: " + latitude + " " + longitude);
         SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
         int idUsu = preferences.getInt("id", 0);
-        Call<List<Usuario2>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia, idUsu);
+        Call<List<Usuario2>> call = doginderAPI.getNearbyUsers(41.4983767, 1.8122077, distancia, idUsu);
         //Call<List<UserResponse.Usuario>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia);
 
         call.enqueue(new Callback<List<Usuario2>>() {

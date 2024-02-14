@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,8 +24,11 @@ public class SocketManager {
     private SharedPreferences sharedPreferences;
     private static final String SOCKET_ID_KEY = "socketId";
     private List<SocketListener> socketListeners = new ArrayList<>();
+    private List<MatchListener> matchListeners = new ArrayList<>();
+    public Context context;
 
     public SocketManager(Context context) {
+        this.context = context;
         try {
             sharedPreferences = context.getSharedPreferences("credentials", Context.MODE_PRIVATE);
             String storedSocketId = sharedPreferences.getString(SOCKET_ID_KEY, null);
@@ -106,9 +110,6 @@ public class SocketManager {
             } catch (JSONException e) {
                 return;
             }
-
-            // Ejemplo: mostrar el mensaje en la interfaz de usuario
-            //addMessage(username, message);
         }
     };
 
@@ -117,11 +118,23 @@ public class SocketManager {
     }
 
     public void addMatchListener(MatchListener listener) {
-        socket.on("match", args -> {
-            // Puedes hacer algo con el evento 'match', por ejemplo, mostrar un mensaje
-            listener.onMatch();
-        });
+        matchListeners.add(listener);
     }
+
+    public void notifyMatch() {
+        for (MatchListener listener : matchListeners) {
+            listener.onMatch();
+        }
+    }
+
+    private final Emitter.Listener onMatch = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            // Tu lógica para manejar el nuevo mensaje aquí
+            Toast.makeText(context, "Nuevo match!", Toast.LENGTH_SHORT).show();
+            Log.d("pruebaSocket", "onMatch: " + args[0]);
+        }
+    };
 
 }
 
