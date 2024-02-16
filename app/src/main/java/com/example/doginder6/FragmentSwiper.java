@@ -37,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FragmentSwiper extends Fragment {
     public SwipeAdapter swipeAdapter;
-    Button btnBuscar;
+    Button btnBuscar, btnFiltro;
     EditText etDistancia;
     private List<Usuario2> list;
     public static Koloda koloda;
@@ -54,14 +54,35 @@ public class FragmentSwiper extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //iniciamos las variables
+        //rootView --> vista que se va a inflar, en este caso es el propio fragmento
         rootView = inflater.inflate(R.layout.fragment_swiper, container, false);
         btnBuscar = rootView.findViewById(R.id.btnBuscar);
         etDistancia = rootView.findViewById(R.id.etDistancia);
         koloda = rootView.findViewById(R.id.koloda);
+        btnFiltro = rootView.findViewById(R.id.btnFiltro);
+
+        //escondemos por defecto la distancia
+        btnBuscar.setVisibility(View.GONE);
+        etDistancia.setVisibility(View.GONE);
+
+        //listener para el botón de filtro
+        btnFiltro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btnBuscar.getVisibility() == View.VISIBLE) {
+                    btnBuscar.setVisibility(View.GONE);
+                    etDistancia.setVisibility(View.GONE);
+                } else {
+                    btnBuscar.setVisibility(View.VISIBLE);
+                    etDistancia.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(rootView.getContext());
 
-        // Verificar y solicitar permisos
+        // Verificar y solicitar permisos para la localizacion
         if (ContextCompat.checkSelfPermission(rootView.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             // Si los permisos ya están otorgados, obtener la ubicación
@@ -83,21 +104,25 @@ public class FragmentSwiper extends Fragment {
             }
         });
 
-
         return rootView;
-    };
+    }
 
+    ;
+
+    //callback para recibir los usuarios
     public interface UserCallback {
         void onUsersReceived(List<Usuario2> users);
 
         void onFailure(String errorMessage);
     }
 
+    //funcion para llamar a los usuarios cercanos
     public void llamarUsuarios() {
+        //comprobamos que la distancia no sea 0
         if (distancia == 0) {
             Toast.makeText(rootView.getContext(), "Introduce una distancia", Toast.LENGTH_LONG).show();
         } else {
-            //Log.d("prueba", "onCreate: " + distancia);
+            //llamamos a la función que nos devuelve los usuarios
             recibirUsuarios(new UserCallback() {
                 @Override
                 public void onUsersReceived(List<Usuario2> users) {
@@ -108,11 +133,7 @@ public class FragmentSwiper extends Fragment {
                         list.clear();
                     }
                     list.addAll(users);
-                    for (int i = 0; i < list.size(); i++) {
-                        //Log.d("pruebaLista", "onUsersReceived: " + list.get(i).getNombreUsu());
-                        Log.d("PruebaLista", "Response: " + users.get(i).toString());
-                    }
-                    Log.d("prueba", "onUsersReceived: " + list.size());
+                    //si hemos recibido algun usuario, creamos el adaptador
                     if (list.size() != 0 && list != null) {
                         SwipeAdapter.UserClickListener userClickListener = new SwipeAdapter.UserClickListener() {
                             @Override
@@ -141,17 +162,14 @@ public class FragmentSwiper extends Fragment {
                             }
                         };
                         SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
-                        int idUsu =  preferences.getInt("id", 0);
-                        Log.d("pruebaSwipeLike", "Le paso el Idusu: "+ idUsu);
-
-                            swipeAdapter = new SwipeAdapter(rootView.getContext(), list, koloda, userClickListener,idUsu);
+                        int idUsu = preferences.getInt("id", 0);
+                        swipeAdapter = new SwipeAdapter(rootView.getContext(), list, koloda, userClickListener, idUsu);
 
                         koloda.setAdapter(swipeAdapter);
-
-
                         swipeAdapter.notifyDataSetChanged();
 
                     } else {
+                        //si no hemos recibido ningun usuario, mostramos un mensaje
                         Toast.makeText(rootView.getContext(), "No hay usuarios cerca", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -178,6 +196,7 @@ public class FragmentSwiper extends Fragment {
         Log.d("prueba", "datos pre call: " + latitude + " " + longitude);
         SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
         int idUsu = preferences.getInt("id", 0);
+        //Call<List<Usuario2>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia, idUsu);
         Call<List<Usuario2>> call = doginderAPI.getNearbyUsers(41.4983767, 1.8122077, distancia, idUsu);
         //Call<List<UserResponse.Usuario>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia);
 

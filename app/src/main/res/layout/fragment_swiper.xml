@@ -13,6 +13,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginHorizontal="25dp">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFiltro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="@drawable/filtro"
+            android:contentDescription="Boton para filtrar por distancia"
+            />
+
         <EditText
             android:id="@+id/etDistancia"
             android:layout_marginTop="25dp"
@@ -20,7 +29,11 @@
             android:layout_height="70dp"
             android:hint="Distancia en km"
             android:inputType="number"
+            android:backgroundTint="@color/naranjaFlojo"
             android:textAlignment="center"/>
+
+
+
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,6 +43,8 @@
             android:id="@+id/koloda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
             app:koloda_card_layout="@layout/item_koloda" />
 
         <androidx.appcompat.widget.AppCompatButton

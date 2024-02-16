@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:src="@drawable/banner_sin_back"
+            android:contentDescription="Banner de Doginder"
             android:layout_margin="15dp"/>
         <View
             android:layout_marginTop="5dp"
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <!-- Texto de bienvenida -->
@@ -109,6 +110,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="150px"
                                 android:layout_weight="1"
+                                android:inputType="text"
                                 android:backgroundTint="@color/naranjaMain"
                                 android:layout_marginEnd="20dp"
                                 android:hint="@string/etNombre"/>
@@ -117,6 +119,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="150px"
                                 android:layout_weight="1"
+                                android:inputType="text"
                                 android:backgroundTint="@color/naranjaMain"
                                 android:hint="@string/etApellidos"/>
                         </LinearLayout>
@@ -300,7 +303,7 @@
                     android:layout_height="wrap_content">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginHorizontal="30dp"
                         android:orientation="vertical">
                         <!-- Titulo mascota -->
@@ -388,12 +391,13 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/banner_shadow"
+                            android:background="@drawable/borde"
                             android:layout_margin="25dp">
                             <EditText
                                 android:id="@+id/etDescripcion"
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
+                                android:inputType="textMultiLine"
                                 android:hint="@string/etDescripcion"
                                 android:backgroundTint="@color/white"
                                 android:visibility="gone"/>
