@@ -42,12 +42,14 @@ public class SwipeAdapter extends BaseAdapter {
     public doginderAPI doginderAPI;
     public int idUsu;
 
+    //creamos el constructor con el context, los usuarios, la koloda, el listener y el id del usuario
     public SwipeAdapter(Context context, List<Usuario2> list, Koloda koloda, UserClickListener userClickListener, int idUsu){
         this.context = context;
         this.list = list;
         this.koloda = koloda;
         this.userClickListener = userClickListener;
         this.idUsu = idUsu;
+
 
         configureKolodaListener();
 
@@ -77,6 +79,7 @@ public class SwipeAdapter extends BaseAdapter {
         }else {
             view = convertView;
         }
+        //para cada usuario se asignan sus valores a los elementos de la vista
         Usuario2 user = list.get(position);
         Log.d("pruebaAdapter", "En el adapter: " +user.toString());
         ShapeableImageView imageView = view.findViewById(R.id.image);
@@ -106,11 +109,11 @@ public class SwipeAdapter extends BaseAdapter {
         tvRelacionMascotas.setText("Como se lleva con otras mascotas? " + user.getRelacionMascotas() );
         tvRelacionHumanos.setText("Como se lleva con humanos? " + user.getRelacionHumanos());
 
+        //se asignan los listeners a los botones
         btnSi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 koloda.onClickRight();
-
             }
         });
 
@@ -226,6 +229,7 @@ public class SwipeAdapter extends BaseAdapter {
         });
     }
 
+    //en caso de deslizar a la derecha, se envía un like al servidor
     public void darLike(int idUsu1, int idUsu2){
         retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
@@ -253,6 +257,7 @@ public class SwipeAdapter extends BaseAdapter {
         });
     };
 
+    //en caso de deslizar a la izquierda, se envía un dislike al servidor
     public void darDislike(int idUsu1, int idUsu2){
         retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
