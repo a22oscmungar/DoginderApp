@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -22,6 +23,8 @@ import com.google.gson.GsonBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import io.socket.emitter.Emitter;
 import retrofit2.Call;
@@ -40,18 +43,41 @@ public class ChatActivity extends AppCompatActivity implements SocketListener{
     public int idUsu1;
     ScrollView svMensajes;
     LinearLayout llContainer;
+    private ChatDatabaseHelper dbHelper;
+
+    Usuario2 usuario2 = null;
+
+    public ImageButton btnAtras, btnBorrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        dbHelper = new ChatDatabaseHelper(this);
         configurarSocket();
+
+        btnAtras = findViewById(R.id.btnAtras);
+        btnBorrar = findViewById(R.id.btnBorrar);
+
+        btnBorrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                limpiarChat();
+            }
+        });
+
+        btnAtras.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
+
 
         SharedPreferences preferences = getSharedPreferences("credenciales", MODE_PRIVATE);
         idUsu1 = preferences.getInt("id", 0);
 
         Intent intent = getIntent();
-        Usuario2 usuario2 = intent.getParcelableExtra("usuario");
+        usuario2 = intent.getParcelableExtra("usuario");
 
         TextView tvNombre = findViewById(R.id.tvNombrePerro);
         ImageView ivPerro = findViewById(R.id.ivFoto);
@@ -69,13 +95,33 @@ public class ChatActivity extends AppCompatActivity implements SocketListener{
         btnEnviar.setOnClickListener(v -> {
             String mensaje = etMensaje.getText().toString();
             Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
-
+            dbHelper.insertMessage(idUsu1, usuario2.getIdUsu(), mensaje);
+            Log.d("pruebaSocket", "mensaje: " + mensaje + " " + idUsu1 + " " + usuario2.getIdUsu());
             socket.emitMensaje(mensaje, idUsu1, usuario2.getIdUsu());
             agregarMensajeAlScrollView("Yo", mensaje);
             //agregarMensajeAlScrollView("otro", "okey");
             etMensaje.setText("");
 
         });
+        mostrarMensajesDelChat();
+    }
+
+    private void mostrarMensajesDelChat() {
+        List<Mensaje> mensajes = dbHelper.getAllMessages(idUsu1, usuario2.getIdUsu());
+
+        for (Mensaje mensaje : mensajes) {
+            if(mensaje.getSenderId() == idUsu1){
+                agregarMensajeAlScrollView("Yo", mensaje.getMessage());}
+            else{
+                agregarMensajeAlScrollView("otro", mensaje.getMessage());
+            }
+        }
+    }
+
+    private void limpiarChat() {
+        dbHelper.limpiarChat(idUsu1, usuario2.getIdUsu());
+        // Limpia también la interfaz de usuario si es necesario
+        llContainer.removeAllViews();
     }
 
     private void configurarSocket() {
@@ -121,43 +167,46 @@ public class ChatActivity extends AppCompatActivity implements SocketListener{
     }
 
     private void agregarMensajeAlScrollView(String remitente, String mensaje) {
-        TextView textView = new TextView(this);
-        textView.setText(mensaje);
+        if (llContainer != null) {
+            TextView textView = new TextView(this);
+            textView.setText(mensaje);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
 
-        // Ajusta la gravedad del contenedor para posicionar el mensaje a la derecha o izquierda
-        if (remitente.equals("Yo")) {
-            layoutParams.gravity = Gravity.END;
+            // Ajusta la gravedad del contenedor para posicionar el mensaje a la derecha o izquierda
+            if (remitente.equals("Yo")) {
+                layoutParams.gravity = Gravity.END;
+            } else {
+                layoutParams.gravity = Gravity.START;
+            }
+
+            // Agrega márgenes alrededor de cada mensaje
+            int marginInPixels = 20;
+            layoutParams.setMargins(marginInPixels, marginInPixels, marginInPixels, marginInPixels);
+
+            textView.setTextSize(20);
+            textView.setBackground(getDrawable(R.drawable.background_mensaje));
+            textView.setPadding(20, 20, 20, 20);
+            textView.setTextColor(getColor(R.color.white));
+            textView.setLayoutParams(layoutParams);
+
+            // Agrega el TextView al contenedor de mensajes
+            llContainer.addView(textView);
+
+            // Desplaza la ScrollView hasta el final para mostrar el nuevo mensaje
+            svMensajes.post(() -> svMensajes.fullScroll(View.FOCUS_DOWN));
         } else {
-            layoutParams.gravity = Gravity.START;
+            Log.e("ChatActivity", "Error: llContainer es nulo al intentar agregar mensajes.");
         }
-
-        // Agrega márgenes alrededor de cada mensaje
-        int marginInPixels = 20;
-        layoutParams.setMargins(marginInPixels, marginInPixels, marginInPixels, marginInPixels);
-
-        textView.setTextSize(20);
-        textView.setBackground(getDrawable(R.drawable.background_mensaje));
-        textView.setPadding(20, 20, 20, 20);
-        textView.setTextColor(getColor(R.color.white));
-        textView.setLayoutParams(layoutParams);
-
-        // Agrega el TextView al contenedor de mensajes
-        llContainer.addView(textView);
-
-        // Desplaza la ScrollView hasta el final para mostrar el nuevo mensaje
-        svMensajes.post(() -> svMensajes.fullScroll(View.FOCUS_DOWN));
     }
+
 
 
     @Override
     public void onSocketConnected() {
-        Log.d("pruebaSocket", "socket conectado");
-
         updateSocket();
     }
 
@@ -168,14 +217,15 @@ public class ChatActivity extends AppCompatActivity implements SocketListener{
             String mensaje = (String) args[0];
             String idUsu1 = String.valueOf(args[1]); // Convertir a String
             int idUsu2 = (int) (args[2]); // Convertir a String
+            int idUsu = (int) (args[3]); // Convertir a String
+            Log.d("pruebaSocket", "nuevoMensaje: " + mensaje + " " + idUsu1 + " " + idUsu2);
 
+            dbHelper.insertMessage(idUsu, idUsu2, mensaje);
             // Ejemplo: mostrar el mensaje en la interfaz de usuario
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("pruebaSocket", "llega el mensaje");
-
-                    String mensajeMostrado = "Usuario " + idUsu1 + ": " + mensaje;
+                    String mensajeMostrado = "Usuario " + idUsu + ": " + mensaje ;
                     Log.d("pruebaSocket", mensajeMostrado);
                     agregarMensajeAlScrollView("otro", mensaje);
                 }

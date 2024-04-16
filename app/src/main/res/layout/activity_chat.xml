@@ -20,6 +20,13 @@
             android:padding="30dp"
             android:weightSum="10"
             android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnAtras"
+                android:layout_width="250px"
+                android:layout_height="250px"
+                android:src="@drawable/back"
+                />
             <ImageView
                 android:id="@id/ivFoto"
                 android:layout_width="180px"
@@ -35,6 +42,12 @@
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="25sp" />
+
+            <ImageButton
+                android:id="@+id/btnBorrar"
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:src="@drawable/clear_24"/>
         </LinearLayout>
 
 
@@ -66,7 +79,7 @@
             <EditText
                 android:id="@+id/etMensaje"
                 android:layout_width="match_parent"
-                android:layout_height="150px"
+                android:layout_height="200px"
                 android:layout_below="@id/svMensajes"
                 android:hint="Escribe tu mensaje"
                 android:inputType="textMultiLine"

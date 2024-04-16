@@ -94,10 +94,10 @@ public class SocketManager {
 
     public void emitMensaje(String mensaje, int idUsu, int idUsu2){
         Log.d("pruebaSocket", "emitMensaje: " + mensaje +" " + socket.id() + " " + idUsu2);
-        socket.emit("nuevoMensaje", mensaje, socket.id(), idUsu2);
+        socket.emit("nuevoMensaje", mensaje, socket.id(), idUsu2, idUsu);
     }
 
-    private Emitter.Listener nuevoMensaje = new Emitter.Listener() {
+    /*private Emitter.Listener nuevoMensaje = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
             // Tu lógica para manejar el nuevo mensaje aquí
@@ -111,7 +111,7 @@ public class SocketManager {
                 return;
             }
         }
-    };
+    };*/
 
     public void on(String event, Emitter.Listener listener) {
         socket.on(event, listener);
