@@ -2,6 +2,10 @@ package com.example.doginder6;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentContainer;
+import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,7 +43,9 @@ public class LoginActivity extends AppCompatActivity {
     public Usuario2 user;
     public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
     public final String URL2 = "http://192.168.19.159:3745/";
-    TextView tvORegistrate;
+    TextView tvORegistrate, tvRecuperarContrasena;
+    FragmentContainerView fragmentContainer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,27 @@ public class LoginActivity extends AppCompatActivity {
         etContrasena = findViewById(R.id.etContrasena);
         btnLogin = findViewById(R.id.btnLogin);
         tvORegistrate = findViewById(R.id.tvORegistrate);
+        tvRecuperarContrasena = findViewById(R.id.tvRecuperarContrasenya);
+        fragmentContainer = findViewById(R.id.fv_recuperarContrasenya);
 
+        String textoCompleto2 = tvRecuperarContrasena.getText().toString();
+        SpannableString textoParcial2 = new SpannableString(textoCompleto2);
+        ClickableSpan clickableSpan2 = new ClickableSpan() {
+            @Override
+            public void onClick(android.view.View widget) {
+                Intent intent = new Intent(LoginActivity.this, RecoveryPassActivity.class);
+                startActivity(intent);
+            }
+        };
+
+        int color2 = ContextCompat.getColor(this, R.color.naranjaMain);
+        ForegroundColorSpan colorSpan2 = new ForegroundColorSpan(color2);
+        textoParcial2.setSpan(clickableSpan2, 0, 25, 0);
+        textoParcial2.setSpan(colorSpan2, 0, 25, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        tvRecuperarContrasena.setText(textoParcial2);
+        tvRecuperarContrasena.setMovementMethod(LinkMovementMethod.getInstance());
+        tvRecuperarContrasena.setHighlightColor(Color.TRANSPARENT);
 
         // añadimos el listener al botón
         btnLogin.setOnClickListener(v -> login());
@@ -66,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         };
+
         int color = ContextCompat.getColor(this, R.color.naranjaMain);
         ForegroundColorSpan colorSpan = new ForegroundColorSpan(color);
         textoParcial.setSpan(clickableSpan, 2, 17, 0);
@@ -74,7 +101,10 @@ public class LoginActivity extends AppCompatActivity {
         tvORegistrate.setText(textoParcial);
         tvORegistrate.setMovementMethod(LinkMovementMethod.getInstance());
         tvORegistrate.setHighlightColor(Color.TRANSPARENT);
+
+
     }
+
 
     // método para hacer login
     public void login(){

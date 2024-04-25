@@ -1,12 +1,13 @@
 package com.example.doginder6;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.example.doginder6.Objects.Mensaje;
 
 import java.util.ArrayList;
 import java.util.List;

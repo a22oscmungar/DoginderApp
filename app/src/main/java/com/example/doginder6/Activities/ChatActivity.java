@@ -1,7 +1,10 @@
 package com.example.doginder6;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,10 +22,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.doginder6.Objects.BloquearUsuario;
+import com.example.doginder6.Objects.Mensaje;
 import com.google.gson.GsonBuilder;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -47,7 +49,7 @@ public class ChatActivity extends AppCompatActivity implements SocketListener{
 
     Usuario2 usuario2 = null;
 
-    public ImageButton btnAtras, btnBorrar;
+    public ImageButton btnAtras, btnBorrar, btnBloquear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public class ChatActivity extends AppCompatActivity implements SocketListener{
 
         btnAtras = findViewById(R.id.btnAtras);
         btnBorrar = findViewById(R.id.btnBorrar);
+        btnBloquear = findViewById(R.id.btnBloquear);
 
         btnBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +72,8 @@ public class ChatActivity extends AppCompatActivity implements SocketListener{
 
         btnAtras.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("Tab", "Chat"); // Puedes pasar un extra para indicar que quieres abrir la pestaña de chat directamente
             startActivity(intent);
         });
 
@@ -104,6 +109,66 @@ public class ChatActivity extends AppCompatActivity implements SocketListener{
 
         });
         mostrarMensajesDelChat();
+        Context context = this;
+
+        btnBloquear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Confirmar bloqueo");
+                builder.setMessage("¿Estás seguro de que quieres bloquear a este usuario?");
+
+                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        bloquearUsuario();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // No hacer nada, simplemente cerrar el diálogo
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+    public void bloquearUsuario(){
+        retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .build();
+
+        doginderAPI = retrofit.create(doginderAPI.class);
+
+        BloquearUsuario bloquearUsuario = new BloquearUsuario(idUsu1, usuario2.getIdUsu());
+        Call<Void> call = doginderAPI.bloquearUsuario(bloquearUsuario);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(ChatActivity.this, "Usuario bloqueado", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ChatActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(ChatActivity.this, "Ha habido un error al bloquear el usuario", Toast.LENGTH_SHORT).show();
+                    Log.d("errorBloquear", response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(ChatActivity.this, "Ha habido un error al bloquear el usuario", Toast.LENGTH_SHORT).show();
+                Log.d("errorBloquear", t.getMessage());
+            }
+        });
     }
 
     private void mostrarMensajesDelChat() {

@@ -39,37 +39,70 @@ public class FragmentPerfil extends Fragment {
         ImageView foto = rootView.findViewById(R.id.ivFotoMascota);
         TextView raza = rootView.findViewById(R.id.tvRazaMascota);
         TextView edad = rootView.findViewById(R.id.tvEdadMascota);
-        TextView sexo = rootView.findViewById(R.id.tvSexoMascota);
         TextView descripcion = rootView.findViewById(R.id.tvDescripcionMascota);
         TextView relacionMascotas = rootView.findViewById(R.id.tvRelacionMascotas);
         TextView relacionHumanos = rootView.findViewById(R.id.tvRelacionHumanos);
         TextView nombreHumano = rootView.findViewById(R.id.tvNombreHumano);
         TextView edadHumano = rootView.findViewById(R.id.tvEdadHumano);
         TextView generoHumano = rootView.findViewById(R.id.tvGeneroHumano);
+        ImageView GeneroMascota = rootView.findViewById(R.id.ivGeneroMascota);
+        TextView tamano = rootView.findViewById(R.id.tvTamano);
 
         String añoString = (usuario.getEdad() > 1) ? " años" : " año";
 
 
 
         nombre.setText(usuario.getNombre().toUpperCase());
+        nombre.setShadowLayer(5, 10, 10, R.color.black);
         String url = "http://doginder.dam.inspedralbes.cat:3745"+usuario.getDescripcion();
         Log.d("url", url);
         //Picasso.get().load(url).error(R.drawable.two).into(foto);
 
         Glide.with(this)
                 .load(url)  // Reemplaza con tu recurso de imagen
-                .apply(RequestOptions.bitmapTransform(new RoundedCorners(80))) // Ajusta el radio según tus preferencias
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(20))) // Ajusta el radio según tus preferencias
                 .into(foto);
 
+        if(usuario.getSexo().equals("Hembra"))
+            Glide.with(this)
+                    .load(R.drawable.hembra)
+                    .into(GeneroMascota);
+        else{
+            Glide.with(this)
+                    .load(R.drawable.macho)
+                    .into(GeneroMascota);
+        }
+
+        tamano.setText(usuario.getTamano());
         raza.setText(usuario.getRaza());
         edad.setText(String.valueOf(usuario.getEdad()) + añoString);
-        sexo.setText(usuario.getSexo());
         descripcion.setText(usuario.getFoto());
-        relacionMascotas.setText("Como se lleva con otras mascotas? "+ usuario.getRelacionMascotas());
-        relacionHumanos.setText("Como se lleva con humanos? " + usuario.getRelacionHumanos());
-        nombreHumano.setText(usuario.getNombreUsu() + " " + usuario.getApellidosUsu());
-        edadHumano.setText(usuario.getEdadUsu() + " años");
-        generoHumano.setText(usuario.getGenero());
+        switch (usuario.getRelacionMascotas()){
+            case "Bien":
+                relacionMascotas.setText("Se lleva bien con otras mascotas, guay!");
+                break;
+            case "Mal":
+                relacionMascotas.setText("No se lleva bien con otras mascotas, cuidado!");
+                break;
+            case "Indiferente":
+                relacionMascotas.setText("No le importa otras mascotas, tranquilo!");
+                break;
+        }
+        switch (usuario.getRelacionHumanos()) {
+            case "Bien":
+                relacionHumanos.setText("Se lleva bien con humanos, guay!");
+                break;
+            case "Mal":
+                relacionHumanos.setText("No se lleva bien con humanos, cuidado!");
+                break;
+            case "Indiferente":
+                relacionHumanos.setText("No le importa los humanos, tranquilo!");
+                break;
+        }
+        String nombreCompleto = usuario.getNombreUsu() + " " + usuario.getApellidosUsu();
+        nombreHumano.setText("Mi nombre: " + nombreCompleto.toUpperCase());
+        edadHumano.setText("Mi edad: " + usuario.getEdadUsu() + " AÑOS");
+        generoHumano.setText("Mi sexo: " + usuario.getGenero().toUpperCase());
 
 
         return rootView;

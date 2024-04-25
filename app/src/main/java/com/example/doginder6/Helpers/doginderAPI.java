@@ -1,5 +1,8 @@
 package com.example.doginder6;
 
+import com.example.doginder6.Objects.BloquearUsuario;
+import com.example.doginder6.Objects.ChangePass;
+
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -52,4 +55,16 @@ public interface doginderAPI {
 
     @POST("/socketUpdate")
     Call<Void> socketUpdate(@Query("idUsu") int idUsu, @Query("socketID") String socketID);
+
+    @POST("/sendMail")
+    Call<Void> sendMail(@Body RecoveryPassActivity.EmailRequest mail);
+
+    @POST("/changePass")
+    Call<Void> changePass(@Body ChangePass changePass);
+
+    @GET("/checkToken")
+    Call<Void> checkToken(@Query("mail") String mail, @Query("token") String token);
+
+    @POST("/bloquearUsuario")
+    Call<Void> bloquearUsuario(@Body BloquearUsuario bloquearUsuario);
 }

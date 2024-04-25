@@ -120,6 +120,15 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
             }
         });
 
+        Intent intent = getIntent();
+        String tabToOpen = intent.getStringExtra("Tab");
+        if (tabToOpen != null && tabToOpen.equals("Chat")) {
+            // Seleccionar la pestaña de chat
+            TabLayout.Tab chatTab = tabLayout.getTabAt(2); // Índice de la pestaña de chat
+            if (chatTab != null) {
+                chatTab.select();
+            }
+        }
     }
 
     @Override
