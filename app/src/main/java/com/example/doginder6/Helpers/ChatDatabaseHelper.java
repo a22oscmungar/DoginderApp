@@ -1,4 +1,4 @@
-package com.example.doginder6;
+package com.example.doginder6.Helpers;
 
 import android.content.ContentValues;
 import android.content.Context;

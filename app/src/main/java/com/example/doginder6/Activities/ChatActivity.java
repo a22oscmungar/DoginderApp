@@ -1,4 +1,4 @@
-package com.example.doginder6;
+package com.example.doginder6.Activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,8 +22,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.doginder6.Helpers.ChatDatabaseHelper;
 import com.example.doginder6.Objects.BloquearUsuario;
 import com.example.doginder6.Objects.Mensaje;
+import com.example.doginder6.Objects.Usuario2;
+import com.example.doginder6.R;
+import com.example.doginder6.Helpers.SocketListener;
+import com.example.doginder6.Helpers.SocketManager;
+import com.example.doginder6.Helpers.doginderAPI;
 import com.google.gson.GsonBuilder;
 
 import java.util.List;
@@ -35,12 +41,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ChatActivity extends AppCompatActivity implements SocketListener{
+public class ChatActivity extends AppCompatActivity implements SocketListener {
 
     public SocketManager socket;
     public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
     public Retrofit retrofit;
-    public doginderAPI doginderAPI;
+    public com.example.doginder6.Helpers.doginderAPI doginderAPI;
     public String socketId;
     public int idUsu1;
     ScrollView svMensajes;

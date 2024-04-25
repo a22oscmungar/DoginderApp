@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".Activities.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="150px"
             android:hint="@string/etCorreoElectronico"
-            android:text="o@o.com"
+            android:text="oscarmuga2008@gmail.com"
             android:layout_marginHorizontal="50dp"
             android:backgroundTint="@color/naranjaMain"
             />
@@ -81,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="150px"
             android:hint="@string/etContrasena"
-            android:text="1234"
+            android:text="12345"
             android:inputType="textPassword"
             android:layout_marginHorizontal="50dp"
             android:backgroundTint="@color/naranjaMain"
@@ -90,6 +90,8 @@
 
         <!-- olvidar contraseña -->
         <TextView
+
+            android:id="@+id/tvRecuperarContrasenya"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tvOlvidasteContrasena"
@@ -101,10 +103,16 @@
             android:textStyle="bold"
             />
 
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fv_recuperarContrasenya"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
 
 
         <!-- boton iniciar sesion -->
         <FrameLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

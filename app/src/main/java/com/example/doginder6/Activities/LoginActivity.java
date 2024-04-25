@@ -1,11 +1,8 @@
-package com.example.doginder6;
+package com.example.doginder6.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentContainerView;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,18 +13,17 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
+import com.example.doginder6.Helpers.DataBaseHelper;
+import com.example.doginder6.Objects.UserRequest;
+import com.example.doginder6.Objects.Usuario2;
+import com.example.doginder6.R;
+import com.example.doginder6.Helpers.doginderAPI;
 import com.google.gson.GsonBuilder;
-
-import java.net.Socket;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     public EditText etUsuario, etContrasena;
     public Button btnLogin;
     public Retrofit retrofit;
-    public doginderAPI doginderAPI;
+    public com.example.doginder6.Helpers.doginderAPI doginderAPI;
     public Usuario2 user;
     public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
     public final String URL2 = "http://192.168.19.159:3745/";

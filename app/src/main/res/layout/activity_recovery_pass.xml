@@ -4,6 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecoveryPassActivity">
+    tools:context=".Activities.RecoveryPassActivity">
+
+    <LinearLayout
+        android:id="@+id/llEmail"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="CORREO ELECTRONICO"
+            android:layout_margin="25dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRecuperar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ENVIAR CORREO"
+            android:layout_margin="25dp"
+            android:background="@color/naranjaFlojo"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llToken"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/etToken"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="TOKEN"
+            android:layout_margin="25dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnConfirmar"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:text="CONFIRMAR"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

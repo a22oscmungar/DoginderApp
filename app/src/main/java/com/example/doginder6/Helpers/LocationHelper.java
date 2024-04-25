@@ -1,4 +1,4 @@
-package com.example.doginder6;
+package com.example.doginder6.Helpers;
 
 import android.app.PendingIntent;
 import android.content.Context;

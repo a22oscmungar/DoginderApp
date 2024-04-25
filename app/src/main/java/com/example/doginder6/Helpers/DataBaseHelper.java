@@ -1,6 +1,5 @@
-package com.example.doginder6;
+package com.example.doginder6.Helpers;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import com.example.doginder6.Objects.Usuario2;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "MiPerfil";

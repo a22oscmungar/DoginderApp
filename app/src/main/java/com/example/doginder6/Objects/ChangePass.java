@@ -1,4 +1,4 @@
-package com.example.doginder6;
+package com.example.doginder6.Objects;
 
 public class ChangePass {
     public String mail, pass;

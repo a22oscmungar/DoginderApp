@@ -1,4 +1,4 @@
-package com.example.doginder6;
+package com.example.doginder6.Fragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.doginder6.R;
 
 public class RecoveryFragment extends Fragment {
 

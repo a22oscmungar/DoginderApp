@@ -1,4 +1,4 @@
-package com.example.doginder6;
+package com.example.doginder6.Helpers;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,14 +13,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.doginder6.Objects.Usuario2;
+import com.example.doginder6.R;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.yalantis.library.Koloda;
 import com.yalantis.library.KolodaListener;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

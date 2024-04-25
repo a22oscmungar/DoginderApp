@@ -1,4 +1,4 @@
-package com.example.doginder6;
+package com.example.doginder6.Fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
+import com.example.doginder6.Helpers.ChatAdapter;
+import com.example.doginder6.Objects.Usuario2;
+import com.example.doginder6.R;
+import com.example.doginder6.Helpers.doginderAPI;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class FragmentChat extends Fragment {
     public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
     public final String URL2 = "http://192.168.19.159:3745/";
     public Retrofit retrofit;
-    public doginderAPI doginderAPI;
+    public com.example.doginder6.Helpers.doginderAPI doginderAPI;
     int idUsu;
     List<Usuario2> matches = new ArrayList<>();
     @Nullable

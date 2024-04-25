@@ -1,4 +1,4 @@
-package com.example.doginder6;
+package com.example.doginder6.Fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,13 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.squareup.picasso.Picasso;
+import com.example.doginder6.Helpers.DataBaseHelper;
+import com.example.doginder6.Objects.Usuario2;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-
-import org.w3c.dom.Text;
+import com.example.doginder6.R;
 
 public class FragmentPerfil extends Fragment {
     View rootView;

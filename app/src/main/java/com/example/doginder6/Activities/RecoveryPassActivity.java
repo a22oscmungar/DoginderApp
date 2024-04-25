@@ -1,4 +1,4 @@
-package com.example.doginder6;
+package com.example.doginder6.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.doginder6.R;
+import com.example.doginder6.Helpers.doginderAPI;
 import com.google.gson.GsonBuilder;
 
 import retrofit2.Retrofit;
@@ -18,8 +20,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecoveryPassActivity extends AppCompatActivity {
 
@@ -27,7 +27,7 @@ public class RecoveryPassActivity extends AppCompatActivity {
     public Button btnRecuperar;
 
     public Retrofit retrofit;
-    public doginderAPI doginderAPI;
+    public com.example.doginder6.Helpers.doginderAPI doginderAPI;
     public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
     public final String URL2 = "http://192.168.1.140:3745/";
 

@@ -5,7 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".FragmentChat">
+    tools:context=".Fragments.FragmentChat">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/naranjaFlojo"
+        android:padding="10dp">
+
+        <!-- Aquí puedes agregar tus botones -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCrearGrupo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:layout_margin="15dp"
+            android:text="Crear Grupo" />
+
+        <!-- Puedes agregar más botones según sea necesario -->
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChats"

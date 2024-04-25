@@ -1,7 +1,11 @@
-package com.example.doginder6;
+package com.example.doginder6.Helpers;
 
+import com.example.doginder6.Activities.RecoveryPassActivity;
 import com.example.doginder6.Objects.BloquearUsuario;
 import com.example.doginder6.Objects.ChangePass;
+import com.example.doginder6.Objects.UserRequest;
+import com.example.doginder6.Objects.Usuario;
+import com.example.doginder6.Objects.Usuario2;
 
 import java.util.List;
 

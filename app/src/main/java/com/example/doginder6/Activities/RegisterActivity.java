@@ -1,6 +1,5 @@
-package com.example.doginder6;
+package com.example.doginder6.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -19,28 +18,26 @@ import android.text.SpannableString;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.location.LocationListener;
 
+import com.example.doginder6.Objects.Usuario;
+import com.example.doginder6.R;
+import com.example.doginder6.Helpers.doginderAPI;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.util.regex.Matcher;
@@ -68,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
     Spinner spinnerRaza;
     TextView oLogin, tvSobreTi, tvNombre, tvApellidos, tvMail, tvMail2, tvContrasena, tvContrasena2, tvGenero, tvEdad, tvSobreMascota;
 
-    doginderAPI doginderAPI;
+    com.example.doginder6.Helpers.doginderAPI doginderAPI;
     ImageView ivFoto, ojo1, ojo2;
     double latitude = 0.0;
     double longitude = 0.0;

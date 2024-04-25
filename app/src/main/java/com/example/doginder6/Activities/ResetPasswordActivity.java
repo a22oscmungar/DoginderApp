@@ -1,4 +1,4 @@
-package com.example.doginder6;
+package com.example.doginder6.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.doginder6.Objects.ChangePass;
+import com.example.doginder6.R;
+import com.example.doginder6.Helpers.doginderAPI;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,7 +22,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     public Button btnResetPass;
 
     public Retrofit retrofit;
-    public doginderAPI doginderAPI;
+    public com.example.doginder6.Helpers.doginderAPI doginderAPI;
     public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
     public final String URL2 = "http://192.168.1.140:3745/";
     @Override

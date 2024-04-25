@@ -1,4 +1,4 @@
-package com.example.doginder6;
+package com.example.doginder6.Objects;
 
 public class ChatItem {
     private String nombreUsuario;

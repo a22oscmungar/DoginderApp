@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ChatActivity">
+    tools:context=".Activities.ChatActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -23,9 +23,11 @@
 
             <ImageButton
                 android:id="@+id/btnAtras"
-                android:layout_width="250px"
-                android:layout_height="250px"
-                android:src="@drawable/back"
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:src="@drawable/flecha_back"
+                android:scaleType="fitCenter"
+                android:layout_marginTop="60px"
                 />
             <ImageView
                 android:id="@id/ivFoto"
@@ -42,12 +44,26 @@
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="25sp" />
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <ImageButton
                 android:id="@+id/btnBorrar"
-                android:layout_width="200px"
-                android:layout_height="200px"
-                android:src="@drawable/clear_24"/>
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:src="@drawable/papelera"
+                android:scaleType="fitCenter"/>
+            <ImageButton
+                android:id="@+id/btnBloquear"
+                android:layout_width="150px"
+                android:layout_height="150px"
+                android:src="@drawable/block"
+                android:scaleType="fitCenter"/>
+
+        </LinearLayout>
+
+
         </LinearLayout>
 
 

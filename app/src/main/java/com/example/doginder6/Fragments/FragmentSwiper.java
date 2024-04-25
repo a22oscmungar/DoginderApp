@@ -1,4 +1,4 @@
-package com.example.doginder6;
+package com.example.doginder6.Fragments;
 
 import android.Manifest;
 import android.content.SharedPreferences;
@@ -19,12 +19,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.doginder6.Helpers.LocationHelper;
+import com.example.doginder6.Objects.Usuario2;
+import com.example.doginder6.R;
+import com.example.doginder6.Helpers.SwipeAdapter;
+import com.example.doginder6.Helpers.doginderAPI;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.GsonBuilder;
 import com.yalantis.library.Koloda;
-import com.yalantis.library.KolodaListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +49,7 @@ public class FragmentSwiper extends Fragment {
     int distancia = 25;
     double latitude;
     double longitude;
-    doginderAPI doginderAPI;
+    com.example.doginder6.Helpers.doginderAPI doginderAPI;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationHelper locationHelper;

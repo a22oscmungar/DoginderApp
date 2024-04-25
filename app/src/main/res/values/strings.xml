@@ -76,7 +76,7 @@
     <string name="etEdad">Tu edad</string>
     <string name="btnSiguiente">CONTINUAR</string>
     <string name="etContrasenaRegistro">Contraseña</string>
-    <string name="etConfirmaContrasena" >Confirmar contraseña</string>
+    <string name="etConfirmaContrasena">Confirmar contraseña</string>
     <string name="tituloMascota">SOBRE TU MASCOTA</string>
     <string name="etNombreMascota">Su nombre</string>
     <string name="tvRaza">Su raza</string>

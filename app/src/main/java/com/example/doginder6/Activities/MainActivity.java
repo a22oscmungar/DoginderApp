@@ -1,39 +1,31 @@
-package com.example.doginder6;
+package com.example.doginder6.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.doginder6.Fragments.FragmentChat;
+import com.example.doginder6.Fragments.FragmentPerfil;
+import com.example.doginder6.Fragments.FragmentSwiper;
+import com.example.doginder6.Helpers.LocationHelper;
+import com.example.doginder6.Helpers.MatchListener;
+import com.example.doginder6.Objects.UserResponse;
+import com.example.doginder6.R;
+import com.example.doginder6.Helpers.SocketListener;
+import com.example.doginder6.Helpers.SocketManager;
+import com.example.doginder6.Helpers.SwipeAdapter;
+import com.example.doginder6.Helpers.doginderAPI;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.bottomappbar.BottomAppBar;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.GsonBuilder;
 import com.yalantis.library.Koloda;
 
-import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 import io.socket.emitter.Emitter;
@@ -43,7 +35,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements SocketListener, MatchListener{
+public class MainActivity extends AppCompatActivity implements SocketListener, MatchListener {
     public SwipeAdapter swipeAdapter;
     Button btnBuscar, btnRegistro;
     EditText etDistancia;
@@ -53,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
     int distancia = 25;
     double latitude;
     double longitude;
-    doginderAPI doginderAPI;
+    com.example.doginder6.Helpers.doginderAPI doginderAPI;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationHelper locationHelper;

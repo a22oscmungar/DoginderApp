@@ -1,9 +1,7 @@
-package com.example.doginder6;
+package com.example.doginder6.Objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
 
 public class Usuario2 implements Parcelable {
     public Ubi ubiUsu;
