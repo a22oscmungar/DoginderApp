@@ -33,7 +33,7 @@ public class FragmentPerfil extends Fragment {
 
         SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
         Usuario2 usuario = db.getUsuarioCompleto(preferences.getInt("id", 0));
-        Log.d("usuario", usuario +" Id: "+ preferences.getInt("id", 0));
+        Log.d("usuarioMiPerfil", usuario.toString());
 
         TextView nombre = rootView.findViewById(R.id.tvNombreMascota);
         ImageView foto = rootView.findViewById(R.id.ivFotoMascota);

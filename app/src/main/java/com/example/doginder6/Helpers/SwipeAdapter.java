@@ -1,6 +1,12 @@
 package com.example.doginder6.Helpers;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.example.doginder6.Objects.Usuario2;
 import com.example.doginder6.R;
 import com.google.gson.GsonBuilder;
@@ -81,7 +88,8 @@ public class SwipeAdapter extends BaseAdapter {
         }
         //para cada usuario se asignan sus valores a los elementos de la vista
         Usuario2 user = list.get(position);
-        Log.d("pruebaAdapter", "En el adapter: " +user.toString());
+        Log.d("pruebaCosas", user.toString());
+
         ShapeableImageView imageView = view.findViewById(R.id.image);
         TextView tvNombre = view.findViewById(R.id.tvNombreMascota);
         ImageView btnNo = view.findViewById(R.id.btnNo);
@@ -94,6 +102,8 @@ public class SwipeAdapter extends BaseAdapter {
         TextView tvDescripcion = view.findViewById(R.id.tvDescripcion);
         TextView tvRelacionMascotas = view.findViewById(R.id.tvRelacionMascotas);
         TextView tvRelacionHumanos = view.findViewById(R.id.tvRelacionHumanos);
+        ImageView ivSexo = view.findViewById(R.id.ivGeneroMascota);
+        TextView tvTamano = view.findViewById(R.id.tvTamano);
 
         tvNombre.setText(user.getNombre());
         String url = "http://doginder.dam.inspedralbes.cat:3745"+user.getFoto();
@@ -102,9 +112,19 @@ public class SwipeAdapter extends BaseAdapter {
 
         String añoString = (user.getEdad() > 1) ? " años" : " año";
 
+        if(user.getSexo().equals("Hembra"))
+            Glide.with(this.context)
+                    .load(R.drawable.hembra)
+                    .into(ivSexo);
+        else{
+            Glide.with(this.context)
+                    .load(R.drawable.macho)
+                    .into(ivSexo);
+        }
+
+        tvTamano.setText(user.getTamano());
         tvEdad.setText(String.valueOf(user.getEdad()) + añoString);
         tvRaza.setText(user.getRaza());
-        tvSexo.setText(user.getSexo());
         tvDescripcion.setText(user.getDescripcion());
         tvRelacionMascotas.setText("Como se lleva con otras mascotas? " + user.getRelacionMascotas() );
         tvRelacionHumanos.setText("Como se lleva con humanos? " + user.getRelacionHumanos());
@@ -134,10 +154,39 @@ public class SwipeAdapter extends BaseAdapter {
         btnUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Aqui saldrá la información sobre " + user.getNombreUsu(), Toast.LENGTH_SHORT).show();
+
+                // Crear un ImageView y establecer la imagen usando Picasso
+                ImageView imageView = new ImageView(context);
+                String url = "http://doginder.dam.inspedralbes.cat:3745" + user.getImgProfile();
+                Log.d("pruebaSwipe", url);
+                Picasso.get().load(url).error(R.drawable.two).resize(500,600).into(imageView); // Utiliza tu imagen de error personalizada
+
+                // Crear el texto con formato utilizando SpannableString
+                SpannableString spannableString = new SpannableString("Nombre: " + user.getNombreUsu() + " " + user.getApellidosUsu()
+                        + "\nEdad: " + user.getEdadUsu() + " años\nSexo: " + user.getGenero());
+
+// Aplicar estilo negrita al texto "Nombre", "Edad" y "Sexo"
+                spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Nombre
+                spannableString.setSpan(new StyleSpan(Typeface.BOLD), spannableString.toString().indexOf("Edad"), spannableString.toString().indexOf("Edad") + 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Edad
+                spannableString.setSpan(new StyleSpan(Typeface.BOLD), spannableString.toString().indexOf("Sexo"), spannableString.toString().indexOf("Sexo") + 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Sexo
+
+// Aumentar el tamaño de la letra para "Nombre", "Edad" y "Sexo"
+                spannableString.setSpan(new RelativeSizeSpan(1.2f), 0, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Nombre
+                spannableString.setSpan(new RelativeSizeSpan(1.2f), spannableString.toString().indexOf("Edad"), spannableString.toString().indexOf("Edad") + 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Edad
+                spannableString.setSpan(new RelativeSizeSpan(1.2f), spannableString.toString().indexOf("Sexo"), spannableString.toString().indexOf("Sexo") + 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Sexo
+
+// Crear un AlertDialog.Builder y establecer el título, el mensaje y la vista personalizada
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Dueño/a de " + user.getNombre());
+                builder.setMessage(spannableString); // Utilizar el texto con formato
+                builder.setPositiveButton("Cerrar", null);
+                builder.setView(imageView); // Establecer la vista personalizada con el ImageView
+                builder.show();
+
+
             }
         });
-        Log.d("pruebaAdapter", "getView: " + user);
+
 
 
         return view;
@@ -188,10 +237,10 @@ public class SwipeAdapter extends BaseAdapter {
                     Usuario2 user = list.get(currentIndex);
                     userClickListener.onSwipeRight(user);
                     currentIndex++;
-                    Log.d("pruebaListener", "Current index: " + currentIndex + " I: "+ i);
+
                     //Toast.makeText(context, "Has hecho swipe a la derecha a " + user.getNombre()+ " id: "+ user.getIdUsu(), Toast.LENGTH_SHORT).show();
                     darLike(idUsu, user.getIdUsu());
-                    Log.d("pruebaSwipeLike", "idUsu1: " + idUsu + " idUsu2: " + user.getIdUsu());
+
                 }
             }
 
@@ -201,30 +250,43 @@ public class SwipeAdapter extends BaseAdapter {
                     Usuario2 user = list.get(currentIndex);
                     userClickListener.onSwipeLeft(user);
                     currentIndex++;
-                    //Log.d("pruebaListener", "Current index: " + currentIndex + " I: "+ i);
+
                     //Toast.makeText(context, "Has hecho swipe a la izquierda a " + user.getNombre() + " id: "+ user.getIdUsu(), Toast.LENGTH_SHORT).show();
                     darDislike(idUsu, user.getIdUsu());
                 }
             }
 
-            @Override
-            public void onClickRight(int i) {
-                if (userClickListener != null) {
-                    Usuario2 user = list.get(i);
-                    userClickListener.onClickRight(user);
-                }
-            }
+                @Override
+                public void onClickRight(int i) {
+                    if (userClickListener != null && currentIndex >= 0 && currentIndex < list.size()) {
+                        Usuario2 user = list.get(currentIndex);
 
-            @Override
-            public void onClickLeft(int i) {
-                if (userClickListener != null) {
-                    Usuario2 user = list.get(i);
-                    userClickListener.onClickLeft(user);
+                        userClickListener.onClickRight(user);
+                        currentIndex++;
+                        //Toast.makeText(context, "Has hecho swipe a la derecha a " + user.getNombre() + " id: "+ user.getIdUsu(), Toast.LENGTH_SHORT).show();
+
+
+                        darLike(idUsu, user.getIdUsu());
+                    }
                 }
-            }
+
+                @Override
+                public void onClickLeft(int i) {
+
+                    if (userClickListener != null && currentIndex >= 0 && currentIndex < list.size()) {
+                        Usuario2 user = list.get(currentIndex);
+
+                        userClickListener.onClickLeft(user);
+                        currentIndex++;
+                        //Toast.makeText(context, "Has hecho swipe a la izquierda a " + user.getNombre() + " id: "+ user.getIdUsu(), Toast.LENGTH_SHORT).show();
+
+                        darDislike(idUsu, user.getIdUsu());
+                    }
+                }
 
             @Override
             public void onCardLongPress(int i) {
+
             }
         });
     }

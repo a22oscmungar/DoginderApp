@@ -20,7 +20,7 @@
     <string name="etGenero">Indica el teu gènere</string>
     <string name="rbHombre">Home</string>
     <string name="rbMujer">Dona</string>
-    <string name="rbOtro">Un altre / Prefereixo no dir-ho</string>
+    <string name="rbOtro">Un altre/Prefereixo no dir-ho</string>
     <string name="etEdad">La teva edat</string>
     <string name="btnSiguiente">CONTINUAR</string>
     <string name="etContrasenaRegistro">Contrasenya</string>
@@ -41,4 +41,6 @@
     <string name="rbMal">Malament</string>
     <string name="btnRegistrar">REGISTRAR</string>
     <string name="oRegistrate">o registra\'t aquí si no tens un compte</string>
+    <string name="channel_name">CANAL DE NOTIFICACIONES</string>
+    <string name="channel_description">DESCRICPCIONCANAL</string>
 </resources>

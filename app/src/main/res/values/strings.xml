@@ -70,8 +70,8 @@
     <string name="etNombre">Nombre</string>
     <string name="etApellidos">Apellidos</string>
     <string name="etGenero">Indica tu género</string>
-    <string name="rbHombre">HOMBRE</string>
-    <string name="rbMujer">MUJER</string>
+    <string name="rbHombre">Hombre</string>
+    <string name="rbMujer">Mujer</string>
     <string name="rbOtro">Otro / Prefiero no decirlo</string>
     <string name="etEdad">Tu edad</string>
     <string name="btnSiguiente">CONTINUAR</string>
@@ -93,4 +93,6 @@
     <string name="rbMal">Mal</string>
     <string name="btnRegistrar">REGISTRAR</string>
     <string name="oRegistrate">o regístrate aquí si no tienes una cuenta</string>
+    <string name="channel_name">CANAL DE NOTIFICACIONES</string>
+    <string name="channel_description">DESCRICPCIONCANAL</string>
 </resources>

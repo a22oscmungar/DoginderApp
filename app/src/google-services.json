@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "300813342545",
+    "project_id": "doginder-862d0",
+    "storage_bucket": "doginder-862d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:300813342545:android:a899d718a21fc98ac36570",
+        "android_client_info": {
+          "package_name": "com.example.doginder6"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT-6ABOEUW1mF-byZeLs4XNFE2QeKa9gA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,18 @@
 package com.example.doginder6.Helpers;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import com.example.doginder6.R;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -22,6 +30,11 @@ public class SocketManager {
     private List<SocketListener> socketListeners = new ArrayList<>();
     private List<MatchListener> matchListeners = new ArrayList<>();
     public Context context;
+
+    private static final String CHANNEL_ID = "match_notification_channel";
+    public static final String CHANNEL_NAME = "Match Notification";
+    public static final String CHANNEL_DESCRIPTION = "Notificación de match";
+    public static final int NOTIFICATION_ID = 0;
 
     public SocketManager(Context context) {
         this.context = context;
@@ -72,6 +85,7 @@ public class SocketManager {
             String receivedSocketId = socket.id();
             sharedPreferences.edit().putString(SOCKET_ID_KEY, receivedSocketId).apply();
             notifySocketConnected();
+            Log.d("pruebaSocket", "updateSocket: " + receivedSocketId);
         });
     }
 
@@ -120,6 +134,25 @@ public class SocketManager {
     public void notifyMatch() {
         for (MatchListener listener : matchListeners) {
             listener.onMatch();
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context.getApplicationContext(), CHANNEL_ID)
+                    .setSmallIcon(R.drawable.notificacion)
+                    .setContentTitle("Nuevo match!")
+                    .setContentText("Has hecho match con alguien!")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context.getApplicationContext());
+            if (ActivityCompat.checkSelfPermission(context.getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            notificationManager.notify(NOTIFICATION_ID, builder.build());
         }
     }
 

@@ -2,6 +2,7 @@ package com.example.doginder6.Activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +11,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,16 +68,14 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
         dbHelper = new ChatDatabaseHelper(this);
         configurarSocket();
 
-        btnAtras = findViewById(R.id.btnAtras);
-        btnBorrar = findViewById(R.id.btnBorrar);
-        btnBloquear = findViewById(R.id.btnBloquear);
 
-        btnBorrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                limpiarChat();
-            }
-        });
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        
+
+        btnAtras = findViewById(R.id.btnAtras);
+
 
         btnAtras.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
@@ -97,7 +98,7 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
         svMensajes = findViewById(R.id.svMensajes);
         llContainer = findViewById(R.id.llContainer);
 
-        tvNombre.setText(usuario2.getNombre());
+        tvNombre.setText(usuario2.getNombre().toUpperCase());
         Glide.with(this)
                 .load("http://doginder.dam.inspedralbes.cat:3745"+usuario2.getFoto())  // Reemplaza con tu recurso de imagen
                 .apply(RequestOptions.circleCropTransform())
@@ -117,32 +118,50 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
         mostrarMensajesDelChat();
         Context context = this;
 
-        btnBloquear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Confirmar bloqueo");
-                builder.setMessage("¿Estás seguro de que quieres bloquear a este usuario?");
 
-                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        bloquearUsuario();
-                    }
-                });
+    }
 
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // No hacer nada, simplemente cerrar el diálogo
-                        dialog.dismiss();
-                    }
-                });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_chat, menu);
+        return true;
+    }
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_bloquear) {
+            // Acción para el botón Bloquear
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Confirmar bloqueo");
+            builder.setMessage("¿Estás seguro de que quieres bloquear a este usuario?");
+
+            builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    bloquearUsuario();
+                }
+            });
+
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+            return true;
+        } else if (id == R.id.action_limpiar_chat) {
+            // Acción para el botón Limpiar Chat
+            limpiarChat();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void bloquearUsuario(){

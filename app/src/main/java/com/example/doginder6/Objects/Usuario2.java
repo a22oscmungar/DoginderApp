@@ -24,13 +24,9 @@ public class Usuario2 implements Parcelable {
     public String raza;
     public String terreno;
     public String tamano;
+    public String imgProfile;
 
-
-    /*public Usuario2(Ubi ubiUsu) {
-        this.ubiUsu = ubiUsu;
-    }*/
-
-    public Usuario2(int idUsu, Ubi ubi, String nombreUsu, String apellidosUsu, String mailUsu, String pass, String genero, int edadUsu, int mascotaId, String nombre, int edad, String sexo, String foto, String descripcion, String relacionHumanos, String relacionMascotas, int idHumano, String raza, String terreno, String tamano){
+    public Usuario2(int idUsu, Ubi ubi, String nombreUsu, String apellidosUsu, String mailUsu, String pass, String genero, int edadUsu, int mascotaId, String nombre, int edad, String sexo, String foto, String descripcion, String relacionHumanos, String relacionMascotas, int idHumano, String raza, String terreno, String tamano, String imgProfile){
         this.idUsu = idUsu;
         this.ubiUsu = ubi;
         this.nombreUsu = nombreUsu;
@@ -51,6 +47,7 @@ public class Usuario2 implements Parcelable {
         this.raza = raza;
         this.terreno = terreno;
         this.tamano = tamano;
+        this.imgProfile = imgProfile;
     }
 
     @Override
@@ -80,6 +77,7 @@ public class Usuario2 implements Parcelable {
         dest.writeString(raza);
         dest.writeString(terreno);
         dest.writeString(tamano);
+        dest.writeString(imgProfile);
     }
 
     public static final Parcelable.Creator<Usuario2> CREATOR = new Parcelable.Creator<Usuario2>() {
@@ -115,6 +113,7 @@ public class Usuario2 implements Parcelable {
         raza = in.readString();
         terreno = in.readString();
         tamano = in.readString();
+        imgProfile = in.readString();
     }
 
     public static class Ubi implements Parcelable{
@@ -258,6 +257,12 @@ public class Usuario2 implements Parcelable {
         return tamano;
     }
 
+    public String getImgProfile() {
+        return imgProfile;
+    }
+
+
+
 
     @Override
     public String toString() {
@@ -280,6 +285,7 @@ public class Usuario2 implements Parcelable {
                 ", relacionMascotas='" + relacionMascotas + '\'' +
                 ", idHumano=" + idHumano +
                 ", raza='" + raza + '\'' +
+                ", imgProfile='" + imgProfile + '\'' +
                 '}';
     }
 }

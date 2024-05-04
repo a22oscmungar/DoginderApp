@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="150px"
             android:hint="@string/etCorreoElectronico"
-            android:text="oscarmuga2008@gmail.com"
+            android:text="anniamo14@gmail.com"
             android:layout_marginHorizontal="50dp"
             android:backgroundTint="@color/naranjaMain"
             />
@@ -81,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="150px"
             android:hint="@string/etContrasena"
-            android:text="12345"
+            android:text="Disculpitas"
             android:inputType="textPassword"
             android:layout_marginHorizontal="50dp"
             android:backgroundTint="@color/naranjaMain"

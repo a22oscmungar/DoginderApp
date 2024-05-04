@@ -1,5 +1,8 @@
 package com.example.doginder6.Activities;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentContainerView;
@@ -23,6 +26,9 @@ import com.example.doginder6.Objects.UserRequest;
 import com.example.doginder6.Objects.Usuario2;
 import com.example.doginder6.R;
 import com.example.doginder6.Helpers.doginderAPI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.GsonBuilder;
 
 import retrofit2.Call;
@@ -45,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        registrarDispositivo();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -101,6 +108,22 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void registrarDispositivo(){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        Log.d(TAG, "Token: "+ token);
+                    }
+                });
+    }
 
     // método para hacer login
     public void login(){
@@ -143,6 +166,8 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putInt("id", user.getIdUsu());
                         editor.apply();
 
+                        Log.d("pruebaLogin", user.toString());
+
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                     }else{
@@ -157,4 +182,6 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
     }
+
+
 }

@@ -5,154 +5,195 @@
     android:layout_width="match_parent"
     android:layout_gravity="center"
     android:gravity="center"
-
-
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_margin="15dp"
-        app:cardElevation="5dp"
-        app:cardCornerRadius="15dp"
-        android:backgroundTint="@color/naranjaFlojo"
+        android:layout_height="650dp"
         android:background="@color/naranjaFlojo"
-        >
-            <LinearLayout
+        android:backgroundTint="@color/naranjaFlojo"
+        app:cardCornerRadius="50dp"
+        android:layout_marginHorizontal="15dp"
+        app:cardElevation="10dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="600dp"
             android:gravity="center"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnUser"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/baseline_accessibility_new_24" />
+
+
+                <ImageButton
+                    android:id="@+id/btnMas"
+                    android:layout_width="50dp"
+                    android:layout_height="60dp"
+                    android:visibility="gone"
+                    android:src="@drawable/baseline_add_circle_outline_24" />
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="25dp"
+                android:scrollbars="none">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="2"
-                    android:orientation="horizontal">
-                    <ImageButton
-                        android:id="@+id/btnUser"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/baseline_accessibility_new_24"/>
-                    <TextView
-                        android:id="@+id/tvNombreMascota"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="NombreMascota"
-                        android:textSize="20sp"
-                        android:textAlignment="center"
-                        android:layout_weight="1.60"
-                        android:layout_gravity="center_horizontal"
-                        android:padding="15dp"/>
-                    <ImageButton
-                        android:id="@+id/btnMas"
-                        android:layout_width="50dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="0.40"
-                        android:src="@drawable/baseline_add_circle_outline_24"
-                        android:layout_gravity="end"/>
-                </LinearLayout>
+                    android:orientation="vertical">
 
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    android:layout_margin="15dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/image"
+                            android:layout_width="match_parent"
+                            android:layout_height="350dp"
+                            android:layout_margin="15dp"
+                            android:backgroundTint="@color/white"
+                            android:scaleType="centerCrop"
+                            app:shapeAppearanceOverlay="@style/Shape"
+                            app:srcCompat="@drawable/two" />
+
+                        <ImageView
+                            android:id="@+id/ivGeneroMascota"
+                            android:layout_width="250px"
+                            android:layout_height="250px"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"/>
+
+                        <TextView
+                            android:id="@+id/tvNombreMascota"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:text="NombreMascota"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/white"
+                            android:textSize="40sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="295dp"
+                            android:layout_marginStart="20dp"/>
+
+                    </FrameLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="270dp"
-                            android:id="@+id/image"
-                            android:backgroundTint="@color/white"
-                            android:layout_margin="15dp"
-                            app:srcCompat="@drawable/two"
-                            android:scaleType="centerCrop"
-                            app:shapeAppearanceOverlay="@style/Shape"
-                            />
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:id="@+id/tvEdad"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Edad: "
-                                android:layout_weight="1"
-                                android:textAlignment="center"
-                                android:textSize="15sp"
-                                android:padding="15dp"/>
-                            <TextView
-                                android:id="@+id/tvRaza"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Raza"
-                                android:textSize="15sp"
-                                android:textAlignment="center"
-                                android:layout_weight="1"
-                                android:layout_gravity="center_horizontal"
-                                android:paddingTop="15dp"/>
-                            <TextView
-                                android:id="@+id/tvSexo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sexo"
-                                android:layout_weight="1"
-                                android:textAlignment="center"
-                                android:textSize="15sp"
-                                android:padding="15dp"/>
-                        </LinearLayout>
+                        android:weightSum="3"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/rounded_image"
-                            android:layout_margin="15dp"
-                            android:backgroundTint="@color/white">
-                            <TextView
-                                android:id="@+id/tvDescripcion"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textSize="13sp"
-                                android:padding="15dp"
-                                android:textAlignment="textStart"/>
-                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvEdad"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_mensaje"
+                            android:text="EDAD"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="15dp"
-                            android:orientation="vertical">
-                            <TextView
-                                android:id="@+id/tvRelacionMascotas"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="13sp"
-                                android:textAlignment="textStart"
-                                android:layout_marginBottom="10dp"/>
-                            <TextView
-                                android:id="@+id/tvRelacionHumanos"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="13sp"
-                                android:textAlignment="textStart"/>
-                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvRaza"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_mensaje"
+                            android:text="TERRENO"
+                            android:layout_marginHorizontal="25dp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
 
+                        <TextView
+                            android:id="@+id/tvTamano"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_mensaje"
+                            android:text="TAMAÑO"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
                     </LinearLayout>
-                </ScrollView>
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        android:background="@drawable/descripcion_card">
+
+                        <TextView
+                            android:id="@+id/tvDescripcion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="15dp"
+                            android:textColor="@color/black"
+                            android:textAlignment="textStart"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="25dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvRelacionMascotas"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:textAlignment="center"
+                            android:textSize="15sp"
+                            android:padding="20dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:background="@drawable/background_mensaje"/>
+
+                        <TextView
+                            android:id="@+id/tvRelacionHumanos"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="15sp"
+                            android:padding="20dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:background="@drawable/background_mensaje"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:weightSum="2"
+            android:layout_height="60dp"
             android:layout_gravity="bottom"
-            android:orientation="horizontal"
             android:layout_marginBottom="30dp"
-            android:layout_height="100dp">
+            android:orientation="horizontal"
+            android:weightSum="2">
+
             <ImageButton
                 android:id="@+id/btnNo"
                 android:layout_width="50dp"
@@ -160,17 +201,17 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="#ffffff"
-                android:src="@drawable/clear_24"/>
+                android:src="@drawable/clear_24" />
 
             <ImageButton
                 android:id="@+id/btnSi"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:background="#ffffff"
 
-                android:src="@drawable/check_24"/>
+                android:src="@drawable/check_24" />
         </LinearLayout>
 
 

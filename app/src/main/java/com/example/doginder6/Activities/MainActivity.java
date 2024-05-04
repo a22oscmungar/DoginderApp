@@ -1,9 +1,21 @@
 package com.example.doginder6.Activities;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -53,6 +65,11 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
     public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
     public final String URL2 = "http://192.168.19.159:3745/";
     public String socketId;
+    private static final String CHANNEL_ID = "match_notification_channel";
+    public static final String CHANNEL_NAME = "Match Notification";
+    public static final String CHANNEL_DESCRIPTION = "Notificación de match";
+    public static final int NOTIFICATION_ID = 1;
+    public static Context context;
 
 
     @Override
@@ -60,7 +77,20 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        askNotificationPermission();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
         configurarSocket();
+
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Swipe"));
@@ -75,11 +105,9 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.d("FragmentSwiper", "onTabSelected" + tab.getPosition());
+                //Log.d("FragmentSwiper", "onTabSelected" + tab.getPosition());
                 switch (tab.getPosition()) {
                     case 0:
-                        Log.d("FragmentSwiper", "FragmentSwiper");
-
                         // Cargar el primer fragmento
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new FragmentSwiper())
@@ -123,6 +151,34 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         }
     }
 
+    // Declare the launcher at the top of your Activity/Fragment:
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // FCM SDK (and your app) can post notifications.
+                } else {
+                    // TODO: Inform user that that your app will not show notifications.
+                }
+            });
+
+    private void askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                // TODO: display an educational UI explaining to the user the features that will be enabled
+                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+                //       If the user selects "No thanks," allow the user to continue without notifications.
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+    }
+
     @Override
     public void onDestroy() {
 
@@ -130,13 +186,13 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         socketManager.disconnect();
     }
 
-    public void updateSocket(){
-        Log.d("socket", "updateSocket funcion");
+    public void updateSocket() {
+
         SharedPreferences preferences = getSharedPreferences("credenciales", MODE_PRIVATE);
         int id = preferences.getInt("id", 0);
 
         socketId = socketManager.getSocketId();
-        Log.d("pruebaSocket", "updateSocket funcion: " + socketId);
+
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
@@ -148,14 +204,14 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Log.d("socket", "socket actualizado");
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.d("socket", "onFailure: "+ t.getMessage());
+                Log.d("socket", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -190,7 +246,30 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
     public void onMatch() {
         Toast.makeText(this, "¡Match!", Toast.LENGTH_SHORT).show();
         socketManager.notifyMatch(); // Asegúrate de agregar esto
+
+        Log.d("pruebaMatch", "onMatch");
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                .setSmallIcon(R.drawable.notificacion)
+                .setContentTitle("Nuevo match!")
+                .setContentText("Has hecho match con alguien!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+
     }
+
 
     private Emitter.Listener nuevoMatch = new Emitter.Listener() {
         @Override
@@ -198,7 +277,23 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    Log.d("pruebaMatch", "Nuevo Match");
+
                     Toast.makeText(getApplicationContext(), "Nuevo match!", Toast.LENGTH_SHORT).show();
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                            .setSmallIcon(R.drawable.notificacion)
+                            .setContentTitle("Nuevo match!")
+                            .setContentText("Has hecho match con alguien!")
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                        Log.d("pruebaMatch", "No tiene permisos");
+                        return;
+                    }
+                    notificationManager.notify(NOTIFICATION_ID, builder.build());
+
+
                 }
             });
         }
