@@ -273,6 +273,26 @@
                             android:hint="@string/etEdad"
                             android:inputType="number"
                             android:backgroundTint="@color/naranjaMain"/>
+
+                        <!-- imagen -->
+                        <ImageView
+                            android:id="@+id/ivImgProfile"
+                            android:layout_width="250dp"
+                            android:layout_height="250dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/nueva_imagen"
+                            android:background="@drawable/rounded_image"
+                            android:layout_margin="50px"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnFotoPerfil"
+                            android:layout_width="match_parent"
+                            android:layout_height="39dp"
+                            android:background="@drawable/rounded_image"
+                            android:backgroundTint="@color/naranjaBotones"
+                            android:text="@string/btnImagen"
+                            android:textColor="@color/white" />
+
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btnSiguiente"
                             android:layout_width="100dp"

@@ -54,7 +54,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    Button btnSiguiente, btnFoto, btnRegistro, btnConfirmarMail, btnPass;
+    Button btnSiguiente, btnFoto, btnFotoPerfil, btnRegistro, btnConfirmarMail, btnPass;
     EditText etName, etSurname, etMail1, etMail2, etPass1, etPass2, etNombreMascota, etDescripcion, etEdadPerro, etEdadPersona;
     TextView tvSexo, tvRelacionPersonas, tvRelacionMascotas;
     int edadPerro, edadPersona;
@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView oLogin, tvSobreTi, tvNombre, tvApellidos, tvMail, tvMail2, tvContrasena, tvContrasena2, tvGenero, tvEdad, tvSobreMascota;
 
     com.example.doginder6.Helpers.doginderAPI doginderAPI;
-    ImageView ivFoto, ojo1, ojo2;
+    ImageView ivFoto, ojo1, ojo2, ivFotoPerfil;
     double latitude = 0.0;
     double longitude = 0.0;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
@@ -74,6 +74,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     Uri imageUri;
+    Uri imageUriPerfil;
+    private static final int PICK_IMAGE_REQUEST_USER = 1; // Código de solicitud para la imagen del usuario
+    private static final int PICK_IMAGE_REQUEST_PROFILE = 2; // Código de solicitud para la imagen del perfil
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +124,15 @@ public class RegisterActivity extends AppCompatActivity {
         ojo1 = findViewById(R.id.ojo1);
         ojo2 = findViewById(R.id.ojo2);
         tvSobreMascota = findViewById(R.id.tvSobreMascota);
+        ivFotoPerfil = findViewById(R.id.ivImgProfile);
+        btnFotoPerfil = findViewById(R.id.btnFotoPerfil);
+
+        // Para la foto de perfil
+        btnFotoPerfil.setOnClickListener(v -> {
+            openFileChooser(PICK_IMAGE_REQUEST_PROFILE);
+        });
+
+
 
         //listener para ver la contraseña o esconderla
         ojo1.setOnClickListener(v -> {
@@ -355,8 +368,9 @@ public class RegisterActivity extends AppCompatActivity {
                 etEdadPerro.setVisibility(View.VISIBLE);
                 rgSexoPerro.setVisibility(View.VISIBLE);
 
+                // Para la foto de la mascota
                 btnFoto.setOnClickListener(v3 -> {
-                    openFileChooser();
+                    openFileChooser(PICK_IMAGE_REQUEST_USER);
                 });
             }else{
                 Toast.makeText(this, "Las contraseñas no coinciden!", Toast.LENGTH_SHORT).show();
@@ -368,11 +382,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     //funcion para abrir el explorador de archivos
-    private void openFileChooser() {
+    private void openFileChooser(int requestCode) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        startActivityForResult(intent, requestCode);
     }
 
     //funcion para registrar al usuario
@@ -382,6 +396,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Convertir otros campos a RequestBody
         if (file == null || !file.exists()) {
+            Toast.makeText(this, "La imagen seleccionada no es válida", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        File filePerfil = new File(getRealPathFromURI(imageUriPerfil));
+
+        if (filePerfil == null || !filePerfil.exists()) {
             Toast.makeText(this, "La imagen seleccionada no es válida", Toast.LENGTH_LONG).show();
             return;
         }
@@ -416,6 +437,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         //la imagen tiene que ser un multipart
         MultipartBody.Part imagenPart = MultipartBody.Part.createFormData("imagenFile", file.getName(), imageRequestBody);
+        MultipartBody.Part imagenPartPerfil = MultipartBody.Part.createFormData("imagenFile", filePerfil.getName(), imageRequestBody);
 
         Log.d("pruebaFoto", imageRequestBody.toString());
         Log.d("pruebaRegister", nameRequestBody.toString() + " " + latitudeRequestBody.toString() + " " + longitudeRequestBody.toString() + " " + surnameRequestBody.toString() + " " + imagenPart.toString());
@@ -429,7 +451,7 @@ public class RegisterActivity extends AppCompatActivity {
         doginderAPI = retrofit.create(doginderAPI.class);
 
         // Utilizar directamente los RequestBody en lugar de userRequestBody
-        Call<Void> call = doginderAPI.registerUser(nameRequestBody, latitudeRequestBody, longitudeRequestBody, surnameRequestBody, mailRequestBody, passRequestBody, edadPersonaRequestBody, sexoPersonaRequestBody, nombreMascotaRequestBody, edadPerroRequestBody, sexoPerroRequestBody, razaRequestBody, descripcionRequestBody, relacionMascotasRequestBody, relacionPersonasRequestBody, imagenPart);
+        Call<Void> call = doginderAPI.registerUser(nameRequestBody, latitudeRequestBody, longitudeRequestBody, surnameRequestBody, mailRequestBody, passRequestBody, edadPersonaRequestBody, sexoPersonaRequestBody, nombreMascotaRequestBody, edadPerroRequestBody, sexoPerroRequestBody, razaRequestBody, descripcionRequestBody, relacionMascotasRequestBody, relacionPersonasRequestBody, imagenPart, imagenPartPerfil);
 
         call.enqueue(new Callback<Void>() {
             @Override
@@ -567,13 +589,19 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            imageUri = data.getData();
-
-            // Actualiza el ImageView con la imagen seleccionada
-            ivFoto.setImageURI(imageUri);
-
-            // Puedes agregar más código aquí si necesitas realizar alguna acción adicional con la imagen seleccionada
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_IMAGE_REQUEST_USER && data != null && data.getData() != null) {
+                // Se seleccionó una imagen para el usuario
+                imageUri = data.getData();
+                ivFoto.setImageURI(imageUri);
+            } else if (requestCode == PICK_IMAGE_REQUEST_PROFILE && data != null && data.getData() != null) {
+                // Se seleccionó una imagen para el perfil
+                imageUriPerfil = data.getData();
+                ivFotoPerfil.setImageURI(imageUriPerfil);
+            }
         }
+
+        Log.d("pruebaImagenes", "Mascota: " + imageUri + " Perfil: " + imageUriPerfil);
     }
+
 }
