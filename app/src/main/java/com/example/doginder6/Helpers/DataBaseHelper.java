@@ -214,7 +214,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         int idHumano = cursorMascota.getInt(idHumanoIndex);
 
                         // Crea un objeto Usuario2 con los datos de ambas tablas
-                        usuario2 = new Usuario2(idUsu, new Usuario2.Ubi(latitud, longitud), nombreUsu, apellidosUsu, mailUsu, pass, genero, edadUsu, mascotaId, nombreMascota, edadMascota, sexoMascota, descripcionMascota, fotoMascota, relacionHumanos, relacionMascotas, idHumano, raza,"Ciudad", "Mediano", imgProfile);
+                        usuario2 = new Usuario2(idUsu, new Usuario2.Ubi(latitud, longitud), nombreUsu, apellidosUsu, mailUsu, pass, genero, edadUsu, mascotaId, nombreMascota, edadMascota, sexoMascota, descripcionMascota, fotoMascota, relacionHumanos, relacionMascotas, idHumano, raza, "Mediano", imgProfile);
                         Log.d("usuario", usuario2.toString());
                     }
 

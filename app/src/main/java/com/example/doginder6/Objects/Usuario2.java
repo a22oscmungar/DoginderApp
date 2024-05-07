@@ -22,11 +22,10 @@ public class Usuario2 implements Parcelable {
     public String relacionMascotas;
     public int idHumano;
     public String raza;
-    public String terreno;
     public String tamano;
     public String imgProfile;
 
-    public Usuario2(int idUsu, Ubi ubi, String nombreUsu, String apellidosUsu, String mailUsu, String pass, String genero, int edadUsu, int mascotaId, String nombre, int edad, String sexo, String foto, String descripcion, String relacionHumanos, String relacionMascotas, int idHumano, String raza, String terreno, String tamano, String imgProfile){
+    public Usuario2(int idUsu, Ubi ubi, String nombreUsu, String apellidosUsu, String mailUsu, String pass, String genero, int edadUsu, int mascotaId, String nombre, int edad, String sexo, String foto, String descripcion, String relacionHumanos, String relacionMascotas, int idHumano, String raza, String tamano, String imgProfile){
         this.idUsu = idUsu;
         this.ubiUsu = ubi;
         this.nombreUsu = nombreUsu;
@@ -45,7 +44,6 @@ public class Usuario2 implements Parcelable {
         this.relacionMascotas = relacionMascotas;
         this.idHumano = idHumano;
         this.raza = raza;
-        this.terreno = terreno;
         this.tamano = tamano;
         this.imgProfile = imgProfile;
     }
@@ -75,7 +73,6 @@ public class Usuario2 implements Parcelable {
         dest.writeString(relacionMascotas);
         dest.writeInt(idHumano);
         dest.writeString(raza);
-        dest.writeString(terreno);
         dest.writeString(tamano);
         dest.writeString(imgProfile);
     }
@@ -111,7 +108,6 @@ public class Usuario2 implements Parcelable {
         relacionMascotas = in.readString();
         idHumano = in.readInt();
         raza = in.readString();
-        terreno = in.readString();
         tamano = in.readString();
         imgProfile = in.readString();
     }
@@ -247,10 +243,6 @@ public class Usuario2 implements Parcelable {
 
     public String getRaza() {
         return raza;
-    }
-
-    public String getTerreno() {
-        return terreno;
     }
 
     public String getTamano() {

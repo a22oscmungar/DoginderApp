@@ -46,6 +46,10 @@ public interface doginderAPI {
     @GET("/users/nearby")
     Call<List<Usuario2>> getNearbyUsers(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("radius") int radius, @Query("idUsu") int idUsu);
 
+    @GET("/users/nearbyAll")
+    Call<List<Usuario2>> getNearbyUsersAll(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("radius") int radius, @Query("idUsu") int idUsu);
+
+
     @POST("/login")
     Call<Usuario2> loginUser(@Body UserRequest userRequest);
 
@@ -72,4 +76,7 @@ public interface doginderAPI {
 
     @POST("/bloquearUsuario")
     Call<Void> bloquearUsuario(@Body BloquearUsuario bloquearUsuario);
+
+    @GET("/getNo")
+    Call<List<Usuario2>> getNo(@Query("idUsu") int idUsu);
 }

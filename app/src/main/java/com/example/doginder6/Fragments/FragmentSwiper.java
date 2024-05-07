@@ -1,25 +1,36 @@
 package com.example.doginder6.Fragments;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doginder6.Helpers.LocationHelper;
+import com.example.doginder6.Helpers.UserNoAdapter;
 import com.example.doginder6.Objects.Usuario2;
 import com.example.doginder6.R;
 import com.example.doginder6.Helpers.SwipeAdapter;
@@ -27,6 +38,7 @@ import com.example.doginder6.Helpers.doginderAPI;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.GsonBuilder;
 import com.yalantis.library.Koloda;
 
@@ -55,6 +67,7 @@ public class FragmentSwiper extends Fragment {
     private LocationHelper locationHelper;
     View rootView;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,9 +79,18 @@ public class FragmentSwiper extends Fragment {
         koloda = rootView.findViewById(R.id.koloda);
         btnFiltro = rootView.findViewById(R.id.btnFiltro);
 
+        setHasOptionsMenu(true); // Indica que este fragmento tiene un menú de opciones
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
         //escondemos por defecto la distancia
         btnBuscar.setVisibility(View.GONE);
         etDistancia.setVisibility(View.GONE);
+
+
 
         //listener para el botón de filtro
         btnFiltro.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +133,50 @@ public class FragmentSwiper extends Fragment {
         return rootView;
     }
 
-    ;
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_swiper, menu); // Infla el menú de opciones en la barra de herramientas
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // Maneja los eventos de clic en los elementos del menú
+        switch (item.getItemId()) {
+            case R.id.seeAll:
+                // Maneja la acción de búsqueda
+                AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+                builder.setTitle("Ver todos");
+                builder.setMessage("¿Quieres incluir a los usuarios a los que has rechazado?");
+                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Mostrar todos los usuarios
+                        Toast.makeText(getContext(), "Ver todos", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Mostrar solo los usuarios que no has rechazado
+                        Toast.makeText(getContext(), "Ver solo los que no has rechazado", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                // Mostrar el diálogo
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+                return true;
+            case R.id.unblock:
+                getNo();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     //callback para recibir los usuarios
     public interface UserCallback {
@@ -235,6 +300,98 @@ public class FragmentSwiper extends Fragment {
             }
         }
     }
+
+    public void getNo(){
+        retrofit = new Retrofit.Builder()
+                .baseUrl("http://doginder.dam.inspedralbes.cat:3745/")
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .build();
+
+        doginderAPI = retrofit.create(doginderAPI.class);
+
+        SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
+        int idUsu = preferences.getInt("id", 0);
+
+        Call<List<Usuario2>> call = doginderAPI.getNo(idUsu);
+
+        call.enqueue(new Callback<List<Usuario2>>() {
+            @Override
+            public void onResponse(Call<List<Usuario2>> call, Response<List<Usuario2>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("prueba", "onResponse getNo: " + response.body());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+                    builder.setTitle("¿Una segunda oportunidad?");
+
+                    // Crear RecyclerView y configurar el adaptador
+                    RecyclerView recyclerView = new RecyclerView(rootView.getContext());
+                    recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
+                    UserNoAdapter adapter = new UserNoAdapter(response.body(), rootView.getContext());
+                    recyclerView.setAdapter(adapter);
+
+                    builder.setView(recyclerView);
+
+                    // boton para cerrar el dialogo
+                    builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    // Mostrar el diálogo
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                } else {
+                    Log.d("prueba", "onResponse: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Usuario2>> call, Throwable t) {
+                Log.d("prueba", "onFailure: " + t.getMessage());
+            }
+        });
+
+    }
+
+    /*public void showMascotasDialog(List<Usuario2> usuarios) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Mascotas");
+
+        // Crear una vista personalizada para cada elemento en el diálogo
+        List<View> items = new ArrayList<>();
+        for (Usuario2 usuario : usuarios) {
+            View itemView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_item_layout, null);
+            TextView tvMascota = itemView.findViewById(R.id.tvMascota);
+            Button btnSaludar = itemView.findViewById(R.id.btnSaludar);
+
+            // Establecer el nombre de la mascota en el TextView
+            tvMascota.setText(usuario.getNombre());
+
+            // Establecer un Listener para el botón
+            btnSaludar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Mostrar un toast con el nombre de la mascota seleccionada
+                    String nombreMascota = usuario.getNombre();
+                    Toast.makeText(getContext(), "Hola " + nombreMascota, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            // Agregar la vista personalizada a la lista de elementos
+            items.add(itemView);
+        }
+
+        // Convertir la lista de vistas a un arreglo
+        View[] itemsArray = items.toArray(new View[0]);
+
+        // Establecer las vistas personalizadas en el diálogo
+        builder.setItems(itemsArray, null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }*/
+
 
     // Método para obtener la última ubicación conocida
     private void getLastLocation() {

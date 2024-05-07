@@ -11,14 +11,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="25dp">
+        android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnFiltro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:background="@drawable/filtro"
+            android:layout_marginTop="-50dp"
+
+            android:layout_marginHorizontal="25dp"
             android:contentDescription="Boton para filtrar por distancia"
             />
 
@@ -38,14 +48,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Buscar"
-            android:id="@+id/btnBuscar"/>
+            android:id="@+id/btnBuscar"
+            />
         <com.yalantis.library.Koloda
             android:id="@+id/koloda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-
-            app:koloda_card_layout="@layout/item_koloda" />
+            app:koloda_card_layout="@layout/item_koloda"
+            />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnRegistro"
@@ -53,6 +64,8 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:text="IR AL REGISTRO"/>
+
+
 
 
     </LinearLayout>
