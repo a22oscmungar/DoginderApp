@@ -9,12 +9,14 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +40,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.GsonBuilder;
 import com.yalantis.library.Koloda;
 
+import java.io.IOException;
 import java.util.List;
 
 import io.socket.emitter.Emitter;
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
     public SocketManager socketManager;
     public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
     public final String URL2 = "http://192.168.19.159:3745/";
-    public String socketId;
+    public static String socketId;
     private static final String CHANNEL_ID = "match_notification_channel";
     public static final String CHANNEL_NAME = "Match Notification";
     public static final String CHANNEL_DESCRIPTION = "Notificación de match";
@@ -186,34 +189,34 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         socketManager.disconnect();
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void updateSocket() {
-
-        SharedPreferences preferences = getSharedPreferences("credenciales", MODE_PRIVATE);
-        int id = preferences.getInt("id", 0);
-
-        socketId = socketManager.getSocketId();
-
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
-                .build();
-
-        doginderAPI = retrofit.create(doginderAPI.class);
-        Call<Void> call = doginderAPI.socketUpdate(id, socketId);
-        call.enqueue(new Callback<Void>() {
+        new AsyncTask<Void, Void, Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Log.d("socket", "socket actualizado");
+            protected Void doInBackground(Void... voids) {
+                try {
+                    SharedPreferences preferences = getSharedPreferences("credenciales", MODE_PRIVATE);
+                    int id = preferences.getInt("id", 0);
+
+                    socketId = socketManager.getSocketId();
+
+                    retrofit = new Retrofit.Builder()
+                            .baseUrl(URL)
+                            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                            .build();
+
+                    doginderAPI = retrofit.create(doginderAPI.class);
+                    Call<Void> call = doginderAPI.socketUpdate(id, socketId);
+                    Response<Void> response = call.execute();
+                    if (response.isSuccessful()) {
+                        Log.d("socket", "socket actualizado");
+                    }
+                } catch (IOException e) {
+                    Log.d("socket", "Error al actualizar el socket: " + e.getMessage());
                 }
+                return null;
             }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Log.d("socket", "onFailure: " + t.getMessage());
-            }
-        });
+        }.execute();
     }
 
 

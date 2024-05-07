@@ -2,8 +2,11 @@ package com.example.doginder6.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +16,8 @@ import android.widget.Toast;
 import com.example.doginder6.R;
 import com.example.doginder6.Helpers.doginderAPI;
 import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -73,69 +78,80 @@ public class RecoveryPassActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void enviarMail(String email) {
-        //aqui haremos la peticion por retrofit a la ruta /sendMail enviando por body el email
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
-                .build();
-
-        EmailRequest emailRequest = new EmailRequest(email);
-
-
-        doginderAPI = retrofit.create(doginderAPI.class);
-
-        Call<Void> call = doginderAPI.sendMail(emailRequest);
-
-        call.enqueue(new Callback<Void>() {
+        new AsyncTask<String, Void, Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    //si la respuesta es correcta mostramos un toast
-                    Toast.makeText(RecoveryPassActivity.this, "Email enviado", Toast.LENGTH_SHORT).show();
+            protected Void doInBackground(String... emails) {
+                try {
+                    String email = emails[0];
+                    retrofit = new Retrofit.Builder()
+                            .baseUrl(URL)
+                            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                            .build();
 
+                    EmailRequest emailRequest = new EmailRequest(email);
 
-                    llEmail.setVisibility(View.GONE);
-                    llToken.setVisibility(View.VISIBLE);
-                    btnConfirmar.setOnClickListener(v -> {
-                        String tokenIntroducido = etToken.getText().toString();
-                        if (tokenIntroducido.isEmpty()) {
-                            etToken.setError("Introduce un token");
-                        } else {
-                           comprobarToken(tokenIntroducido);
-                        }
-                    });
+                    doginderAPI = retrofit.create(doginderAPI.class);
 
-                } else {
-                    //si la respuesta no es correcta mostramos un toast
-                    Toast.makeText(RecoveryPassActivity.this, "Error al enviar el email", Toast.LENGTH_SHORT).show();
+                    Call<Void> call = doginderAPI.sendMail(emailRequest);
+                    call.execute(); // Ejecuta la llamada de forma síncrona para enviar el correo electrónico
+                } catch (IOException e) {
+                    Log.e("Error", "Error al enviar el email: " + e.getMessage());
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                // Aquí puedes agregar cualquier lógica que necesites después de enviar el correo electrónico,
+                // como mostrar un mensaje o cambiar la interfaz de usuario.
+                Toast.makeText(RecoveryPassActivity.this, "Email enviado", Toast.LENGTH_SHORT).show();
+                llEmail.setVisibility(View.GONE);
+                llToken.setVisibility(View.VISIBLE);
+                btnConfirmar.setOnClickListener(v -> {
+                    String tokenIntroducido = etToken.getText().toString();
+                    if (tokenIntroducido.isEmpty()) {
+                        etToken.setError("Introduce un token");
+                    } else {
+                        comprobarToken(tokenIntroducido);
+                    }
+                });
+            }
+        }.execute(email);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void comprobarToken(String tokenIntroducido) {
+        new AsyncTask<String, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(String... params) {
+                try {
+                    String email = params[0];
+                    String token = params[1];
+
+                    retrofit = new Retrofit.Builder()
+                            .baseUrl(URL)
+                            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                            .build();
+
+                    doginderAPI = retrofit.create(doginderAPI.class);
+
+                    Call<Void> call = doginderAPI.checkToken(email, token);
+                    Response<Void> response = call.execute(); // Ejecuta la llamada de forma síncrona para comprobar el token
+
+                    return response.isSuccessful();
+                } catch (IOException e) {
+                    Log.e("Error", "Error al comprobar el token: " + e.getMessage());
+                    return false;
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                //si la peticion falla mostramos un toast
-                Toast.makeText(RecoveryPassActivity.this, "Error al enviar el email", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    public void comprobarToken(String tokenIntroducido){
-        retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
-                .build();
-
-        doginderAPI = retrofit.create(doginderAPI.class);
-
-        Call<Void> call = doginderAPI.checkToken(etEmail.getText().toString(), tokenIntroducido);
-
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
+            protected void onPostExecute(Boolean tokenCorrecto) {
+                super.onPostExecute(tokenCorrecto);
+                if (tokenCorrecto) {
                     Toast.makeText(RecoveryPassActivity.this, "Token correcto", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RecoveryPassActivity.this, ResetPasswordActivity.class);
                     intent.putExtra("mail", etEmail.getText().toString());
@@ -144,11 +160,6 @@ public class RecoveryPassActivity extends AppCompatActivity {
                     Toast.makeText(RecoveryPassActivity.this, "Token incorrecto", Toast.LENGTH_SHORT).show();
                 }
             }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(RecoveryPassActivity.this, "Error al comprobar el token", Toast.LENGTH_SHORT).show();
-            }
-        });
+        }.execute(etEmail.getText().toString(), tokenIntroducido);
     }
 }

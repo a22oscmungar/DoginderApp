@@ -19,11 +19,6 @@
             android:src="@drawable/banner_sin_back"
             android:layout_margin="15dp"
             />
-        <View
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/grisOscuro"/>
 
         <!-- titulo inicio sesion -->
         <TextView

@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doginder6.AsyncTasks.LoginTask;
 import com.example.doginder6.Helpers.DataBaseHelper;
 import com.example.doginder6.Objects.UserRequest;
 import com.example.doginder6.Objects.Usuario2;
@@ -125,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    // método para hacer login
+    /*// método para hacer login
     public void login(){
         // recogemos los datos de los campos
         String usuario = etUsuario.getText().toString();
@@ -181,7 +182,21 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
+    }*/
+
+    public void login() {
+        // recogemos los datos de los campos
+        String usuario = etUsuario.getText().toString();
+        String pass = etContrasena.getText().toString();
+
+        // comprobamos que los campos no estén vacíos
+        if (usuario.isEmpty()) {
+            Toast.makeText(this, "Introduce un nombre de usuario!", Toast.LENGTH_SHORT).show();
+        } else if (pass.isEmpty()) {
+            Toast.makeText(this, "Introduce una contraseña!", Toast.LENGTH_LONG).show();
+        } else {
+            // Ejecutar AsyncTask para realizar el login en segundo plano
+            new LoginTask(this, usuario, pass).execute();
+        }
     }
-
-
 }

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,8 +43,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.GsonBuilder;
 import com.yalantis.library.Koloda;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,11 +64,11 @@ public class FragmentSwiper extends Fragment {
     int distancia = 25;
     double latitude;
     double longitude;
-    com.example.doginder6.Helpers.doginderAPI doginderAPI;
+    static com.example.doginder6.Helpers.doginderAPI doginderAPI;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationHelper locationHelper;
-    View rootView;
+    static View rootView;
 
 
     @Nullable
@@ -124,7 +127,6 @@ public class FragmentSwiper extends Fragment {
             @Override
             public void onClick(View v) {
                 distancia = Integer.parseInt(etDistancia.getText().toString());
-                Log.d("prueba", "onCreate: " + distancia);
                 //koloda.reloadAdapterData();
                 llamarUsuarios();
             }
@@ -262,7 +264,6 @@ public class FragmentSwiper extends Fragment {
         //UserNearbyRequest userNearbyRequest = new UserNearbyRequest(41.3851, 2.1734, 15);
         //Location lastKnownLocation = locationHelper.getLastKnownLocation();
 
-        Log.d("prueba", "datos pre call: " + latitude + " " + longitude);
         SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
         int idUsu = preferences.getInt("id", 0);
         //Call<List<Usuario2>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia, idUsu);
@@ -274,6 +275,7 @@ public class FragmentSwiper extends Fragment {
             public void onResponse(Call<List<Usuario2>> call, Response<List<Usuario2>> response) {
                 if (response.isSuccessful()) {
                     callback.onUsersReceived(response.body());
+                    Log.d("TAG1", "onResponse: " + response.body());
                 } else {
                     callback.onFailure("Error en la respuesta: " + response.message());
                 }
@@ -301,31 +303,42 @@ public class FragmentSwiper extends Fragment {
         }
     }
 
-    public void getNo(){
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://doginder.dam.inspedralbes.cat:3745/")
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
-                .build();
-
-        doginderAPI = retrofit.create(doginderAPI.class);
-
-        SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
-        int idUsu = preferences.getInt("id", 0);
-
-        Call<List<Usuario2>> call = doginderAPI.getNo(idUsu);
-
-        call.enqueue(new Callback<List<Usuario2>>() {
+    public static void getNo() {
+        new AsyncTask<Void, Void, List<Usuario2>>() {
             @Override
-            public void onResponse(Call<List<Usuario2>> call, Response<List<Usuario2>> response) {
-                if (response.isSuccessful()) {
-                    Log.d("prueba", "onResponse getNo: " + response.body());
+            protected List<Usuario2> doInBackground(Void... voids) {
+                try {
+                    SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
+                    int idUsu = preferences.getInt("id", 0);
+
+                    // Realizar la llamada a la API en segundo plano
+                    Call<List<Usuario2>> call = doginderAPI.getNo(idUsu);
+                    Response<List<Usuario2>> response = call.execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } else {
+                        Log.d("prueba", "Error en la respuesta: " + response.message());
+                        return null;
+                    }
+                } catch (IOException e) {
+                    Log.d("prueba", "Error en la llamada: " + e.getMessage());
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(List<Usuario2> usuarios) {
+                super.onPostExecute(usuarios);
+                if (usuarios != null) {
+                    // Procesar la respuesta en el hilo principal
+                    Log.d("prueba", "onResponse getNo: " + usuarios);
                     AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                     builder.setTitle("¿Una segunda oportunidad?");
 
                     // Crear RecyclerView y configurar el adaptador
                     RecyclerView recyclerView = new RecyclerView(rootView.getContext());
                     recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-                    UserNoAdapter adapter = new UserNoAdapter(response.body(), rootView.getContext());
+                    UserNoAdapter adapter = new UserNoAdapter(usuarios, rootView.getContext());
                     recyclerView.setAdapter(adapter);
 
                     builder.setView(recyclerView);
@@ -341,56 +354,11 @@ public class FragmentSwiper extends Fragment {
                     // Mostrar el diálogo
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                } else {
-                    Log.d("prueba", "onResponse: " + response.message());
                 }
             }
-
-            @Override
-            public void onFailure(Call<List<Usuario2>> call, Throwable t) {
-                Log.d("prueba", "onFailure: " + t.getMessage());
-            }
-        });
-
+        }.execute();
     }
 
-    /*public void showMascotasDialog(List<Usuario2> usuarios) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Mascotas");
-
-        // Crear una vista personalizada para cada elemento en el diálogo
-        List<View> items = new ArrayList<>();
-        for (Usuario2 usuario : usuarios) {
-            View itemView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_item_layout, null);
-            TextView tvMascota = itemView.findViewById(R.id.tvMascota);
-            Button btnSaludar = itemView.findViewById(R.id.btnSaludar);
-
-            // Establecer el nombre de la mascota en el TextView
-            tvMascota.setText(usuario.getNombre());
-
-            // Establecer un Listener para el botón
-            btnSaludar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Mostrar un toast con el nombre de la mascota seleccionada
-                    String nombreMascota = usuario.getNombre();
-                    Toast.makeText(getContext(), "Hola " + nombreMascota, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            // Agregar la vista personalizada a la lista de elementos
-            items.add(itemView);
-        }
-
-        // Convertir la lista de vistas a un arreglo
-        View[] itemsArray = items.toArray(new View[0]);
-
-        // Establecer las vistas personalizadas en el diálogo
-        builder.setItems(itemsArray, null);
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }*/
 
 
     // Método para obtener la última ubicación conocida
@@ -406,14 +374,13 @@ public class FragmentSwiper extends Fragment {
             return;
         }
         fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
                             // Aquí obtienes la ubicación del usuario
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
-                            Log.d("prueba", "Es esta ubi: " + latitude + " " + longitude);
                             // Puedes hacer lo que necesites con la ubicación aquí
 
                             llamarUsuarios();

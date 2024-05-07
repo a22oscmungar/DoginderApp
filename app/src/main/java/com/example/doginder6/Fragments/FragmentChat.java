@@ -1,6 +1,8 @@
 package com.example.doginder6.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import com.example.doginder6.R;
 import com.example.doginder6.Helpers.doginderAPI;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,41 +66,52 @@ public class FragmentChat extends Fragment {
         return rootView;
     }
 
-    public void getMatches(int idUsu){
-        retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
-                .build();
-
-        doginderAPI = retrofit.create(doginderAPI.class);
-
-        Call<List<Usuario2>> call = doginderAPI.getMatches(idUsu);
-
-        call.enqueue(new Callback<List<Usuario2>>() {
+    @SuppressLint("StaticFieldLeak")
+    public void getMatches(int idUsu) {
+        new AsyncTask<Integer, Void, List<Usuario2>>() {
             @Override
-            public void onResponse(Call<List<Usuario2>> call, Response<List<Usuario2>> response) {
-                if (response.isSuccessful()){
-                    matches = response.body();
-                    chatAdapter.setChatItems(matches);
-                    if(matches.size() == 0) {
-                        noChats.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
-                    }else{
-                        noChats.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                    }
+            protected List<Usuario2> doInBackground(Integer... ids) {
+                try {
+                    int id = ids[0];
 
-                    Log.d("pruebaMatches", matches.toString());
-                }else{
-                    Toast.makeText(rootView.getContext(), "Ha habido un error al conseguir tus matches", Toast.LENGTH_SHORT).show();
-                    Log.d("errorMatches", response.message());
+                    retrofit = new Retrofit.Builder()
+                            .baseUrl(URL)
+                            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                            .build();
+
+                    doginderAPI = retrofit.create(doginderAPI.class);
+
+                    Call<List<Usuario2>> call = doginderAPI.getMatches(id);
+                    Response<List<Usuario2>> response = call.execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } else {
+                        Log.d("errorMatches", response.message());
+                        return null;
+                    }
+                } catch (IOException e) {
+                    Log.d("errorMatches", "Error al obtener los matches: " + e.getMessage());
+                    return null;
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Usuario2>> call, Throwable t) {
-                Toast.makeText(rootView.getContext(), "Ha habido un error con el servidor", Toast.LENGTH_SHORT).show();
+            protected void onPostExecute(List<Usuario2> matches) {
+                super.onPostExecute(matches);
+                if (matches != null) {
+                    chatAdapter.setChatItems(matches);
+                    if (matches.size() == 0) {
+                        noChats.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    } else {
+                        noChats.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                    Log.d("pruebaMatches", matches.toString());
+                } else {
+                    Toast.makeText(rootView.getContext(), "Ha habido un error al conseguir tus matches", Toast.LENGTH_SHORT).show();
+                }
             }
-        });
+        }.execute(idUsu);
     }
 }

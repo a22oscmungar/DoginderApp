@@ -33,7 +33,6 @@ public class FragmentPerfil extends Fragment {
 
         SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
         Usuario2 usuario = db.getUsuarioCompleto(preferences.getInt("id", 0));
-        Log.d("usuarioMiPerfil", usuario.toString());
 
         TextView nombre = rootView.findViewById(R.id.tvNombreMascota);
         ImageView foto = rootView.findViewById(R.id.ivFotoMascota);
@@ -55,7 +54,6 @@ public class FragmentPerfil extends Fragment {
         nombre.setText(usuario.getNombre().toUpperCase());
         nombre.setShadowLayer(5, 10, 10, R.color.black);
         String url = "http://doginder.dam.inspedralbes.cat:3745"+usuario.getDescripcion();
-        Log.d("url", url);
         //Picasso.get().load(url).error(R.drawable.two).into(foto);
 
         Glide.with(this)

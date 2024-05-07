@@ -2,8 +2,11 @@ package com.example.doginder6.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -11,6 +14,8 @@ import android.widget.Toast;
 import com.example.doginder6.Objects.ChangePass;
 import com.example.doginder6.R;
 import com.example.doginder6.Helpers.doginderAPI;
+
+import java.io.IOException;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -47,21 +52,33 @@ public class ResetPasswordActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void cambiarPass(String pass) {
-        retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        doginderAPI = retrofit.create(doginderAPI.class);
-
-
-        ChangePass changePass = new ChangePass(getIntent().getStringExtra("mail"), pass);
-        retrofit2.Call<Void> call = doginderAPI.changePass(changePass);
-
-        call.enqueue(new retrofit2.Callback<Void>() {
+        new AsyncTask<String, Void, Boolean>() {
             @Override
-            public void onResponse(retrofit2.Call<Void> call, retrofit2.Response<Void> response) {
-                if (response.isSuccessful()) {
+            protected Boolean doInBackground(String... params) {
+                try {
+                    retrofit = new Retrofit.Builder()
+                            .baseUrl(URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    doginderAPI = retrofit.create(doginderAPI.class);
+
+                    ChangePass changePass = new ChangePass(getIntent().getStringExtra("mail"), params[0]);
+                    retrofit2.Call<Void> call = doginderAPI.changePass(changePass);
+                    retrofit2.Response<Void> response = call.execute(); // Ejecutar la llamada de forma síncrona
+
+                    return response.isSuccessful();
+                } catch (IOException e) {
+                    Log.e("Error", "Error al cambiar la contraseña: " + e.getMessage());
+                    return false;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Boolean success) {
+                super.onPostExecute(success);
+                if (success) {
                     Toast.makeText(ResetPasswordActivity.this, "Contraseña cambiada correctamente", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
                     startActivity(intent);
@@ -69,13 +86,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     Toast.makeText(ResetPasswordActivity.this, "Error al cambiar la contraseña", Toast.LENGTH_SHORT).show();
                 }
             }
-
-            @Override
-            public void onFailure(retrofit2.Call<Void> call, Throwable t) {
-                Toast.makeText(ResetPasswordActivity.this, "Error al cambiar la contraseña", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        }.execute(pass);
     }
+
 
 }
