@@ -110,7 +110,7 @@ public class SwipeAdapter extends BaseAdapter {
         Picasso.get().load(url).error(R.drawable.two).into(imageView);
         //http://doginder.dam.inspedralbes.cat:3745/uploads/perro1.jpg
 
-        String añoString = (user.getEdad() > 1) ? " años" : " año";
+        //String añoString = (user.getEdad() > 1) ? " años" : " año";
 
         if(user.getSexo().equals("Hembra"))
             Glide.with(this.context)
@@ -123,7 +123,7 @@ public class SwipeAdapter extends BaseAdapter {
         }
 
         tvTamano.setText(user.getTamano());
-        tvEdad.setText(String.valueOf(user.getEdad()) + añoString);
+        tvEdad.setText(String.valueOf(user.getEdad()) + "años");
         tvRaza.setText(user.getRaza());
         tvDescripcion.setText(user.getDescripcion());
         tvRelacionMascotas.setText("Como se lleva con otras mascotas? " + user.getRelacionMascotas() );

@@ -48,7 +48,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     COLUMN_PASSUSU + " TEXT, " +
                     COLUMN_CORREUUSU + " TEXT, " +
                     COLUMN_COGNOMUSU + " TEXT, " +
-                    COLUMN_EDADUSU + " INTEGER, " +
+                    COLUMN_EDADUSU + " TEXT, " +
                     COLUMN_GENEROUSU + " TEXT, " +
                     COLUMN_LATITUDUSU + " REAL, " +
                     COLUMN_LONGITUDUSU + " REAL, " +
@@ -58,7 +58,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + TABLEMASC_NAME + " (" +
                     COLUMN_IDMASCO + " INTEGER PRIMARY KEY, " +
                     COLUMN_NOMMASCO + " TEXT, " +
-                    COLUMN_EDADMASCO + " INTEGER, " +
+                    COLUMN_EDADMASCO + " TEXT, " +
                     COLUMN_GENEROMASCO + " TEXT, " +
                     COLUMN_DESCRIPCIONMASCO + " TEXT, " +
                     COLUMN_FOTOMASCO + " TEXT, " +
@@ -171,7 +171,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 String pass = cursorUsuario.getString(passIndex);
                 String mailUsu = cursorUsuario.getString(mailUsuIndex);
                 String apellidosUsu = cursorUsuario.getString(apellidosUsuIndex);
-                int edadUsu = cursorUsuario.getInt(edadUsuIndex);
+                String edadUsu = cursorUsuario.getString(edadUsuIndex);
                 String genero = cursorUsuario.getString(generoIndex);
                 double latitud = cursorUsuario.getDouble(latitudIndex);
                 double longitud = cursorUsuario.getDouble(longitudIndex);
@@ -202,7 +202,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
                         int mascotaId = cursorMascota.getInt(mascotaIdIndex);
                         String nombreMascota = cursorMascota.getString(nombreMascotaIndex);
-                        int edadMascota = cursorMascota.getInt(edadMascotaIndex);
+                        String edadMascota = cursorMascota.getString(edadMascotaIndex);
                         String sexoMascota = cursorMascota.getString(sexoMascotaIndex);
                         String descripcionMascota = cursorMascota.getString(descripcionMascotaIndex);
                         String fotoMascota = cursorMascota.getString(fotoMascotaIndex);

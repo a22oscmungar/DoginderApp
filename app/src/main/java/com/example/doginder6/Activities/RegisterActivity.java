@@ -1,5 +1,7 @@
 package com.example.doginder6.Activities;
 
+import static java.security.AccessController.getContext;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -7,6 +9,8 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -24,7 +28,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -43,6 +49,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,12 +81,15 @@ public class RegisterActivity extends AppCompatActivity {
     double longitude = 0.0;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private FusedLocationProviderClient fusedLocationClient;
-
-    private static final int PICK_IMAGE_REQUEST = 1;
     Uri imageUri;
     Uri imageUriPerfil;
+    ImageButton btnDatePicker, btnDatePickerMascota;
+    long fechaNacimientoMillis;
+    String fechaNacimiento, fechaNachimientoMascota;
     private static final int PICK_IMAGE_REQUEST_USER = 1; // Código de solicitud para la imagen del usuario
     private static final int PICK_IMAGE_REQUEST_PROFILE = 2; // Código de solicitud para la imagen del perfil
+    public static final String url1 = "http://doginder.dam.inspedralbes.cat:3745";
+    public static final String url2 = "http://192.168.1.140:3745";
 
 
     @Override
@@ -129,10 +139,85 @@ public class RegisterActivity extends AppCompatActivity {
         tvSobreMascota = findViewById(R.id.tvSobreMascota);
         ivFotoPerfil = findViewById(R.id.ivImgProfile);
         btnFotoPerfil = findViewById(R.id.btnFotoPerfil);
+        btnDatePicker = findViewById(R.id.btnDatePicker);
+        btnDatePickerMascota = findViewById(R.id.btnDatePickerMascota);
 
         // Para la foto de perfil
         btnFotoPerfil.setOnClickListener(v -> {
             openFileChooser(PICK_IMAGE_REQUEST_PROFILE);
+        });
+
+        // Configura el OnClickListener para el botón
+        btnDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obtén la fecha actual para mostrarla en el DatePickerDialog
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+                // Crea un nuevo DatePickerDialog y configúralo
+                Context context = RegisterActivity.this;
+                DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        // Aquí puedes manejar la fecha seleccionada por el usuario
+                        // Por ejemplo, actualiza un TextView para mostrar la fecha seleccionada
+                        //String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                        String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+                        etEdadPersona.setText(selectedDate);
+
+                        // Convierte la fecha seleccionada a milisegundos
+                        Calendar selectedCalendar = Calendar.getInstance();
+                        selectedCalendar.set(year, month, dayOfMonth);
+                        fechaNacimientoMillis = selectedCalendar.getTimeInMillis();
+                        fechaNacimiento = year + "-" + (month + 1) + "-" + dayOfMonth;
+                        Log.d("prueba", "onDateSet: " + fechaNacimiento);
+
+                        // Ahora puedes utilizar fechaNacimientoMillis en otros lugares, como enviarlo a través de Retrofit
+                    }
+                }, year, month, dayOfMonth);
+
+                // Muestra el DatePickerDialog
+                datePickerDialog.show();
+            }
+        });
+
+        // Configura el OnClickListener para el botón
+        btnDatePickerMascota.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Obtén la fecha actual para mostrarla en el DatePickerDialog
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+                // Crea un nuevo DatePickerDialog y configúralo
+                Context context = RegisterActivity.this;
+                DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        // Aquí puedes manejar la fecha seleccionada por el usuario
+                        // Por ejemplo, actualiza un TextView para mostrar la fecha seleccionada
+                        //String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                        String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+                        etEdadPerro.setText(selectedDate);
+
+                        // Convierte la fecha seleccionada a milisegundos
+                        Calendar selectedCalendar = Calendar.getInstance();
+                        selectedCalendar.set(year, month, dayOfMonth);
+                        fechaNachimientoMascota = year + "-" + (month + 1) + "-" + dayOfMonth;
+                        Log.d("prueba", "onDateSet: " + fechaNachimientoMascota);
+
+                        // Ahora puedes utilizar fechaNacimientoMillis en otros lugares, como enviarlo a través de Retrofit
+                    }
+                }, year, month, dayOfMonth);
+
+                // Muestra el DatePickerDialog
+                datePickerDialog.show();
+            }
         });
 
 
@@ -274,7 +359,7 @@ public class RegisterActivity extends AppCompatActivity {
             apellidos = etSurname.getText().toString();
             String edadString = etEdadPersona.getText().toString();
             if(!nombre.isEmpty() && !apellidos.isEmpty() && !genero.isEmpty() && !genero.isEmpty() && !edadString.isEmpty()){
-                edadPersona = Integer.parseInt(edadString);
+                //edadPersona = Integer.parseInt(edadString);
 
                 Log.d("prueba", "onClick: " + nombre + " " + apellidos + " " + genero + " " + edadPersona);
 
@@ -348,6 +433,8 @@ public class RegisterActivity extends AppCompatActivity {
                 btnSiguiente.setVisibility(View.GONE);
                 ivFotoPerfil.setVisibility(View.GONE);
                 btnFotoPerfil.setVisibility(View.GONE);
+                btnDatePicker.setVisibility(View.GONE);
+
 
                 //colores para el titulo
                 String tituloMascota = getString(R.string.tituloMascota);
@@ -372,6 +459,8 @@ public class RegisterActivity extends AppCompatActivity {
                 tvRelacionMascotas.setVisibility(View.VISIBLE);
                 etEdadPerro.setVisibility(View.VISIBLE);
                 rgSexoPerro.setVisibility(View.VISIBLE);
+                btnDatePickerMascota.setVisibility(View.VISIBLE);
+                etEdadPerro.setVisibility(View.VISIBLE);
 
                 // Para la foto de la mascota
                 btnFoto.setOnClickListener(v3 -> {
@@ -395,90 +484,87 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     //funcion para registrar al usuario
-    @SuppressLint("StaticFieldLeak")
     public void register() {
-        new AsyncTask<Void, Void, Void>() {
+        // Convertir la imagen a RequestBody
+        File file = new File(getRealPathFromURI(imageUri));
+
+        // Convertir otros campos a RequestBody
+        if (file == null || !file.exists()) {
+            Toast.makeText(this, "La imagen seleccionada no es válida", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        File filePerfil = new File(getRealPathFromURI(imageUriPerfil));
+
+        if (filePerfil == null || !filePerfil.exists()) {
+            Toast.makeText(this, "La imagen seleccionada no es válida", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // Obtener los valores de los campos de texto
+        nombre = etName.getText().toString();
+        apellidos = etSurname.getText().toString();
+        mail = etMail1.getText().toString();
+        //edadPersona = Integer.parseInt(etEdadPersona.getText().toString());
+        nombreMascota = etNombreMascota.getText().toString();
+        //edadPerro = Integer.parseInt(etEdadPerro.getText().toString());
+        descripcion = etDescripcion.getText().toString();
+
+        Log.d("pruebaRegistro", "entro al registro");
+        //pasamos a requestbody los valores
+        RequestBody imageRequestBody = RequestBody.create(MediaType.parse("image/*"), file);
+        RequestBody imageRequestBodyPerfil = RequestBody.create(MediaType.parse("image/*"), filePerfil);
+        RequestBody nameRequestBody = (nombre != null) ? RequestBody.create(MediaType.parse("text/plain"), nombre) : RequestBody.create(MediaType.parse("text/plain"), "");
+        RequestBody latitudeRequestBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(latitude));
+        RequestBody longitudeRequestBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(longitude));
+        RequestBody surnameRequestBody = (apellidos != null) ? RequestBody.create(MediaType.parse("text/plain"), apellidos) : RequestBody.create(MediaType.parse("text/plain"), "");
+        RequestBody mailRequestBody = (mail != null) ? RequestBody.create(MediaType.parse("text/plain"), mail) : RequestBody.create(MediaType.parse("text/plain"), "");
+        RequestBody passRequestBody = (pass1 !=null) ? RequestBody.create(MediaType.parse("text/plain"), pass1) :  RequestBody.create(MediaType.parse("text/plain"), "" );
+        RequestBody sexoPersonaRequestBody = (genero != null) ? RequestBody.create(MediaType.parse("text/plain"), genero) : RequestBody.create(MediaType.parse("text/plain"), "");
+        RequestBody nombreMascotaRequestBody = (nombreMascota != null) ? RequestBody.create(MediaType.parse("text/plain"), nombreMascota) : RequestBody.create(MediaType.parse("text/plain"), "");
+        RequestBody edadPerroRequestBody = (fechaNachimientoMascota != null) ? RequestBody.create(MediaType.parse("text/plain"), String.valueOf(fechaNachimientoMascota)) : RequestBody.create(MediaType.parse("text/plain"), "");
+        RequestBody descripcionRequestBody = (descripcion != null) ? RequestBody.create(MediaType.parse("text/plain"), descripcion) : RequestBody.create(MediaType.parse("text/plain"), "");
+        RequestBody relacionPersonasRequestBody = (relacionPersonas != null) ? RequestBody.create(MediaType.parse("text/plain"), relacionPersonas) : RequestBody.create(MediaType.parse("text/plain"), "");
+        RequestBody relacionMascotasRequestBody = (relacionMascotas != null) ? RequestBody.create(MediaType.parse("text/plain"), relacionMascotas) : RequestBody.create(MediaType.parse("text/plain"), "");
+        RequestBody sexoPerroRequestBody = (sexoPerro != null) ? RequestBody.create(MediaType.parse("text/plain"), sexoPerro) : RequestBody.create(MediaType.parse("text/plain"), "");
+        RequestBody edadPersonaRequestBody = (fechaNacimiento != null) ? RequestBody.create(MediaType.parse("text/plain"), fechaNacimiento) : RequestBody.create(MediaType.parse("text/plain"), "");
+        RequestBody razaRequestBody = (raza != null) ? RequestBody.create(MediaType.parse("text/plain"), raza) : RequestBody.create(MediaType.parse("text/plain"), "");
+
+        //la imagen tiene que ser un multipart
+        MultipartBody.Part imagenPart = MultipartBody.Part.createFormData("imgProfile", file.getName(), imageRequestBody);
+        MultipartBody.Part imagenPartPerfil = MultipartBody.Part.createFormData("imgPerfilFile", filePerfil.getName(), imageRequestBodyPerfil);
+        //log de prueba con todos los datos
+        Log.d("pruebaRegistro", "Datos: " + nombre + " " + apellidos + " " + mail + " " + filePerfil + " " + file + " " + pass1 + " " + genero + " " + nombreMascota + " " + edadPerro + " " + descripcion + " " + relacionPersonas + " " + relacionMascotas + " " + sexoPerro + " " + raza + " " + latitude + " " + longitude);
+
+        //hacemos la llamada para registrar
+        retrofit = new Retrofit.Builder()
+                .baseUrl(url1)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .build();
+
+        doginderAPI = retrofit.create(doginderAPI.class);
+
+        // Utilizar directamente los RequestBody en lugar de userRequestBody
+        Call<Void> call = doginderAPI.registerUser(nameRequestBody, latitudeRequestBody, longitudeRequestBody, surnameRequestBody, mailRequestBody, passRequestBody, edadPersonaRequestBody, sexoPersonaRequestBody, nombreMascotaRequestBody, edadPerroRequestBody, sexoPerroRequestBody, razaRequestBody, descripcionRequestBody, relacionMascotasRequestBody, relacionPersonasRequestBody, imagenPart, imagenPartPerfil);
+
+        call.enqueue(new Callback<Void>() {
             @Override
-            protected Void doInBackground(Void... voids) {
-                try {
-                    // Convertir la imagen a RequestBody
-                    File file = new File(getRealPathFromURI(imageUri));
-
-                    // Convertir otros campos a RequestBody
-                    if (!file.exists()) {
-                        Toast.makeText(RegisterActivity.this, "La imagen seleccionada no es válida", Toast.LENGTH_LONG).show();
-                        return null;
-                    }
-
-                    File filePerfil = new File(getRealPathFromURI(imageUriPerfil));
-
-                    if (!filePerfil.exists()) {
-                        Toast.makeText(RegisterActivity.this, "La imagen seleccionada no es válida", Toast.LENGTH_LONG).show();
-                        return null;
-                    }
-
-                    // Obtener los valores de los campos de texto
-                    nombre = etName.getText().toString();
-                    apellidos = etSurname.getText().toString();
-                    mail = etMail1.getText().toString();
-                    edadPersona = Integer.parseInt(etEdadPersona.getText().toString());
-                    nombreMascota = etNombreMascota.getText().toString();
-                    edadPerro = Integer.parseInt(etEdadPerro.getText().toString());
-                    descripcion = etDescripcion.getText().toString();
-
-                    Log.d("pruebaRegistro", "entro al registro");
-                    //pasamos a requestbody los valores
-                    RequestBody imageRequestBody = RequestBody.create(MediaType.parse("image/*"), file);
-                    RequestBody nameRequestBody = (nombre != null) ? RequestBody.create(MediaType.parse("text/plain"), nombre) : RequestBody.create(MediaType.parse("text/plain"), "");
-                    RequestBody latitudeRequestBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(latitude));
-                    RequestBody longitudeRequestBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(longitude));
-                    RequestBody surnameRequestBody = (apellidos != null) ? RequestBody.create(MediaType.parse("text/plain"), apellidos) : RequestBody.create(MediaType.parse("text/plain"), "");
-                    RequestBody mailRequestBody = (mail != null) ? RequestBody.create(MediaType.parse("text/plain"), mail) : RequestBody.create(MediaType.parse("text/plain"), "");
-                    RequestBody passRequestBody = (pass1 !=null) ? RequestBody.create(MediaType.parse("text/plain"), pass1) :  RequestBody.create(MediaType.parse("text/plain"), "" );
-                    RequestBody sexoPersonaRequestBody = (genero != null) ? RequestBody.create(MediaType.parse("text/plain"), genero) : RequestBody.create(MediaType.parse("text/plain"), "");
-                    RequestBody nombreMascotaRequestBody = (nombreMascota != null) ? RequestBody.create(MediaType.parse("text/plain"), nombreMascota) : RequestBody.create(MediaType.parse("text/plain"), "");
-                    RequestBody edadPerroRequestBody = (edadPerro != 0) ? RequestBody.create(MediaType.parse("text/plain"), String.valueOf(edadPerro)) : RequestBody.create(MediaType.parse("text/plain"), "");
-                    RequestBody descripcionRequestBody = (descripcion != null) ? RequestBody.create(MediaType.parse("text/plain"), descripcion) : RequestBody.create(MediaType.parse("text/plain"), "");
-                    RequestBody relacionPersonasRequestBody = (relacionPersonas != null) ? RequestBody.create(MediaType.parse("text/plain"), relacionPersonas) : RequestBody.create(MediaType.parse("text/plain"), "");
-                    RequestBody relacionMascotasRequestBody = (relacionMascotas != null) ? RequestBody.create(MediaType.parse("text/plain"), relacionMascotas) : RequestBody.create(MediaType.parse("text/plain"), "");
-                    RequestBody sexoPerroRequestBody = (sexoPerro != null) ? RequestBody.create(MediaType.parse("text/plain"), sexoPerro) : RequestBody.create(MediaType.parse("text/plain"), "");
-                    RequestBody edadPersonaRequestBody = (edadPersona != 0) ? RequestBody.create(MediaType.parse("text/plain"), String.valueOf(edadPersona)) : RequestBody.create(MediaType.parse("text/plain"), "");
-                    RequestBody razaRequestBody = (raza != null) ? RequestBody.create(MediaType.parse("text/plain"), raza) : RequestBody.create(MediaType.parse("text/plain"), "");
-
-                    //la imagen tiene que ser un multipart
-                    MultipartBody.Part imagenPart = MultipartBody.Part.createFormData("imagenFile", file.getName(), imageRequestBody);
-                    MultipartBody.Part imagenPartPerfil = MultipartBody.Part.createFormData("imagenFile", filePerfil.getName(), imageRequestBody);
-
-                    Log.d("pruebaFoto", imageRequestBody.toString());
-                    Log.d("pruebaRegister", nameRequestBody.toString() + " " + latitudeRequestBody.toString() + " " + longitudeRequestBody.toString() + " " + surnameRequestBody.toString() + " " + imagenPart.toString());
-
-                    //hacemos la llamada para registrar
-                    retrofit = new Retrofit.Builder()
-                            .baseUrl("http://doginder.dam.inspedralbes.cat:3745/")
-                            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
-                            .build();
-
-                    doginderAPI = retrofit.create(doginderAPI.class);
-
-                    // Utilizar directamente los RequestBody en lugar de userRequestBody
-                    Call<Void> call = doginderAPI.registerUser(nameRequestBody, latitudeRequestBody, longitudeRequestBody, surnameRequestBody, mailRequestBody, passRequestBody, edadPersonaRequestBody, sexoPersonaRequestBody, nombreMascotaRequestBody, edadPerroRequestBody, sexoPerroRequestBody, razaRequestBody, descripcionRequestBody, relacionMascotasRequestBody, relacionPersonasRequestBody, imagenPart, imagenPartPerfil);
-
-                    call.execute(); // Ejecutar la llamada de forma síncrona
-
-                    return null;
-                } catch (Exception e) {
-                    Log.e("Error", "Error en el registro: " + e.getMessage());
-                    return null;
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            protected void onPostExecute(Void aVoid) {
-                Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, "Error al registrar usuario onFailure", Toast.LENGTH_SHORT).show();
+                Log.d("prueba", "onFailure: " + t.getMessage());
             }
-        }.execute();
+        });
     }
 
 
@@ -527,7 +613,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     //funcion para comprobar que el mail sea valido y nuevo
-    @SuppressLint("StaticFieldLeak")
     public void confirmarMail() {
         // Obtenemos los dos mails
         String mail1 = etMail1.getText().toString();
@@ -542,41 +627,51 @@ public class RegisterActivity extends AppCompatActivity {
         if (mail1.equals(mail2)) {
             if (matcher.matches() && matcher2.matches()) {
                 // Si los mails son iguales y válidos, comprobamos que no estén registrados
-                new AsyncTask<String, Void, Usuario>() {
+                retrofit = new Retrofit.Builder()
+                        .baseUrl("http://doginder.dam.inspedralbes.cat:3745/")
+                        .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                        .build();
+
+                doginderAPI = retrofit.create(doginderAPI.class);
+
+                Call<Usuario> call = doginderAPI.verifyMail(mail1);
+
+                call.enqueue(new Callback<Usuario>() {
                     @Override
-                    protected Usuario doInBackground(String... params) {
-                        try {
-                            retrofit = new Retrofit.Builder()
-                                    .baseUrl("http://doginder.dam.inspedralbes.cat:3745/")
-                                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
-                                    .build();
+                    public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                        if (response.isSuccessful()) {
+                            Usuario usuario = response.body();
+                            if (usuario != null) {
+                                Toast.makeText(RegisterActivity.this, "Parece que ya hay un usuario con este correo electrónico :(", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // El correo no está registrado
 
-                            doginderAPI = retrofit.create(doginderAPI.class);
+                                etMail1.setVisibility(View.GONE);
+                                etMail2.setVisibility(View.GONE);
+                                btnConfirmarMail.setVisibility(View.GONE);
 
-                            Call<Usuario> call = doginderAPI.verifyMail(params[0]);
-                            Response<Usuario> response = call.execute(); // Ejecutar la llamada de forma síncrona
+                                comprobarPass();
 
-                            return response.isSuccessful() ? response.body() : null;
-                        } catch (IOException e) {
-                            Log.e("Error", "Error al verificar el correo electrónico: " + e.getMessage());
-                            return null;
-                        }
-                    }
-
-                    @Override
-                    protected void onPostExecute(Usuario usuario) {
-                        if (usuario != null) {
-                            // El correo ya está registrado
-                            Toast.makeText(RegisterActivity.this, "Parece que ya hay un usuario con este correo electrónico :(", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // El correo no está registrado
+                            }
+                        } else if (response.code() == 404) {
+                            // Manejar el caso de correo no registrado
                             etMail1.setVisibility(View.GONE);
                             etMail2.setVisibility(View.GONE);
                             btnConfirmarMail.setVisibility(View.GONE);
+
                             comprobarPass();
+                        } else {
+                            // Otro tipo de error
+                            Log.d("prueba", "Error: " + response.code() + ", " + response.message());
+                            Toast.makeText(RegisterActivity.this, "Algo falla", Toast.LENGTH_LONG).show();
                         }
                     }
-                }.execute(mail1);
+
+                    @Override
+                    public void onFailure(Call<Usuario> call, Throwable t) {
+                        Toast.makeText(RegisterActivity.this, "error onFailure", Toast.LENGTH_SHORT).show();
+                    }
+                });
             } else {
                 Toast.makeText(this, "Los formatos de los correos no son válidos", Toast.LENGTH_SHORT).show();
             }

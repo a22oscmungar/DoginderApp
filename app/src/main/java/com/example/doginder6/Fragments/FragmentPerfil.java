@@ -1,6 +1,7 @@
 package com.example.doginder6.Fragments;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.doginder6.R;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class FragmentPerfil extends Fragment {
     View rootView;
@@ -46,20 +53,27 @@ public class FragmentPerfil extends Fragment {
         TextView generoHumano = rootView.findViewById(R.id.tvGeneroHumano);
         ImageView GeneroMascota = rootView.findViewById(R.id.ivGeneroMascota);
         TextView tamano = rootView.findViewById(R.id.tvTamano);
+        ImageView ivFotoHumano = rootView.findViewById(R.id.ivFotoHumano);
 
-        String añoString = (usuario.getEdad() > 1) ? " años" : " año";
+        //String añoString = (usuario.getEdad() > 1) ? " años" : " año";
 
 
 
         nombre.setText(usuario.getNombre().toUpperCase());
         nombre.setShadowLayer(5, 10, 10, R.color.black);
         String url = "http://doginder.dam.inspedralbes.cat:3745"+usuario.getDescripcion();
+        String url2 = "http://doginder.dam.inspedralbes.cat:3745"+usuario.getImgProfile();
         //Picasso.get().load(url).error(R.drawable.two).into(foto);
 
         Glide.with(this)
                 .load(url)  // Reemplaza con tu recurso de imagen
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(20))) // Ajusta el radio según tus preferencias
                 .into(foto);
+
+        Glide.with(this)
+                .load(url2)  // Reemplaza con tu recurso de imagen
+                .apply(RequestOptions.bitmapTransform(new RoundedCorners(20))) // Ajusta el radio según tus preferencias
+                .into(ivFotoHumano);
 
         if(usuario.getSexo().equals("Hembra"))
             Glide.with(this)
@@ -73,7 +87,12 @@ public class FragmentPerfil extends Fragment {
 
         tamano.setText(usuario.getTamano());
         raza.setText(usuario.getRaza());
-        edad.setText(String.valueOf(usuario.getEdad()) + añoString);
+
+
+
+
+
+        edad.setText(String.valueOf(usuario.getEdad()) + "años");
         descripcion.setText(usuario.getFoto());
         switch (usuario.getRelacionMascotas()){
             case "Bien":
@@ -98,8 +117,38 @@ public class FragmentPerfil extends Fragment {
                 break;
         }
         String nombreCompleto = usuario.getNombreUsu() + " " + usuario.getApellidosUsu();
+
+
         nombreHumano.setText("Mi nombre: " + nombreCompleto.toUpperCase());
-        edadHumano.setText("Mi edad: " + usuario.getEdadUsu() + " AÑOS");
+
+
+        // Parsea la cadena de fecha a un objeto ZonedDateTime
+        ZonedDateTime zonedDateTime = null;
+        // Convierte el Instant a un LocalDate
+        LocalDate fechaNacimiento = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            zonedDateTime = ZonedDateTime.parse(usuario.getEdadUsu());
+        }
+
+        // Convierte el ZonedDateTime a un LocalDate en la zona horaria local
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            fechaNacimiento = zonedDateTime.toLocalDate();
+        }
+
+        LocalDate fechaActual = null;
+        // Obtener la fecha actual
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            fechaActual = LocalDate.now();
+        }
+
+        long edadEnAnios = 0;
+
+        // Calcular la diferencia en años entre la fecha actual y la fecha de nacimiento
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            edadEnAnios = ChronoUnit.YEARS.between(fechaNacimiento, fechaActual);
+        }
+
+        edadHumano.setText("Mi edad: " + edadEnAnios + " AÑOS");
         generoHumano.setText("Mi sexo: " + usuario.getGenero().toUpperCase());
 
 

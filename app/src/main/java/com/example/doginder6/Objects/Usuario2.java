@@ -3,6 +3,8 @@ package com.example.doginder6.Objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 public class Usuario2 implements Parcelable {
     public Ubi ubiUsu;
     public int idUsu;
@@ -11,10 +13,10 @@ public class Usuario2 implements Parcelable {
     public String mailUsu;
     public String pass;
     public String genero;
-    public int edadUsu;
+    public String edadUsu;
     public int mascotaId;
     public String nombre;
-    public int edad;
+    public String edad;
     public String sexo;
     public String foto;
     public String descripcion;
@@ -25,7 +27,7 @@ public class Usuario2 implements Parcelable {
     public String tamano;
     public String imgProfile;
 
-    public Usuario2(int idUsu, Ubi ubi, String nombreUsu, String apellidosUsu, String mailUsu, String pass, String genero, int edadUsu, int mascotaId, String nombre, int edad, String sexo, String foto, String descripcion, String relacionHumanos, String relacionMascotas, int idHumano, String raza, String tamano, String imgProfile){
+    public Usuario2(int idUsu, Ubi ubi, String nombreUsu, String apellidosUsu, String mailUsu, String pass, String genero, String edadUsu, int mascotaId, String nombre, String edad, String sexo, String foto, String descripcion, String relacionHumanos, String relacionMascotas, int idHumano, String raza, String tamano, String imgProfile){
         this.idUsu = idUsu;
         this.ubiUsu = ubi;
         this.nombreUsu = nombreUsu;
@@ -62,10 +64,10 @@ public class Usuario2 implements Parcelable {
         dest.writeString(mailUsu);
         dest.writeString(pass);
         dest.writeString(genero);
-        dest.writeInt(edadUsu);
+        dest.writeString(edadUsu);
         dest.writeInt(mascotaId);
         dest.writeString(nombre);
-        dest.writeInt(edad);
+        dest.writeString(edad);
         dest.writeString(sexo);
         dest.writeString(foto);
         dest.writeString(descripcion);
@@ -97,10 +99,10 @@ public class Usuario2 implements Parcelable {
         mailUsu = in.readString();
         pass = in.readString();
         genero = in.readString();
-        edadUsu = in.readInt();
+        edadUsu = in.readString();
         mascotaId = in.readInt();
         nombre = in.readString();
-        edad = in.readInt();
+        edad = in.readString();
         sexo = in.readString();
         foto = in.readString();
         descripcion = in.readString();
@@ -201,7 +203,7 @@ public class Usuario2 implements Parcelable {
         return genero;
     }
 
-    public int getEdadUsu() {
+    public String getEdadUsu() {
         return edadUsu;
     }
 
@@ -213,7 +215,7 @@ public class Usuario2 implements Parcelable {
         return nombre;
     }
 
-    public int getEdad() {
+    public String getEdad() {
         return edad;
     }
 

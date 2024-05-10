@@ -40,8 +40,8 @@ public interface doginderAPI {
             @Part("petFriendlyPets") RequestBody petFriendlyPets,
             @Part("petFriendlyPeople") RequestBody petFriendlyPeople,
 
-            @Part MultipartBody.Part imagenFile,
-            @Part("imagen") MultipartBody.Part imagenPerfilFile
+            @Part MultipartBody.Part imgProfile,
+            @Part MultipartBody.Part imgPerfilFile
     );
     @GET("/users/nearby")
     Call<List<Usuario2>> getNearbyUsers(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("radius") int radius, @Query("idUsu") int idUsu);

@@ -20,11 +20,6 @@
             android:src="@drawable/banner_sin_back"
             android:contentDescription="Banner de Doginder"
             android:layout_margin="15dp"/>
-        <View
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/grisOscuro"/>
 
         <!-- Scroll view global -->
         <ScrollView
@@ -258,21 +253,44 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/rbOtro"/>
                         </RadioGroup>
-                        <TextView
-                            android:id="@+id/tvEdadPersona"
-                            android:layout_width="wrap_content"
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/etEdad"
-                            android:textStyle="bold"
-                            android:layout_marginTop="15dp"
-                            android:textSize="18sp"/>
+                            android:orientation="horizontal"
+                            android:layout_weight="10"
+                            >
+                            <TextView
+                                android:id="@+id/tvEdadPersona"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/etEdad"
+                                android:textStyle="bold"
+                                android:layout_marginTop="15dp"
+                                android:layout_weight="8"
+                                android:textSize="18sp"/>
+
+                            <ImageButton
+                                android:id="@+id/btnDatePicker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_calendar"
+                                android:layout_weight="2"
+                                android:contentDescription="Calendario para la fecha de cumpleaños del usuario" />
+
+
+                        </LinearLayout>
+
                         <EditText
                             android:id="@+id/etEdadPersona"
                             android:layout_width="match_parent"
+                            android:clickable="false"
                             android:layout_height="150px"
                             android:hint="@string/etEdad"
                             android:inputType="number"
                             android:backgroundTint="@color/naranjaMain"/>
+
+
 
                         <!-- imagen -->
                         <ImageView
@@ -423,6 +441,30 @@
                                 android:visibility="gone"/>
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="10">
+                            <TextView
+                                android:id="@+id/tvEdad"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/etEdadMascota"
+                                android:visibility="gone"
+                                android:textStyle="bold"
+                                android:textSize="17sp"
+                                android:layout_weight="8"
+                                />
+                            <ImageButton
+                                android:id="@+id/btnDatePickerMascota"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_calendar"
+                                android:layout_weight="2"
+                                android:contentDescription="Calendario para la fecha de cumpleaños del usuario" />
+
+                        </LinearLayout>
 
                         <!-- edad perro -->
                         <EditText
@@ -431,8 +473,12 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/etEdadMascota"
                             android:visibility="gone"
+                            android:text="3"
                             android:backgroundTint="@color/naranjaMain"
+                            android:clickable="false"
                             />
+
+
                         <TextView
                             android:id="@+id/tvRelacionHumanos"
                             android:layout_width="match_parent"
