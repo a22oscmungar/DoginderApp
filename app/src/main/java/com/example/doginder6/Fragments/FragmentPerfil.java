@@ -88,11 +88,6 @@ public class FragmentPerfil extends Fragment {
         tamano.setText(usuario.getTamano());
         raza.setText(usuario.getRaza());
 
-
-
-
-
-        edad.setText(String.valueOf(usuario.getEdad()) + "años");
         descripcion.setText(usuario.getFoto());
         switch (usuario.getRelacionMascotas()){
             case "Bien":
@@ -124,30 +119,42 @@ public class FragmentPerfil extends Fragment {
 
         // Parsea la cadena de fecha a un objeto ZonedDateTime
         ZonedDateTime zonedDateTime = null;
+        ZonedDateTime zonedDateTimeMascota = null;
         // Convierte el Instant a un LocalDate
         LocalDate fechaNacimiento = null;
+        LocalDate fechaNacimientoMascota = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             zonedDateTime = ZonedDateTime.parse(usuario.getEdadUsu());
+            zonedDateTimeMascota = ZonedDateTime.parse(usuario.getEdad());
+
         }
 
         // Convierte el ZonedDateTime a un LocalDate en la zona horaria local
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             fechaNacimiento = zonedDateTime.toLocalDate();
+            fechaNacimientoMascota = zonedDateTimeMascota.toLocalDate();
+
         }
 
         LocalDate fechaActual = null;
+        LocalDate fechaActualMascota = null;
         // Obtener la fecha actual
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             fechaActual = LocalDate.now();
+            fechaActualMascota = LocalDate.now();
+
         }
 
         long edadEnAnios = 0;
+        long edadEnAniosMascota = 0;
 
         // Calcular la diferencia en años entre la fecha actual y la fecha de nacimiento
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             edadEnAnios = ChronoUnit.YEARS.between(fechaNacimiento, fechaActual);
+            edadEnAniosMascota = ChronoUnit.YEARS.between(fechaNacimientoMascota, fechaActualMascota);
         }
 
+        edad.setText("Mi edad: " + edadEnAniosMascota + " AÑOS");
         edadHumano.setText("Mi edad: " + edadEnAnios + " AÑOS");
         generoHumano.setText("Mi sexo: " + usuario.getGenero().toUpperCase());
 

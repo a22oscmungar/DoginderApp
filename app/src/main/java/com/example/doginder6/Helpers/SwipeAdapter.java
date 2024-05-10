@@ -3,6 +3,7 @@ package com.example.doginder6.Helpers;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -29,6 +30,9 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.yalantis.library.Koloda;
 import com.yalantis.library.KolodaListener;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import retrofit2.Call;
@@ -123,11 +127,49 @@ public class SwipeAdapter extends BaseAdapter {
         }
 
         tvTamano.setText(user.getTamano());
-        tvEdad.setText(String.valueOf(user.getEdad()) + "años");
         tvRaza.setText(user.getRaza());
         tvDescripcion.setText(user.getDescripcion());
         tvRelacionMascotas.setText("Como se lleva con otras mascotas? " + user.getRelacionMascotas() );
         tvRelacionHumanos.setText("Como se lleva con humanos? " + user.getRelacionHumanos());
+
+        // Parsea la cadena de fecha a un objeto ZonedDateTime
+        ZonedDateTime zonedDateTime = null;
+        ZonedDateTime zonedDateTimeMascota = null;
+        // Convierte el Instant a un LocalDate
+        LocalDate fechaNacimiento = null;
+        LocalDate fechaNacimientoMascota = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            zonedDateTime = ZonedDateTime.parse(user.getEdadUsu());
+            zonedDateTimeMascota = ZonedDateTime.parse(user.getEdad());
+
+        }
+
+        // Convierte el ZonedDateTime a un LocalDate en la zona horaria local
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            fechaNacimiento = zonedDateTime.toLocalDate();
+            fechaNacimientoMascota = zonedDateTimeMascota.toLocalDate();
+
+        }
+
+        LocalDate fechaActual = null;
+        LocalDate fechaActualMascota = null;
+        // Obtener la fecha actual
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            fechaActual = LocalDate.now();
+            fechaActualMascota = LocalDate.now();
+
+        }
+
+        long edadEnAnios = 0;
+        long edadEnAniosMascota = 0;
+
+        // Calcular la diferencia en años entre la fecha actual y la fecha de nacimiento
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            edadEnAnios = ChronoUnit.YEARS.between(fechaNacimiento, fechaActual);
+            edadEnAniosMascota = ChronoUnit.YEARS.between(fechaNacimientoMascota, fechaActualMascota);
+        }
+
+        tvEdad.setText("Edad: " + edadEnAniosMascota + " años");
 
         //se asignan los listeners a los botones
         btnSi.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +193,7 @@ public class SwipeAdapter extends BaseAdapter {
             }
         });
 
+        long finalEdadEnAnios = edadEnAnios;
         btnUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,7 +206,7 @@ public class SwipeAdapter extends BaseAdapter {
 
                 // Crear el texto con formato utilizando SpannableString
                 SpannableString spannableString = new SpannableString("Nombre: " + user.getNombreUsu() + " " + user.getApellidosUsu()
-                        + "\nEdad: " + user.getEdadUsu() + " años\nSexo: " + user.getGenero());
+                        + "\nEdad: " + finalEdadEnAnios + " años\nSexo: " + user.getGenero());
 
 // Aplicar estilo negrita al texto "Nombre", "Edad" y "Sexo"
                 spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Nombre
