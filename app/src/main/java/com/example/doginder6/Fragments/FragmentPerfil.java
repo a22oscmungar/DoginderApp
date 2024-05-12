@@ -153,9 +153,18 @@ public class FragmentPerfil extends Fragment {
             edadEnAnios = ChronoUnit.YEARS.between(fechaNacimiento, fechaActual);
             edadEnAniosMascota = ChronoUnit.YEARS.between(fechaNacimientoMascota, fechaActualMascota);
         }
+        if(edadEnAniosMascota == 0)
+            edad.setText("Menos de un año");
+        else if(edadEnAniosMascota == 1)
+            edad.setText(edadEnAniosMascota + " AÑO");
+        else if(edadEnAniosMascota > 1) edad.setText(edadEnAniosMascota + " AÑOS");
 
-        edad.setText("Mi edad: " + edadEnAniosMascota + " AÑOS");
-        edadHumano.setText("Mi edad: " + edadEnAnios + " AÑOS");
+        if (edadEnAnios == 0)
+            edadHumano.setText("Menos de un año");
+        else if (edadEnAnios == 1)
+            edadHumano.setText("Mi edad: " + edadEnAnios + " AÑO");
+        else if (edadEnAnios > 1) edadHumano.setText("Mi edad: " + edadEnAnios + " AÑOS");
+
         generoHumano.setText("Mi sexo: " + usuario.getGenero().toUpperCase());
 
 

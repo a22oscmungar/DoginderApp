@@ -129,8 +129,29 @@ public class SwipeAdapter extends BaseAdapter {
         tvTamano.setText(user.getTamano());
         tvRaza.setText(user.getRaza());
         tvDescripcion.setText(user.getDescripcion());
-        tvRelacionMascotas.setText("Como se lleva con otras mascotas? " + user.getRelacionMascotas() );
-        tvRelacionHumanos.setText("Como se lleva con humanos? " + user.getRelacionHumanos());
+
+        switch (user.getRelacionMascotas()){
+            case "Bien":
+                tvRelacionMascotas.setText("Se lleva bien con otras mascotas, guay!");
+                break;
+            case "Mal":
+                tvRelacionMascotas.setText("No se lleva bien con otras mascotas, cuidado!");
+                break;
+            case "Indiferente":
+                tvRelacionMascotas.setText("No le importa otras mascotas, tranquilo!");
+                break;
+        }
+        switch (user.getRelacionHumanos()) {
+            case "Bien":
+                tvRelacionHumanos.setText("Se lleva bien con humanos, guay!");
+                break;
+            case "Mal":
+                tvRelacionHumanos.setText("No se lleva bien con humanos, cuidado!");
+                break;
+            case "Indiferente":
+                tvRelacionHumanos.setText("No le importa los humanos, tranquilo!");
+                break;
+        }
 
         // Parsea la cadena de fecha a un objeto ZonedDateTime
         ZonedDateTime zonedDateTime = null;

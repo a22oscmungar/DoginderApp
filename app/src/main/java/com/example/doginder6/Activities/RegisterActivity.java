@@ -3,6 +3,7 @@ package com.example.doginder6.Activities;
 import static java.security.AccessController.getContext;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -83,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     Uri imageUri;
     Uri imageUriPerfil;
-    ImageButton btnDatePicker, btnDatePickerMascota;
+    ImageButton btnDatePicker, btnDatePickerMascota, btnDatePickerMascotaHelp;
     long fechaNacimientoMillis;
     String fechaNacimiento, fechaNachimientoMascota;
     private static final int PICK_IMAGE_REQUEST_USER = 1; // Código de solicitud para la imagen del usuario
@@ -141,6 +142,18 @@ public class RegisterActivity extends AppCompatActivity {
         btnFotoPerfil = findViewById(R.id.btnFotoPerfil);
         btnDatePicker = findViewById(R.id.btnDatePicker);
         btnDatePickerMascota = findViewById(R.id.btnDatePickerMascota);
+        btnDatePickerMascotaHelp = findViewById(R.id.btnDatePickerMascotaHelp);
+
+        btnDatePickerMascotaHelp.setOnClickListener(v -> {
+            //abrimos un dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+            builder.setTitle("La edad de tu mascota");
+
+            builder.setMessage("La edad de tu mascota es importante para poder encontrar a otros perros de su edad. Si no sabes la edad exacta, puedes poner una aproximada.");
+            builder.setPositiveButton("Entendido", (dialog, which) -> {
+                dialog.dismiss();
+            });
+        });
 
         // Para la foto de perfil
         btnFotoPerfil.setOnClickListener(v -> {
@@ -164,7 +177,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         // Aquí puedes manejar la fecha seleccionada por el usuario
                         // Por ejemplo, actualiza un TextView para mostrar la fecha seleccionada
-                        //String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
+                        // String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                         String selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
                         etEdadPersona.setText(selectedDate);
 
@@ -173,12 +186,23 @@ public class RegisterActivity extends AppCompatActivity {
                         selectedCalendar.set(year, month, dayOfMonth);
                         fechaNacimientoMillis = selectedCalendar.getTimeInMillis();
                         fechaNacimiento = year + "-" + (month + 1) + "-" + dayOfMonth;
-                        Log.d("prueba", "onDateSet: " + fechaNacimiento);
 
-                        // Ahora puedes utilizar fechaNacimientoMillis en otros lugares, como enviarlo a través de Retrofit
+                        // Verifica si el usuario tiene al menos 18 años
+                        Calendar minAgeCalendar = Calendar.getInstance();
+                        minAgeCalendar.add(Calendar.YEAR, -18); // Resta 18 años a la fecha actual
+                        if (selectedCalendar.before(minAgeCalendar)) {
+                            // El usuario tiene al menos 18 años, puedes continuar
+                            // Ahora puedes utilizar fechaNacimientoMillis en otros lugares, como enviarlo a través de Retrofit
+                        } else {
+                            // El usuario no tiene al menos 18 años, muestra un mensaje de error o realiza alguna acción adecuada
+                            Toast.makeText(context, "Debes tener al menos 18 años para registrarte", Toast.LENGTH_SHORT).show();
+                            // Aquí puedes reiniciar el DatePickerDialog si lo deseas
+                        }
                     }
                 }, year, month, dayOfMonth);
 
+                // Establece la fecha mínima seleccionable en el DatePickerDialog (18 años antes de la fecha actual)
+                datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis() - (1000L * 60 * 60 * 24 * 365 * 18)); // Resta 18 años en milisegundos
                 // Muestra el DatePickerDialog
                 datePickerDialog.show();
             }
@@ -193,6 +217,8 @@ public class RegisterActivity extends AppCompatActivity {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+
 
                 // Crea un nuevo DatePickerDialog y configúralo
                 Context context = RegisterActivity.this;

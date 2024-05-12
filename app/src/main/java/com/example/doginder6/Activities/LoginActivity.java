@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     public Usuario2 user;
     public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
     public final String URL2 = "http://192.168.19.159:3745/";
-    TextView tvORegistrate, tvRecuperarContrasena;
+    TextView tvORegistrate, tvRecuperarContrasena, tvIniciarSesion;
     FragmentContainerView fragmentContainer;
 
 
@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         tvORegistrate = findViewById(R.id.tvORegistrate);
         tvRecuperarContrasena = findViewById(R.id.tvRecuperarContrasenya);
         fragmentContainer = findViewById(R.id.fv_recuperarContrasenya);
+        tvIniciarSesion = findViewById(R.id.tvIniciarSesion);
 
         String textoCompleto2 = tvRecuperarContrasena.getText().toString();
         SpannableString textoParcial2 = new SpannableString(textoCompleto2);
@@ -217,6 +218,7 @@ public class LoginActivity extends AppCompatActivity {
                         DataBaseHelper db = new DataBaseHelper(LoginActivity.this, "MiPerfil", null, 1);
                         db.borrarTodosLosDatos();
                         db.insertUsu(user);
+
 
                         SharedPreferences preferences = getSharedPreferences("credenciales", MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
