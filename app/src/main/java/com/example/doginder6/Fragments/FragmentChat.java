@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doginder6.Helpers.ChatAdapter;
+import com.example.doginder6.Helpers.Settings;
 import com.example.doginder6.Objects.Usuario2;
 import com.example.doginder6.R;
 import com.example.doginder6.Helpers.doginderAPI;
@@ -39,7 +40,6 @@ public class FragmentChat extends Fragment {
     TextView noChats;
     ChatAdapter chatAdapter;
     public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
-    public final String URL2 = "http://192.168.19.159:3745/";
     public Retrofit retrofit;
     public com.example.doginder6.Helpers.doginderAPI doginderAPI;
     int idUsu;
@@ -75,7 +75,7 @@ public class FragmentChat extends Fragment {
                     int id = ids[0];
 
                     retrofit = new Retrofit.Builder()
-                            .baseUrl(URL)
+                            .baseUrl(Settings.URL2)
                             .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                             .build();
 

@@ -109,6 +109,7 @@
                                 android:layout_height="150px"
                                 android:layout_weight="1"
                                 android:inputType="text"
+                                android:textSize="15sp"
                                 android:fontFamily="@font/poppins_light_italic"
                                 android:backgroundTint="@color/naranjaMain"
                                 android:layout_marginEnd="20dp"/>
@@ -117,6 +118,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="150px"
                                 android:layout_weight="1"
+                                android:textSize="15sp"
                                 android:fontFamily="@font/poppins_light_italic"
                                 android:inputType="text"
                                 android:backgroundTint="@color/naranjaMain"/>
@@ -137,6 +139,7 @@
                             android:layout_width="match_parent"
                             android:fontFamily="@font/poppins_light_italic"
                             android:layout_height="150px"
+                            android:textSize="15sp"
                             android:backgroundTint="@color/naranjaMain"/>
                         <TextView
                             android:id="@+id/tvMail2"
@@ -149,6 +152,7 @@
                             android:id="@+id/etMail2"
                             android:layout_width="match_parent"
                             android:layout_height="150px"
+                            android:textSize="15sp"
                             android:fontFamily="@font/poppins_light_italic"
                             android:backgroundTint="@color/naranjaMain"/>
 
@@ -195,6 +199,7 @@
                                 android:layout_height="150px"
                                 android:inputType="textPassword"
                                 android:layout_weight="4"
+                                android:textSize="15sp"
                                 android:fontFamily="@font/poppins_light_italic"
                                 android:backgroundTint="@color/naranjaMain"/>
                             <ImageView
@@ -211,6 +216,7 @@
                                 android:inputType="textPassword"
                                 android:fontFamily="@font/poppins_light_italic"
                                 android:layout_weight="4"
+                                android:textSize="15sp"
                                 android:backgroundTint="@color/naranjaMain"/>
                             <ImageView
                                 android:id="@+id/ojo2"
@@ -293,6 +299,7 @@
                             android:clickable="false"
                             android:layout_height="150px"
                             android:inputType="number"
+                            android:textSize="15sp"
                             android:fontFamily="@font/poppins_light_italic"
                             android:backgroundTint="@color/naranjaMain"/>
 

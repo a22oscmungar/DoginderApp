@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.doginder6.Helpers.Settings;
 import com.example.doginder6.Objects.ChangePass;
 import com.example.doginder6.R;
 import com.example.doginder6.Helpers.doginderAPI;
@@ -59,7 +60,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             protected Boolean doInBackground(String... params) {
                 try {
                     retrofit = new Retrofit.Builder()
-                            .baseUrl(URL)
+                            .baseUrl(Settings.URL2)
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
                     doginderAPI = retrofit.create(doginderAPI.class);

@@ -12,6 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <!-- Banner -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/banner_sin_back"
+            android:layout_margin="15dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_margin="25dp"
+            android:fontFamily="@font/poppins_light"
+            android:text="¿Has olvidado la contraseña?\nNo te preocupes, te mandaremos un token a tu correo electrónico para que puedas introducir una nueva contraseña.\n¡Recuerda revisat la carpeta de spam!"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -22,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="CORREO ELECTRONICO"
+            android:fontFamily="@font/poppins_light_italic"
             android:layout_margin="25dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -30,6 +47,7 @@
             android:layout_height="wrap_content"
             android:text="ENVIAR CORREO"
             android:layout_margin="25dp"
+            android:fontFamily="@font/poppins_black"
             android:background="@color/naranjaFlojo"
             android:textColor="@color/white"/>
     </LinearLayout>
@@ -46,12 +64,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="TOKEN"
+            android:fontFamily="@font/poppins_light_italic"
             android:layout_margin="25dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnConfirmar"
             android:layout_width="match_parent"
             android:layout_height="200px"
+            android:fontFamily="@font/poppins_black"
             android:text="CONFIRMAR"/>
     </LinearLayout>
 

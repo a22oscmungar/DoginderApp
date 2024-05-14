@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.doginder6.Helpers.DataBaseHelper;
+import com.example.doginder6.Helpers.Settings;
 import com.example.doginder6.Objects.Usuario2;
 
 import com.bumptech.glide.Glide;
@@ -36,11 +37,14 @@ public class FragmentPerfil extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
+
+        Log.d("FragmentPerfil", "onCreateView");
         db = new DataBaseHelper(rootView.getContext(), "MiPerfil", null, 1);
 
         SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
         Usuario2 usuario = db.getUsuarioCompleto(preferences.getInt("id", 0));
 
+        Log.d("Usuario", usuario.toString());
         TextView nombre = rootView.findViewById(R.id.tvNombreMascota);
         ImageView foto = rootView.findViewById(R.id.ivFotoMascota);
         TextView raza = rootView.findViewById(R.id.tvRazaMascota);
@@ -61,8 +65,8 @@ public class FragmentPerfil extends Fragment {
 
         nombre.setText(usuario.getNombre().toUpperCase());
         nombre.setShadowLayer(5, 10, 10, R.color.black);
-        String url = "http://doginder.dam.inspedralbes.cat:3745"+usuario.getDescripcion();
-        String url2 = "http://doginder.dam.inspedralbes.cat:3745"+usuario.getImgProfile();
+        String url = Settings.URL2 +usuario.getDescripcion();
+        String url2 = Settings.URL2 +usuario.getImgProfile();
         //Picasso.get().load(url).error(R.drawable.two).into(foto);
 
         Glide.with(this)
@@ -77,11 +81,11 @@ public class FragmentPerfil extends Fragment {
 
         if(usuario.getSexo().equals("Hembra"))
             Glide.with(this)
-                    .load(R.drawable.hembra)
+                    .load(R.drawable.female_sign)
                     .into(GeneroMascota);
         else{
             Glide.with(this)
-                    .load(R.drawable.macho)
+                    .load(R.drawable.male_sign)
                     .into(GeneroMascota);
         }
 

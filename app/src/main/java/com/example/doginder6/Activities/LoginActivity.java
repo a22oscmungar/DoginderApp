@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.doginder6.AsyncTasks.LoginTask;
 import com.example.doginder6.Helpers.DataBaseHelper;
+import com.example.doginder6.Helpers.Settings;
 import com.example.doginder6.Objects.UserRequest;
 import com.example.doginder6.Objects.Usuario2;
 import com.example.doginder6.R;
@@ -44,8 +45,6 @@ public class LoginActivity extends AppCompatActivity {
     public Retrofit retrofit;
     public com.example.doginder6.Helpers.doginderAPI doginderAPI;
     public Usuario2 user;
-    public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
-    public final String URL2 = "http://192.168.19.159:3745/";
     TextView tvORegistrate, tvRecuperarContrasena, tvIniciarSesion;
     FragmentContainerView fragmentContainer;
 
@@ -127,7 +126,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    /*// método para hacer login
     public void login(){
         // recogemos los datos de los campos
         String usuario = etUsuario.getText().toString();
@@ -141,71 +139,13 @@ public class LoginActivity extends AppCompatActivity {
         }else{
             // creamos el objeto retrofit y llamamos al método loginUser del API
             retrofit = new Retrofit.Builder()
-                    .baseUrl(URL)
+                    .baseUrl(Settings.URL2)
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                     .build();
 
             doginderAPI = retrofit.create(doginderAPI.class);
 
             UserRequest userRequest = new UserRequest(usuario, pass);
-            Log.d("prueba", userRequest.getMailUsu() +" "+ userRequest.getPassUsu());
-
-            Call<Usuario2> call = doginderAPI.loginUser(userRequest);
-            call.enqueue(new Callback<Usuario2>() {
-                @Override
-                public void onResponse(Call<Usuario2> call, Response<Usuario2> response) {
-                    if(response.isSuccessful() && response.body() != null){
-                        // si la respuesta es correcta, guardamos el usuario en la base de datos y vamos a la pantalla principal
-                        user = response.body();
-
-                        DataBaseHelper db = new DataBaseHelper(LoginActivity.this, "MiPerfil", null, 1);
-                        db.borrarTodosLosDatos();
-                        db.insertUsu(user);
-
-                        SharedPreferences preferences = getSharedPreferences("credenciales", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        Log.d("usuario", "login "+ user.getIdUsu());
-                        editor.putInt("id", user.getIdUsu());
-                        editor.apply();
-
-                        Log.d("pruebaLogin", user.toString());
-
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    }else{
-                    Toast.makeText(LoginActivity.this, "Algo va mal, revisa los datos", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Usuario2> call, Throwable t) {
-                    Log.d("prueba", "onFailure: "+ t.getMessage());
-                }
-            });
-        }
-    }*/
-
-    public void login(){
-        // recogemos los datos de los campos
-        String usuario = etUsuario.getText().toString();
-        String pass = etContrasena.getText().toString();
-
-        // comprobamos que los campos no estén vacíos
-        if(usuario.isEmpty()){
-            Toast.makeText(this, "Introduce un nombre de usuario!", Toast.LENGTH_SHORT).show();
-        }else if(pass.isEmpty()){
-            Toast.makeText(this, "Introduce una contraseña!", Toast.LENGTH_LONG).show();
-        }else{
-            // creamos el objeto retrofit y llamamos al método loginUser del API
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(URL)
-                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
-                    .build();
-
-            doginderAPI = retrofit.create(doginderAPI.class);
-
-            UserRequest userRequest = new UserRequest(usuario, pass);
-            Log.d("prueba", userRequest.getMailUsu() +" "+ userRequest.getPassUsu());
 
             Call<Usuario2> call = doginderAPI.loginUser(userRequest);
             call.enqueue(new Callback<Usuario2>() {

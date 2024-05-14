@@ -3,6 +3,7 @@ package com.example.doginder6.Activities;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.doginder6.Helpers.ChatDatabaseHelper;
+import com.example.doginder6.Helpers.Settings;
 import com.example.doginder6.Objects.BloquearUsuario;
 import com.example.doginder6.Objects.Mensaje;
 import com.example.doginder6.Objects.Usuario2;
@@ -100,7 +102,7 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
 
         tvNombre.setText(usuario2.getNombre().toUpperCase());
         Glide.with(this)
-                .load("http://doginder.dam.inspedralbes.cat:3745"+usuario2.getFoto())  // Reemplaza con tu recurso de imagen
+                .load(Settings.URL2 +usuario2.getFoto())  // Reemplaza con tu recurso de imagen
                 .apply(RequestOptions.circleCropTransform())
                 .into(ivPerro);
 
@@ -116,7 +118,6 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
 
         });
         mostrarMensajesDelChat();
-        Context context = this;
 
 
     }
@@ -159,6 +160,30 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
             // Acción para el botón Limpiar Chat
             limpiarChat();
             return true;
+        } else if (id == R.id.action_reportar) {
+            // Acción para el botón Reportar
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Confirmar reporte");
+            builder.setMessage("¿Estás seguro de que quieres reportar a este usuario?");
+            builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Lógica para reportar al usuario
+                    Toast.makeText(ChatActivity.this, "Usuario reportado", Toast.LENGTH_SHORT).show();
+                    //Aqui irá una llamada al server para enviarnos un mail a administracion sobre el reporte del usuario
+                }
+            });
+
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -166,7 +191,7 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
 
     public void bloquearUsuario(){
         retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(Settings.URL2)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .build();
 
@@ -235,7 +260,7 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
         Log.d("pruebaSocket", "updateSocket funcion: " + socketId);
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(Settings.URL2)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .build();
 
@@ -269,8 +294,19 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
             // Ajusta la gravedad del contenedor para posicionar el mensaje a la derecha o izquierda
             if (remitente.equals("Yo")) {
                 layoutParams.gravity = Gravity.END;
+                textView.setBackground(getDrawable(R.drawable.background_mensaje));
+                textView.setTextColor(getColor(R.color.white));
+                textView.setGravity(Gravity.END);
+
+                textView.setPadding(120, 40, 40, 20);
+
+
             } else {
                 layoutParams.gravity = Gravity.START;
+                textView.setBackground(getDrawable(R.drawable.background_mensaje_recibido));
+                textView.setTextColor(getColor(R.color.black));
+
+                textView.setPadding(40, 40, 120, 40);
             }
 
             // Agrega márgenes alrededor de cada mensaje
@@ -278,10 +314,10 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
             layoutParams.setMargins(marginInPixels, marginInPixels, marginInPixels, marginInPixels);
 
             textView.setTextSize(20);
-            textView.setBackground(getDrawable(R.drawable.background_mensaje));
-            textView.setPadding(20, 20, 20, 20);
-            textView.setTextColor(getColor(R.color.white));
+            textView.setPadding(40, 40, 80, 40);
             textView.setLayoutParams(layoutParams);
+            //cambiar la fuente del textView
+            textView.setTypeface(ResourcesCompat.getFont(this, R.font.poppins_light));
 
             // Agrega el TextView al contenedor de mensajes
             llContainer.addView(textView);

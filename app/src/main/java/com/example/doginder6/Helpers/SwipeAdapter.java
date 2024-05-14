@@ -110,7 +110,8 @@ public class SwipeAdapter extends BaseAdapter {
         TextView tvTamano = view.findViewById(R.id.tvTamano);
 
         tvNombre.setText(user.getNombre());
-        String url = "http://doginder.dam.inspedralbes.cat:3745"+user.getFoto();
+        String url = Settings.URL2 +user.getFoto();
+        Log.d("pruebaSwipe", url);
         Picasso.get().load(url).error(R.drawable.two).into(imageView);
         //http://doginder.dam.inspedralbes.cat:3745/uploads/perro1.jpg
 
@@ -118,15 +119,16 @@ public class SwipeAdapter extends BaseAdapter {
 
         if(user.getSexo().equals("Hembra"))
             Glide.with(this.context)
-                    .load(R.drawable.hembra)
+                    .load(R.drawable.female_sign)
                     .into(ivSexo);
         else{
             Glide.with(this.context)
-                    .load(R.drawable.macho)
+                    .load(R.drawable.male_sign)
                     .into(ivSexo);
         }
 
         tvTamano.setText(user.getTamano());
+
         tvRaza.setText(user.getRaza());
         tvDescripcion.setText(user.getDescripcion());
 
@@ -190,8 +192,13 @@ public class SwipeAdapter extends BaseAdapter {
             edadEnAniosMascota = ChronoUnit.YEARS.between(fechaNacimientoMascota, fechaActualMascota);
         }
 
-        tvEdad.setText("Edad: " + edadEnAniosMascota + " años");
-
+        if(edadEnAniosMascota == 0){
+            tvEdad.setText("<1 año");
+        }else if(edadEnAniosMascota == 1){
+            tvEdad.setText(edadEnAniosMascota + " año");
+        }else {
+            tvEdad.setText(edadEnAniosMascota + " años");
+        }
         //se asignan los listeners a los botones
         btnSi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,7 +228,7 @@ public class SwipeAdapter extends BaseAdapter {
 
                 // Crear un ImageView y establecer la imagen usando Picasso
                 ImageView imageView = new ImageView(context);
-                String url = "http://doginder.dam.inspedralbes.cat:3745" + user.getImgProfile();
+                String url = Settings.URL2 + user.getImgProfile();
                 Log.d("pruebaSwipe", url);
                 Picasso.get().load(url).error(R.drawable.two).resize(500,600).into(imageView); // Utiliza tu imagen de error personalizada
 
@@ -230,7 +237,7 @@ public class SwipeAdapter extends BaseAdapter {
                         + "\nEdad: " + finalEdadEnAnios + " años\nSexo: " + user.getGenero());
 
 // Aplicar estilo negrita al texto "Nombre", "Edad" y "Sexo"
-                spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Nombre
+                spannableString.setSpan(new StyleSpan(Typeface.BOLD),  0, 6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Nombre
                 spannableString.setSpan(new StyleSpan(Typeface.BOLD), spannableString.toString().indexOf("Edad"), spannableString.toString().indexOf("Edad") + 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Edad
                 spannableString.setSpan(new StyleSpan(Typeface.BOLD), spannableString.toString().indexOf("Sexo"), spannableString.toString().indexOf("Sexo") + 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // Sexo
 
@@ -358,7 +365,7 @@ public class SwipeAdapter extends BaseAdapter {
     //en caso de deslizar a la derecha, se envía un like al servidor
     public void darLike(int idUsu1, int idUsu2){
         retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(Settings.URL2)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .build();
 
@@ -386,7 +393,7 @@ public class SwipeAdapter extends BaseAdapter {
     //en caso de deslizar a la izquierda, se envía un dislike al servidor
     public void darDislike(int idUsu1, int idUsu2){
         retrofit = new Retrofit.Builder()
-                .baseUrl(URL)
+                .baseUrl(Settings.URL2)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .build();
 

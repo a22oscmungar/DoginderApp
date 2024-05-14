@@ -47,10 +47,9 @@
                 android:id="@+id/tvNombrePerro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_black"
                 android:layout_weight="8"
                 android:padding="16dp"
-                android:text="Nombre del Perro"
-                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="25sp" />
 
@@ -87,6 +86,7 @@
                 android:id="@+id/etMensaje"
                 android:layout_width="match_parent"
                 android:layout_height="200px"
+                android:fontFamily="@font/poppins_light_italic"
                 android:layout_below="@id/svMensajes"
                 android:hint="Escribe tu mensaje"
                 android:inputType="textMultiLine"
@@ -98,6 +98,7 @@
                 android:id="@+id/btnEnviar"
                 android:layout_width="match_parent"
                 android:layout_height="150px"
+                android:fontFamily="@font/poppins_black"
                 android:layout_below="@id/etMensaje"
                 android:text="Enviar"
                 android:background="@drawable/rounded_image"

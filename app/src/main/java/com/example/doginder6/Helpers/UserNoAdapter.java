@@ -47,7 +47,7 @@ public class UserNoAdapter extends RecyclerView.Adapter<UserNoAdapter.UserViewHo
                 Toast.makeText(context, "Recuperar " + user.getNombre(), Toast.LENGTH_SHORT).show();
             }
         });
-        String url = "http://doginder.dam.inspedralbes.cat:3745"+ user.getFoto();
+        String url = Settings.URL2+ user.getFoto();
 
         Glide.with(context)
                 .load(url)  // Reemplaza con tu recurso de imagen

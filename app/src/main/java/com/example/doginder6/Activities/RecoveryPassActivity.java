@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.doginder6.Helpers.Settings;
 import com.example.doginder6.R;
 import com.example.doginder6.Helpers.doginderAPI;
 import com.google.gson.GsonBuilder;
@@ -34,7 +35,6 @@ public class RecoveryPassActivity extends AppCompatActivity {
     public Retrofit retrofit;
     public com.example.doginder6.Helpers.doginderAPI doginderAPI;
     public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
-    public final String URL2 = "http://192.168.1.140:3745/";
 
     public String token ="";
     public LinearLayout llEmail, llToken;
@@ -86,7 +86,7 @@ public class RecoveryPassActivity extends AppCompatActivity {
                 try {
                     String email = emails[0];
                     retrofit = new Retrofit.Builder()
-                            .baseUrl(URL)
+                            .baseUrl(Settings.URL2)
                             .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                             .build();
 
@@ -132,7 +132,7 @@ public class RecoveryPassActivity extends AppCompatActivity {
                     String token = params[1];
 
                     retrofit = new Retrofit.Builder()
-                            .baseUrl(URL)
+                            .baseUrl(Settings.URL2)
                             .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                             .build();
 

@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doginder6.Helpers.LocationHelper;
+import com.example.doginder6.Helpers.Settings;
 import com.example.doginder6.Helpers.UserNoAdapter;
 import com.example.doginder6.Objects.Usuario2;
 import com.example.doginder6.R;
@@ -129,6 +130,8 @@ public class FragmentSwiper extends Fragment {
                 distancia = Integer.parseInt(etDistancia.getText().toString());
                 //koloda.reloadAdapterData();
                 llamarUsuarios();
+                etDistancia.setVisibility(View.GONE);
+                btnBuscar.setVisibility(View.GONE);
             }
         });
 
@@ -174,6 +177,9 @@ public class FragmentSwiper extends Fragment {
             case R.id.unblock:
                 getNo();
                 return true;
+            case R.id.filtro:
+                etDistancia.setVisibility(View.VISIBLE);
+                btnBuscar.setVisibility(View.VISIBLE);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -255,7 +261,7 @@ public class FragmentSwiper extends Fragment {
 
     public void recibirUsuarios(UserCallback callback) {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://doginder.dam.inspedralbes.cat:3745/")
+                .baseUrl(Settings.URL2)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .build();
 

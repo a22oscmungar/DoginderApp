@@ -40,6 +40,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doginder6.Helpers.Settings;
 import com.example.doginder6.Objects.Usuario;
 import com.example.doginder6.R;
 import com.example.doginder6.Helpers.doginderAPI;
@@ -564,7 +565,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         //hacemos la llamada para registrar
         retrofit = new Retrofit.Builder()
-                .baseUrl(url1)
+                .baseUrl(Settings.URL2)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .build();
 
@@ -654,7 +655,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (matcher.matches() && matcher2.matches()) {
                 // Si los mails son iguales y válidos, comprobamos que no estén registrados
                 retrofit = new Retrofit.Builder()
-                        .baseUrl("http://doginder.dam.inspedralbes.cat:3745/")
+                        .baseUrl(Settings.URL2)
                         .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                         .build();
 
@@ -723,7 +724,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
 
-        Log.d("pruebaImagenes", "Mascota: " + imageUri + " Perfil: " + imageUriPerfil);
     }
 
 }

@@ -280,6 +280,7 @@ public class Usuario2 implements Parcelable {
                 ", idHumano=" + idHumano +
                 ", raza='" + raza + '\'' +
                 ", imgProfile='" + imgProfile + '\'' +
+                ", tamano='" + tamano + '\'' +
                 '}';
     }
 }

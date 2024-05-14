@@ -7,4 +7,7 @@
     <item
         android:id="@+id/unblock"
         android:title="Ver dislikes" />
+    <item
+        android:id="@+id/filtro"
+        android:title="Filtrar por distancia"/>
 </menu>

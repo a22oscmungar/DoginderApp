@@ -2,7 +2,9 @@ package com.example.doginder6.Helpers;
 
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -12,6 +14,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.doginder6.Activities.MainActivity;
 import com.example.doginder6.R;
 
 import java.net.URISyntaxException;
@@ -43,7 +46,7 @@ public class SocketManager {
             String storedSocketId = sharedPreferences.getString(SOCKET_ID_KEY, null);
 
             // Construir la URL del servidor con el socketId si está disponible
-            String serverUrl = "http://doginder.dam.inspedralbes.cat:3745";
+            String serverUrl = Settings.URL2;
             if (storedSocketId != null) {
                 serverUrl += "?socketId=" + storedSocketId;
             }
@@ -135,10 +138,18 @@ public class SocketManager {
         for (MatchListener listener : matchListeners) {
             listener.onMatch();
 
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("Tab", "Chat"); // Puedes pasar un extra para indicar que quieres abrir la pestaña de chat directamente
+            //context.startActivity(intent);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context.getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context.getApplicationContext(), CHANNEL_ID)
                     .setSmallIcon(R.drawable.notificacion)
                     .setContentTitle("Nuevo match!")
                     .setContentText("Has hecho match con alguien!")
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context.getApplicationContext());
@@ -155,15 +166,5 @@ public class SocketManager {
             notificationManager.notify(NOTIFICATION_ID, builder.build());
         }
     }
-
-    private final Emitter.Listener onMatch = new Emitter.Listener() {
-        @Override
-        public void call(final Object... args) {
-            // Tu lógica para manejar el nuevo mensaje aquí
-            Toast.makeText(context, "Nuevo match!", Toast.LENGTH_SHORT).show();
-            Log.d("pruebaSocket", "onMatch: " + args[0]);
-        }
-    };
-
 }
 

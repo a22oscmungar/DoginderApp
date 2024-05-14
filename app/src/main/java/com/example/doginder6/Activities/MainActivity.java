@@ -29,6 +29,7 @@ import com.example.doginder6.Fragments.FragmentPerfil;
 import com.example.doginder6.Fragments.FragmentSwiper;
 import com.example.doginder6.Helpers.LocationHelper;
 import com.example.doginder6.Helpers.MatchListener;
+import com.example.doginder6.Helpers.Settings;
 import com.example.doginder6.Objects.UserResponse;
 import com.example.doginder6.R;
 import com.example.doginder6.Helpers.SocketListener;
@@ -65,12 +66,8 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
     private FusedLocationProviderClient fusedLocationClient;
     private LocationHelper locationHelper;
     public SocketManager socketManager;
-    public final String URL = "http://doginder.dam.inspedralbes.cat:3745/";
-    public final String URL2 = "http://192.168.19.159:3745/";
     public static String socketId;
     private static final String CHANNEL_ID = "match_notification_channel";
-    public static final String CHANNEL_NAME = "Match Notification";
-    public static final String CHANNEL_DESCRIPTION = "Notificación de match";
     public static final int NOTIFICATION_ID = 1;
     public static Context context;
 
@@ -201,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
                     socketId = socketManager.getSocketId();
 
                     retrofit = new Retrofit.Builder()
-                            .baseUrl(URL)
+                            .baseUrl(Settings.URL2)
                             .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                             .build();
 
