@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activities.ChatActivity">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -25,23 +24,24 @@
             android:layout_height="wrap_content"
             android:background="@color/naranjaFlojo"
             android:padding="30dp"
-            android:weightSum="10"
-            android:orientation="horizontal">
+            android:weightSum="10">
 
             <ImageButton
                 android:id="@+id/btnAtras"
-                android:layout_width="150px"
-                android:layout_height="150px"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:src="@drawable/back_flecha"
                 android:scaleType="fitCenter"
-                android:layout_marginTop="60px"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/ivatras"
                 android:background="@android:color/transparent"
                 />
             <ImageView
                 android:id="@id/ivFoto"
-                android:layout_width="200px"
+                android:layout_width="100dp"
                 android:layout_weight="2"
-                android:layout_height="200px"
+                android:layout_height="100dp"
+                android:contentDescription="@string/ivmascota"
                 android:layout_marginTop="12dp"/>
             <TextView
                 android:id="@+id/tvNombrePerro"
@@ -62,13 +62,14 @@
         <ScrollView
             android:id="@+id/svMensajes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:contentDescription="@string/svmensajes"
             android:layout_weight="1">
 
             <LinearLayout
                 android:id="@+id/llContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
             </LinearLayout>
@@ -85,26 +86,24 @@
             <EditText
                 android:id="@+id/etMensaje"
                 android:layout_width="match_parent"
-                android:layout_height="200px"
+                android:layout_height="100dp"
                 android:fontFamily="@font/poppins_light_italic"
-                android:layout_below="@id/svMensajes"
-                android:hint="Escribe tu mensaje"
+                android:hint="@string/escribe_tu_mensaje"
                 android:inputType="textMultiLine"
                 android:maxLines="4"
                 android:layout_weight="2"
-                android:padding="16dp" />
+                android:padding="16dp"
+                android:autofillHints="true" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnEnviar"
                 android:layout_width="match_parent"
-                android:layout_height="150px"
+                android:layout_height="75dp"
                 android:fontFamily="@font/poppins_black"
-                android:layout_below="@id/etMensaje"
-                android:text="Enviar"
+                android:text="@string/enviar"
                 android:background="@drawable/rounded_image"
                 android:backgroundTint="@color/naranjaFlojo"
-                android:layout_weight="8"
-                android:onClick="enviarMensaje" />
+                android:layout_weight="8"/>
         </LinearLayout>
 
     </LinearLayout>

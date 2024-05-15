@@ -34,16 +34,9 @@
                     android:layout_height="60dp"
                     android:layout_marginStart="35dp"
                     android:layout_marginTop="15dp"
+                    android:contentDescription="@string/btnUser"
+                    android:src="@drawable/baseline_accessibility_new_24"/>
 
-                    android:src="@drawable/baseline_accessibility_new_24" />
-
-
-                <ImageButton
-                    android:id="@+id/btnMas"
-                    android:layout_width="50dp"
-                    android:layout_height="60dp"
-                    android:visibility="gone"
-                    android:src="@drawable/baseline_add_circle_outline_24" />
             </LinearLayout>
 
             <ScrollView
@@ -76,9 +69,10 @@
 
                         <ImageView
                             android:id="@+id/ivGeneroMascota"
-                            android:layout_width="250px"
-                            android:layout_height="250px"
-                            android:layout_marginLeft="25dp"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:layout_marginStart="25dp"
+                            android:contentDescription="@string/ivSexoMascota"
                             android:layout_marginTop="25dp"/>
 
                         <TextView
@@ -86,7 +80,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
-                            android:text="NombreMascota"
                             android:textAlignment="textStart"
                             android:textColor="@color/white"
                             android:textSize="35sp"
@@ -207,7 +200,8 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="#ffffff"
-                android:src="@drawable/clear_24" />
+                android:src="@drawable/clear_24"
+                android:contentDescription="@string/btnAceptar"/>
 
             <ImageButton
                 android:id="@+id/btnSi"
@@ -216,7 +210,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="#ffffff"
-
+                android:contentDescription="@string/btnCancelar"
                 android:src="@drawable/check_24" />
         </LinearLayout>
 

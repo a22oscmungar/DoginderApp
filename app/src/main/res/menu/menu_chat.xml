@@ -3,11 +3,11 @@
 
     <item
         android:id="@+id/action_bloquear"
-        android:title="Bloquear" />
+        android:title="@string/menuBloquear" />
     <item
         android:id="@+id/action_limpiar_chat"
-        android:title="Limpiar Chat" />
+        android:title="@string/menuLimpiar" />
     <item
         android:id="@+id/action_reportar"
-        android:title="Reportar usuario"/>
+        android:title="@string/menuReportar"/>
 </menu>

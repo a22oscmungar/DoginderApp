@@ -185,7 +185,7 @@
     <string name="rbMacho">Macho</string>
     <string name="rbHembra">Hembra</string>
     <string name="btnImagen">AÑADIR IMAGEN</string>
-    <string name="etDescripcion">Descríbele aquí! Su personalidad, su comida favorita, por donde le gusta pasear...</string>
+    <string name="etDescripcion">Descríbele aquí! Su personalidad, su comida favorita, por donde le gusta pasear…</string>
     <string name="etEdadMascota">Su edad</string>
     <string name="tvRelacionHumanos">¿Cómo se lleva con humanos?</string>
     <string name="tvRelacionPerros">¿Cómo se lleva con otros perros?</string>
@@ -196,4 +196,30 @@
     <string name="oRegistrate">o regístrate aquí si no tienes una cuenta</string>
     <string name="channel_name">CANAL DE NOTIFICACIONES</string>
     <string name="channel_description">DESCRICPCIONCANAL</string>
+    <string name="btnAceptar">ACEPTAR</string>
+    <string name="btnCancelar">CANCELAR</string>
+    <string name="btnUser">USUARIO</string>
+    <string name="ivSexoMascota">SEXOMASCOTA</string>
+    <string name="contentFiltrar">Boton para filtrar por distancia</string>
+    <string name="btnBuscar">BUSCAR</string>
+    <string name="menuBloquear">BLOQUEAR</string>
+    <string name="menuLimpiar">LIMPIAR CHAT</string>
+    <string name="menuReportar">REPORTAR USUARIO</string>
+    <string name="menuVerTodos">VER TODOS</string>
+    <string name="menuVerDislikes">VER DISLIKES</string>
+    <string name="menuFiltro">FILTRAR POR DISTANCIA</string>
+    <string name="ivatras">ivAtras</string>
+    <string name="ivmascota">ivMascota</string>
+    <string name="escribe_tu_mensaje">Escribe tu mensaje</string>
+    <string name="enviar">Enviar</string>
+    <string name="svmensajes">svMensajes</string>
+    <string name="ivbanner">ivBanner</string>
+    <string name="ivhuellas">ivHuellas</string>
+    <string name="tablayout">tabLayout</string>
+    <string name="banner_de_doginder">Banner de Doginder</string>
+    <string name="ivojopass">ivOjoPass</string>
+    <string name="calendario_para_la_fecha_de_cumplea_os_del_usuario">Calendario para la fecha de cumpleaños del usuario</string>
+    <string name="ivfotoperfil">ivFotoPerfil</string>
+    <string name="ivfotoperfilmascota">ivFotoPerfilMascota</string>
+
 </resources>

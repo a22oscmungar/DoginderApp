@@ -7,11 +7,6 @@
     android:layout_height="wrap_content"
     tools:context=".Fragments.FragmentSwiper">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -28,7 +23,7 @@
             android:background="@drawable/filtro"
             android:visibility="gone"
             android:layout_marginHorizontal="25dp"
-            android:contentDescription="Boton para filtrar por distancia"
+            android:contentDescription="@string/contentFiltrar"
             />
 
         <EditText
@@ -46,7 +41,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Buscar"
+            android:text="@string/btnBuscar"
             android:id="@+id/btnBuscar"
             />
         <com.yalantis.library.Koloda
@@ -62,11 +57,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:text="IR AL REGISTRO"/>
-
-
-
-
-    </LinearLayout>
+            android:text="@string/btnIrRegistro"/>
 
 </LinearLayout>

@@ -3,11 +3,11 @@
 
     <item
         android:id="@+id/seeAll"
-        android:title="Ver todos" />
+        android:title="@string/menuVerTodos" />
     <item
         android:id="@+id/unblock"
-        android:title="Ver dislikes" />
+        android:title="@string/menuVerDislikes" />
     <item
         android:id="@+id/filtro"
-        android:title="Filtrar por distancia"/>
+        android:title="@string/menuFiltro"/>
 </menu>

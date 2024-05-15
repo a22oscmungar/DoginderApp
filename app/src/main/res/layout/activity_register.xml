@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:src="@drawable/banner_sin_back"
-            android:contentDescription="Banner de Doginder"
+            android:contentDescription="@string/banner_de_doginder"
             android:layout_margin="15dp"/>
 
         <!-- Scroll view global -->
@@ -67,7 +67,8 @@
                 <!-- Scroll usuario -->
                 <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    tools:ignore="NestedScrolling">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -106,21 +107,23 @@
                             <EditText
                                 android:id="@+id/etNombre"
                                 android:layout_width="match_parent"
-                                android:layout_height="150px"
+                                android:layout_height="50dp"
                                 android:layout_weight="1"
                                 android:inputType="text"
                                 android:textSize="15sp"
                                 android:fontFamily="@font/poppins_light_italic"
                                 android:backgroundTint="@color/naranjaMain"
-                                android:layout_marginEnd="20dp"/>
+                                android:layout_marginEnd="20dp"
+                                android:autofillHints="TODO" />
                             <EditText
                                 android:id="@+id/etApellidos"
                                 android:layout_width="match_parent"
-                                android:layout_height="150px"
+                                android:layout_height="50dp"
                                 android:layout_weight="1"
                                 android:textSize="15sp"
                                 android:fontFamily="@font/poppins_light_italic"
                                 android:inputType="text"
+                                android:autofillHints="TODO"
                                 android:backgroundTint="@color/naranjaMain"/>
                         </LinearLayout>
 
@@ -138,8 +141,9 @@
                             android:id="@+id/etMail1"
                             android:layout_width="match_parent"
                             android:fontFamily="@font/poppins_light_italic"
-                            android:layout_height="150px"
+                            android:layout_height="50dp"
                             android:textSize="15sp"
+                            android:autofillHints="emailAddress"
                             android:backgroundTint="@color/naranjaMain"/>
                         <TextView
                             android:id="@+id/tvMail2"
@@ -151,9 +155,10 @@
                         <EditText
                             android:id="@+id/etMail2"
                             android:layout_width="match_parent"
-                            android:layout_height="150px"
+                            android:layout_height="50dp"
                             android:textSize="15sp"
                             android:fontFamily="@font/poppins_light_italic"
+                            android:autofillHints="emailAddress"
                             android:backgroundTint="@color/naranjaMain"/>
 
                         <androidx.appcompat.widget.AppCompatButton
@@ -177,6 +182,7 @@
                                 android:text="@string/etContrasena"
                                 android:fontFamily="@font/poppins_black"
                                 android:layout_weight="1"
+                                android:textAlignment="center"
                                 android:textSize="16sp"/>
                             <TextView
                                 android:id="@+id/tvConfirmaContrasena"
@@ -185,6 +191,7 @@
                                 android:text="@string/etConfirmaContrasena"
                                 android:fontFamily="@font/poppins_black"
                                 android:layout_weight="1"
+                                android:textAlignment="center"
                                 android:textSize="15sp"/>
 
                         </LinearLayout>
@@ -196,7 +203,7 @@
                             <EditText
                                 android:id="@+id/etPass1"
                                 android:layout_width="match_parent"
-                                android:layout_height="150px"
+                                android:layout_height="50dp"
                                 android:inputType="textPassword"
                                 android:layout_weight="4"
                                 android:textSize="15sp"
@@ -207,12 +214,13 @@
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:layout_weight="1"
+                                android:contentDescription="@string/ivojopass"
                                 android:layout_gravity="center_vertical"
                                 android:src="@drawable/ojo_abierto"/>
                             <EditText
                                 android:id="@+id/etPass2"
                                 android:layout_width="match_parent"
-                                android:layout_height="150px"
+                                android:layout_height="50dp"
                                 android:inputType="textPassword"
                                 android:fontFamily="@font/poppins_light_italic"
                                 android:layout_weight="4"
@@ -223,6 +231,7 @@
                                 android:layout_width="70dp"
                                 android:layout_height="70dp"
                                 android:layout_weight="1"
+                                android:contentDescription="@string/ivojopass"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ojo_abierto"/>
                         </LinearLayout>
@@ -268,8 +277,9 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:orientation="horizontal"
+                            android:layout_marginTop="25dp"
                             android:layout_weight="10"
                             >
                             <TextView
@@ -288,7 +298,7 @@
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_calendar"
                                 android:layout_weight="2"
-                                android:contentDescription="Calendario para la fecha de cumpleaños del usuario" />
+                                android:contentDescription="@string/calendario_para_la_fecha_de_cumplea_os_del_usuario" />
 
 
                         </LinearLayout>
@@ -297,11 +307,12 @@
                             android:id="@+id/etEdadPersona"
                             android:layout_width="match_parent"
                             android:clickable="false"
-                            android:layout_height="150px"
+                            android:layout_height="70dp"
                             android:inputType="number"
                             android:textSize="15sp"
                             android:fontFamily="@font/poppins_light_italic"
-                            android:backgroundTint="@color/naranjaMain"/>
+                            android:backgroundTint="@color/naranjaMain"
+                            android:autofillHints="TODO" />
 
 
 
@@ -312,8 +323,9 @@
                             android:layout_height="250dp"
                             android:layout_gravity="center"
                             android:src="@drawable/nueva_imagen"
+                            android:contentDescription="@string/ivfotoperfil"
                             android:background="@drawable/rounded_image"
-                            android:layout_margin="50px"/>
+                            android:layout_margin="25dp"/>
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btnFotoPerfil"
@@ -372,7 +384,7 @@
                         <EditText
                             android:id="@+id/etNombreMascota"
                             android:layout_width="match_parent"
-                            android:layout_height="150px"
+                            android:layout_height="75dp"
                             android:hint="@string/etNombreMascota"
                             android:fontFamily="@font/poppins_light_italic"
                             android:backgroundTint="@color/naranjaMain"
@@ -430,7 +442,8 @@
                             android:layout_gravity="center"
                             android:src="@drawable/nueva_imagen"
                             android:background="@drawable/rounded_image"
-                            android:layout_margin="50px"
+                            android:layout_margin="25dp"
+                            android:contentDescription="@string/ivfotoperfilmascota"
                             android:visibility="gone"/>
 
                         <androidx.appcompat.widget.AppCompatButton
@@ -458,7 +471,8 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:hint="@string/etDescripcion"
                                 android:backgroundTint="@color/white"
-                                android:visibility="gone"/>
+                                android:visibility="gone"
+                                android:autofillHints="TODO" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -482,7 +496,7 @@
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_calendar"
                                 android:layout_weight="2"
-                                android:contentDescription="Calendario para la fecha de cumpleaños del usuario" />
+                                android:contentDescription="@string/calendario_para_la_fecha_de_cumplea_os_del_usuario" />
                             <ImageButton
                                 android:id="@+id/btnDatePickerMascotaHelp"
                                 android:layout_width="100dp"
@@ -498,7 +512,6 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/etEdadMascota"
                             android:visibility="gone"
-                            android:text="yyyy-mm-dd"
                             android:fontFamily="@font/poppins_light_italic"
                             android:backgroundTint="@color/naranjaMain"
                             android:clickable="false"

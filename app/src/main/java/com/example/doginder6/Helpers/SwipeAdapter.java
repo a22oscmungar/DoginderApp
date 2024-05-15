@@ -101,7 +101,6 @@ public class SwipeAdapter extends BaseAdapter {
         TextView tvEdad = view.findViewById(R.id.tvEdad);
         TextView tvRaza = view.findViewById(R.id.tvRaza);
         TextView tvSexo = view.findViewById(R.id.tvSexo);
-        ImageButton btnMas = view.findViewById(R.id.btnMas);
         ImageButton btnUser = view.findViewById(R.id.btnUser);
         TextView tvDescripcion = view.findViewById(R.id.tvDescripcion);
         TextView tvRelacionMascotas = view.findViewById(R.id.tvRelacionMascotas);
@@ -211,13 +210,6 @@ public class SwipeAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 koloda.onClickLeft();
-            }
-        });
-
-        btnMas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Aqui saldrá la información sobre " + user.getNombre(), Toast.LENGTH_SHORT).show();
             }
         });
 
