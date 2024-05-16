@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">doginder</string>
+
+
+    <string-array name="razas_de_perro">
+        <item>Sin raza/Mestizo</item>
+        <item>Affenpinscher</item>
+        <item>Perro africano</item>
+        <item>Airedale Terrier</item>
+        <item>Akita</item>
+        <item>Appenzeller</item>
+        <item>Pastor australiano</item>
+        <item>Basenji</item>
+        <item>Beagle</item>
+        <item>Bluetick Coonhound</item>
+        <item>Borzoi</item>
+        <item>Bouvier</item>
+        <item>Boxer</item>
+        <item>Brabanzón</item>
+        <item>Briard</item>
+        <item>Buhund noruego</item>
+        <item>Bulldog de Boston</item>
+        <item>Bulldog inglés</item>
+        <item>Bulldog francés</item>
+        <item>Staffordshire Bullterrier</item>
+        <item>Perro boyero australiano</item>
+        <item>Chihuahua</item>
+        <item>Chow Chow</item>
+        <item>Clumber Spaniel</item>
+        <item>Cockapoo</item>
+        <item>Border Collie</item>
+        <item>Coonhound</item>
+        <item>Cardigan Corgi</item>
+        <item>Coton de Tulear</item>
+        <item>Dachshund</item>
+        <item>Dálmata</item>
+        <item>Gran Danés</item>
+        <item>Lebrel escocés</item>
+        <item>Dhole</item>
+        <item>Dingo</item>
+        <item>Doberman</item>
+        <item>Elkhound noruego</item>
+        <item>Entlebucher</item>
+        <item>Perro esquimal</item>
+        <item>Lapphund finlandés</item>
+        <item>Bichón Frisé</item>
+        <item>Pastor alemán</item>
+        <item>Galgo italiano</item>
+        <item>Groenendael</item>
+        <item>Havanese</item>
+        <item>Lebrel afgano</item>
+        <item>Basset Hound</item>
+        <item>Bloodhound</item>
+        <item>Perro sabueso inglés</item>
+        <item>Lebrel ibicenco</item>
+        <item>Plott Hound</item>
+        <item>Walker Hound</item>
+        <item>Husky</item>
+        <item>Keeshond</item>
+        <item>Kelpie</item>
+        <item>Komondor</item>
+        <item>Kuvasz</item>
+        <item>Labradoodle</item>
+        <item>Labrador Retriever</item>
+        <item>Leonberger</item>
+        <item>Lhasa Apso</item>
+        <item>Malamute de Alaska</item>
+        <item>Malinois</item>
+        <item>Maltés</item>
+        <item>Mastín de toro</item>
+        <item>Mastín inglés</item>
+        <item>Mastín tibetano</item>
+        <item>Perro sin pelo mexicano</item>
+        <item>Mestizo</item>
+        <item>Perro de montaña de Berna</item>
+        <item>Perro de montaña suizo</item>
+        <item>Perro de Terranova</item>
+        <item>Otterhound</item>
+        <item>Ovejero del Cáucaso</item>
+        <item>Papillon</item>
+        <item>Pekinés</item>
+        <item>Pembroke</item>
+        <item>Pinscher miniatura</item>
+        <item>Pitbull</item>
+        <item>Pointer alemán</item>
+        <item>Pointer alemán de pelo largo</item>
+        <item>Pomerania</item>
+        <item>Caniche mediano</item>
+        <item>Caniche miniatura</item>
+        <item>Caniche estándar</item>
+        <item>Caniche toy</item>
+        <item>Pug</item>
+        <item>Puggle</item>
+        <item>Gran Pirineo</item>
+        <item>Redbone Coonhound</item>
+        <item>Retriever de Chesapeake</item>
+        <item>Retriever rizado</item>
+        <item>Retriever de pelo liso</item>
+        <item>Golden Retriever</item>
+        <item>Ridgeback de Rodesia</item>
+        <item>Rottweiler</item>
+        <item>Saluki</item>
+        <item>Samoyedo</item>
+        <item>Schipperke</item>
+        <item>Schnauzer gigante</item>
+        <item>Schnauzer miniatura</item>
+        <item>Segugio italiano</item>
+        <item>Setter inglés</item>
+        <item>Setter gordon</item>
+        <item>Setter irlandés</item>
+        <item>Shar Pei</item>
+        <item>Perro pastor inglés</item>
+        <item>Perro pastor de Shetland</item>
+        <item>Shiba Inu</item>
+        <item>Shih Tzu</item>
+        <item>Spaniel de Blenheim</item>
+        <item>Spaniel de Bretaña</item>
+        <item>Cocker Spaniel</item>
+        <item>Spaniel irlandés</item>
+        <item>Spaniel japonés</item>
+        <item>Spaniel de Sussex</item>
+        <item>Spaniel galés</item>
+        <item>Spitz japonés</item>
+        <item>Springer Spaniel inglés</item>
+        <item>San Bernardo</item>
+        <item>Terrier americano</item>
+        <item>Terrier australiano</item>
+        <item>Terrier de Bedlington</item>
+        <item>Terrier de frontera</item>
+        <item>Terrier de Cairn</item>
+        <item>Terrier de Dandie Dinmont</item>
+        <item>Terrier de Fox</item>
+        <item>Terrier irlandés</item>
+        <item>Terrier Kerry Blue</item>
+        <item>Terrier de Lakeland</item>
+        <item>Terrier de Norfolk</item>
+        <item>Terrier de Norwich</item>
+        <item>Terrier de Patterdale</item>
+        <item>Terrier de Russell</item>
+        <item>Terrier escocés</item>
+        <item>Terrier de Sealyham</item>
+        <item>Terrier sedoso</item>
+        <item>Terrier tibetano</item>
+        <item>Terrier toy</item>
+        <item>Terrier galés</item>
+        <item>Terrier West Highland White</item>
+        <item>Terrier de trigo</item>
+        <item>Yorkshire Terrier</item>
+        <item>Tervuren</item>
+        <item>Vizsla</item>
+        <item>Perro de agua español</item>
+        <item>Weimaraner</item>
+        <item>Whippet</item>
+        <item>Lebrel irlandés</item>
+    </string-array>
+
+    <string name="tvIniciarSesion">Inicia sesión</string>
+    <string name="etCorreoElectronico"> ejemplo@ejemplo.com</string>
+    <string name="tvMail">Correo electrónico </string>
+    <string name="etContrasena">Contraseña </string>
+    <string name="tvAunNoEstasRegistrado">¿Aún no estás registrado?</string>
+    <string name="btnIrRegistro">Ir a registro</string>
+    <string name="btnLogin">ENTRAR</string>
+    <string name="tvOlvidasteContrasena">¿Olvidaste tu contraseña?</string>
+    <string name="tituloRegistro">REGÍSTRATE</string>
+    <string name="oLogin">o inicia sesión si ya tienes una cuenta</string>
+    <string name="tvSobreTi">PRIMERO SOBRE TI</string>
+    <string name="etCorreoElectronicoRegistro">Correo electronico</string>
+    <string name="etConfirmaCorreo">Confirmar correo electronico</string>
+    <string name="btnConfirmaCorreo">CONFIRMAR CORREO</string>
+    <string name="etNombre">Nombre</string>
+    <string name="etApellidos">Apellidos</string>
+    <string name="etGenero">Indica tu género</string>
+    <string name="rbHombre">Hombre</string>
+    <string name="rbMujer">Mujer</string>
+    <string name="rbOtro">Otro / Prefiero no decirlo</string>
+    <string name="etEdad">Tu edad</string>
+    <string name="btnSiguiente">CONTINUAR</string>
+    <string name="etContrasenaRegistro">Contraseña</string>
+    <string name="etConfirmaContrasena">Confirmar contraseña</string>
+    <string name="tituloMascota">SOBRE TU MASCOTA</string>
+    <string name="etNombreMascota">Su nombre</string>
+    <string name="tvRaza">Su raza</string>
+    <string name="tvSexo">Su sexo</string>
+    <string name="rbMacho">Macho</string>
+    <string name="rbHembra">Hembra</string>
+    <string name="btnImagen">AÑADIR IMAGEN</string>
+    <string name="etDescripcion">Descríbele aquí! Su personalidad, su comida favorita, por donde le gusta pasear…</string>
+    <string name="etEdadMascota">Su edad</string>
+    <string name="tvRelacionHumanos">¿Cómo se lleva con humanos?</string>
+    <string name="tvRelacionPerros">¿Cómo se lleva con otros perros?</string>
+    <string name="rbBien">Bien</string>
+    <string name="rbIndiferente">Indiferente</string>
+    <string name="rbMal">Mal</string>
+    <string name="btnRegistrar">REGISTRAR</string>
+    <string name="oRegistrate">o regístrate aquí si no tienes una cuenta</string>
+    <string name="channel_name">CANAL DE NOTIFICACIONES</string>
+    <string name="channel_description">DESCRICPCIONCANAL</string>
+    <string name="btnAceptar">ACEPTAR</string>
+    <string name="btnCancelar">CANCELAR</string>
+    <string name="btnUser">USUARIO</string>
+    <string name="ivSexoMascota">SEXOMASCOTA</string>
+    <string name="contentFiltrar">Boton para filtrar por distancia</string>
+    <string name="btnBuscar">BUSCAR</string>
+    <string name="menuBloquear">BLOQUEAR</string>
+    <string name="menuLimpiar">LIMPIAR CHAT</string>
+    <string name="menuReportar">REPORTAR USUARIO</string>
+    <string name="menuVerTodos">VER TODOS</string>
+    <string name="menuVerDislikes">VER DISLIKES</string>
+    <string name="menuFiltro">FILTRAR POR DISTANCIA</string>
+    <string name="ivatras">ivAtras</string>
+    <string name="ivmascota">ivMascota</string>
+    <string name="escribe_tu_mensaje">Escribe tu mensaje</string>
+    <string name="enviar">Enviar</string>
+    <string name="svmensajes">svMensajes</string>
+    <string name="ivbanner">ivBanner</string>
+    <string name="ivhuellas">ivHuellas</string>
+    <string name="tablayout">tabLayout</string>
+    <string name="banner_de_doginder">Banner de Doginder</string>
+    <string name="ivojopass">ivOjoPass</string>
+    <string name="calendario_para_la_fecha_de_cumplea_os_del_usuario">Calendario para la fecha de cumpleaños del usuario</string>
+    <string name="ivfotoperfil">ivFotoPerfil</string>
+    <string name="ivfotoperfilmascota">ivFotoPerfilMascota</string>
+
+</resources>

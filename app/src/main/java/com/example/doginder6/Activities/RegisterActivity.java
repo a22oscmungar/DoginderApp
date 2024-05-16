@@ -2,6 +2,7 @@ package com.example.doginder6.Activities;
 
 import static java.security.AccessController.getContext;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,11 +42,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doginder6.Helpers.LocationHelper;
 import com.example.doginder6.Helpers.Settings;
 import com.example.doginder6.Objects.Usuario;
 import com.example.doginder6.R;
 import com.example.doginder6.Helpers.doginderAPI;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.GsonBuilder;
@@ -64,7 +68,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RegisterActivity extends AppCompatActivity {
+
+public class RegisterActivity extends AppCompatActivity implements LocationListener {
 
     Button btnSiguiente, btnFoto, btnFotoPerfil, btnRegistro, btnConfirmarMail, btnPass;
     EditText etName, etSurname, etMail1, etMail2, etPass1, etPass2, etNombreMascota, etDescripcion, etEdadPerro, etEdadPersona;
@@ -90,8 +95,9 @@ public class RegisterActivity extends AppCompatActivity {
     String fechaNacimiento, fechaNachimientoMascota;
     private static final int PICK_IMAGE_REQUEST_USER = 1; // Código de solicitud para la imagen del usuario
     private static final int PICK_IMAGE_REQUEST_PROFILE = 2; // Código de solicitud para la imagen del perfil
-    public static final String url1 = "http://doginder.dam.inspedralbes.cat:3745";
-    public static final String url2 = "http://192.168.1.140:3745";
+
+    public LocationHelper locationHelper;
+    public LocationManager locationManager;
 
 
     @Override
@@ -154,6 +160,9 @@ public class RegisterActivity extends AppCompatActivity {
             builder.setPositiveButton("Entendido", (dialog, which) -> {
                 dialog.dismiss();
             });
+
+            builder.show();
+
         });
 
         // Para la foto de perfil
@@ -361,7 +370,8 @@ public class RegisterActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             // Si los permisos ya están otorgados, obtener la ubicación
-            getLastLocation();
+            getLocation2();
+
         } else {
             // Si no, solicitar permisos
             ActivityCompat.requestPermissions(this,
@@ -426,6 +436,21 @@ public class RegisterActivity extends AppCompatActivity {
         oLogin.setText(textoParcial);
         oLogin.setMovementMethod(android.text.method.LinkMovementMethod.getInstance());
         oLogin.setHighlightColor(Color.TRANSPARENT);
+    }
+
+    public void getLocation2(){
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, new android.location.LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
+        });
     }
 
     //funcion que comprueba que las contraseñas sean iguales
@@ -628,11 +653,13 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
+
+                        Log.d("pruebaDistancia", "Es esta ubi: " + latitude + " " + longitude);
                         if (location != null) {
                             // Aquí obtienes la ubicación del usuario
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
-                            Log.d("prueba", "Es esta ubi: " + latitude + " " + longitude);
+                            Log.d("pruebaDistancia", "Es esta ubi: " + latitude + " " + longitude);
                             // Puedes hacer lo que necesites con la ubicación aquí
                         }
                     }
@@ -726,4 +753,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        // Actualizar la ubicación del usuario
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+    }
 }

@@ -499,8 +499,9 @@
                                 android:contentDescription="@string/calendario_para_la_fecha_de_cumplea_os_del_usuario" />
                             <ImageButton
                                 android:id="@+id/btnDatePickerMascotaHelp"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:background="@android:color/transparent"
                                 android:src="@drawable/help"
                                 />
                         </LinearLayout>

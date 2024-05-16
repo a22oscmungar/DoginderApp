@@ -1,10 +1,16 @@
 package com.example.doginder6.Fragments;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,9 +36,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.doginder6.Activities.MainActivity;
 import com.example.doginder6.Helpers.LocationHelper;
 import com.example.doginder6.Helpers.Settings;
 import com.example.doginder6.Helpers.UserNoAdapter;
+import com.example.doginder6.Objects.UserNearbyRequest;
 import com.example.doginder6.Objects.Usuario2;
 import com.example.doginder6.R;
 import com.example.doginder6.Helpers.SwipeAdapter;
@@ -55,28 +63,28 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FragmentSwiper extends Fragment {
+public class FragmentSwiper extends Fragment implements LocationListener {
     public SwipeAdapter swipeAdapter;
     Button btnBuscar, btnFiltro;
     EditText etDistancia;
     private List<Usuario2> list;
     public static Koloda koloda;
     Retrofit retrofit;
-    int distancia = 25;
+    int distancia = 50;
     double latitude;
     double longitude;
     static com.example.doginder6.Helpers.doginderAPI doginderAPI;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
-    private FusedLocationProviderClient fusedLocationClient;
-    private LocationHelper locationHelper;
     static View rootView;
+    public LocationManager locationManager;
+
+
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //iniciamos las variables
-        //rootView --> vista que se va a inflar, en este caso es el propio fragmento
         rootView = inflater.inflate(R.layout.fragment_swiper, container, false);
         btnBuscar = rootView.findViewById(R.id.btnBuscar);
         etDistancia = rootView.findViewById(R.id.etDistancia);
@@ -86,14 +94,13 @@ public class FragmentSwiper extends Fragment {
         setHasOptionsMenu(true); // Indica que este fragmento tiene un menú de opciones
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).
+                getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
 
         //escondemos por defecto la distancia
         btnBuscar.setVisibility(View.GONE);
         etDistancia.setVisibility(View.GONE);
-
 
 
         //listener para el botón de filtro
@@ -110,31 +117,27 @@ public class FragmentSwiper extends Fragment {
             }
         });
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(rootView.getContext());
-
-        // Verificar y solicitar permisos para la localizacion
+        // Verificar y solicitar permisos
         if (ContextCompat.checkSelfPermission(rootView.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             // Si los permisos ya están otorgados, obtener la ubicación
-            getLastLocation();
+            getLocation2();
+            llamarUsuarios();
         } else {
             // Si no, solicitar permisos
-            ActivityCompat.requestPermissions(getActivity(),
+            ActivityCompat.requestPermissions(this.requireActivity(),
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_LOCATION_PERMISSION);
         }
-
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 distancia = Integer.parseInt(etDistancia.getText().toString());
-                //koloda.reloadAdapterData();
                 llamarUsuarios();
                 etDistancia.setVisibility(View.GONE);
                 btnBuscar.setVisibility(View.GONE);
             }
         });
-
         return rootView;
     }
 
@@ -183,6 +186,48 @@ public class FragmentSwiper extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void getLocation2(){
+        locationManager = (LocationManager) rootView.getContext().getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(rootView.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(rootView.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
+    }
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        Log.d("pruebaDistancia", "onLocationChanged: " + location.getLatitude() + " " + location.getLongitude());
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+
+        llamarUsuarios();
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull List<Location> locations) {
+        LocationListener.super.onLocationChanged(locations);
+    }
+
+    @Override
+    public void onFlushComplete(int requestCode) {
+        LocationListener.super.onFlushComplete(requestCode);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        LocationListener.super.onStatusChanged(provider, status, extras);
+    }
+
+    @Override
+    public void onProviderEnabled(@NonNull String provider) {
+        LocationListener.super.onProviderEnabled(provider);
+    }
+
+    @Override
+    public void onProviderDisabled(@NonNull String provider) {
+        LocationListener.super.onProviderDisabled(provider);
     }
 
 
@@ -267,13 +312,11 @@ public class FragmentSwiper extends Fragment {
 
         doginderAPI = retrofit.create(doginderAPI.class);
 
-        //UserNearbyRequest userNearbyRequest = new UserNearbyRequest(41.3851, 2.1734, 15);
-        //Location lastKnownLocation = locationHelper.getLastKnownLocation();
-
         SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
         int idUsu = preferences.getInt("id", 0);
-        //Call<List<Usuario2>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia, idUsu);
-        Call<List<Usuario2>> call = doginderAPI.getNearbyUsers(41.4983767, 1.8122077, distancia, idUsu);
+        Log.d("pruebaDistancia", "recibirUsuarios: " + idUsu + " " + latitude + " " + longitude + " " + distancia);
+        Call<List<Usuario2>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia, idUsu);
+        //Call<List<Usuario2>> call = doginderAPI.getNearbyUsers(41.4983767, 1.8122077, distancia, idUsu);
         //Call<List<UserResponse.Usuario>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia);
 
         call.enqueue(new Callback<List<Usuario2>>() {
@@ -293,20 +336,6 @@ public class FragmentSwiper extends Fragment {
             }
         });
 
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_LOCATION_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permiso concedido, obtener la ubicación
-                getLastLocation();
-            } else {
-                // Permiso denegado, puedes mostrar un mensaje o tomar otras acciones
-            }
-        }
     }
 
     public static void getNo() {
@@ -363,36 +392,6 @@ public class FragmentSwiper extends Fragment {
                 }
             }
         }.execute();
-    }
-
-
-
-    // Método para obtener la última ubicación conocida
-    private void getLastLocation() {
-        if (ActivityCompat.checkSelfPermission(rootView.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(rootView.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            // Aquí obtienes la ubicación del usuario
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                            // Puedes hacer lo que necesites con la ubicación aquí
-
-                            llamarUsuarios();
-                        }
-                    }
-                });
     }
 
 

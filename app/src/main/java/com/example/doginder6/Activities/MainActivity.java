@@ -27,7 +27,6 @@ import android.widget.Toast;
 import com.example.doginder6.Fragments.FragmentChat;
 import com.example.doginder6.Fragments.FragmentPerfil;
 import com.example.doginder6.Fragments.FragmentSwiper;
-import com.example.doginder6.Helpers.LocationHelper;
 import com.example.doginder6.Helpers.MatchListener;
 import com.example.doginder6.Helpers.Settings;
 import com.example.doginder6.Objects.UserResponse;
@@ -52,19 +51,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements SocketListener, MatchListener {
-    public SwipeAdapter swipeAdapter;
-    Button btnBuscar, btnRegistro;
-    EditText etDistancia;
-    private List<UserResponse.Usuario> list;
-    public static Koloda koloda;
     Retrofit retrofit;
-    int distancia = 25;
-    double latitude;
-    double longitude;
     com.example.doginder6.Helpers.doginderAPI doginderAPI;
-    private static final int REQUEST_LOCATION_PERMISSION = 1;
-    private FusedLocationProviderClient fusedLocationClient;
-    private LocationHelper locationHelper;
     public SocketManager socketManager;
     public static String socketId;
     private static final String CHANNEL_ID = "match_notification_channel";
@@ -76,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         askNotificationPermission();
 
