@@ -10,16 +10,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +42,7 @@ import com.example.doginder6.Helpers.SocketManager;
 import com.example.doginder6.Helpers.doginderAPI;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.socket.emitter.Emitter;
@@ -61,6 +67,7 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
     Usuario2 usuario2 = null;
 
     public ImageButton btnAtras, btnBorrar, btnBloquear;
+    String motivo = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,12 +172,51 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Confirmar reporte");
             builder.setMessage("¿Estás seguro de que quieres reportar a este usuario?");
+
+// Inflar el layout personalizado
+            LayoutInflater inflater = this.getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.report_layout, null);
+            builder.setView(dialogView);
+
+// Obtener referencias a los elementos del layout
+            ListView listView = dialogView.findViewById(R.id.list_motivos);
+            EditText editTextMotivoPersonalizado = dialogView.findViewById(R.id.edittext_motivo_personalizado);
+
+// Configurar el ListView con los motivos
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.motivos_reporte, android.R.layout.simple_list_item_multiple_choice);
+            listView.setAdapter(adapter);
+
+// Almacenar los motivos seleccionados
+            List<String> motivosSeleccionados = new ArrayList<>();
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String motivo = (String) parent.getItemAtPosition(position);
+                    if (motivosSeleccionados.contains(motivo)) {
+                        motivosSeleccionados.remove(motivo);
+                    } else {
+                        motivosSeleccionados.add(motivo);
+                    }
+                }
+            });
+
+// Configurar los botones del diálogo
             builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    // Obtener el motivo personalizado
+                    String motivoPersonalizado = editTextMotivoPersonalizado.getText().toString();
+                    if (!motivoPersonalizado.isEmpty()) {
+                        motivosSeleccionados.add(motivoPersonalizado);
+                    }
+
+                    // Aquí puedes combinar los motivos seleccionados en un solo string, si es necesario
+                    motivo = TextUtils.join(", ", motivosSeleccionados);
+
                     // Lógica para reportar al usuario
-                    Toast.makeText(ChatActivity.this, "Usuario reportado", Toast.LENGTH_SHORT).show();
-                    //Aqui irá una llamada al server para enviarnos un mail a administracion sobre el reporte del usuario
+                    Toast.makeText(ChatActivity.this, "Usuario reportado por " + motivo, Toast.LENGTH_SHORT).show();
+                    reportarUsuario();
                 }
             });
 
@@ -183,10 +229,40 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
 
             AlertDialog dialog = builder.create();
             dialog.show();
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void reportarUsuario(){
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Settings.URLlocal)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .build();
+
+        doginderAPI = retrofit.create(doginderAPI.class);
+        Log.d("pruebaReportar", "idUsu1: " + idUsu1 + " idUsu2: " + usuario2.getIdUsu() + " motivo: " + motivo);
+        Call<Void> call = doginderAPI.reportarUsuario(idUsu1, usuario2.getIdUsu(), motivo);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(ChatActivity.this, "Usuario reportado", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ChatActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(ChatActivity.this, "Ha habido un error al reportar el usuario", Toast.LENGTH_SHORT).show();
+                    Log.d("errorReportar", response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(ChatActivity.this, "Ha habido un error al reportar el usuario", Toast.LENGTH_SHORT).show();
+                Log.d("errorReportar", t.getMessage());
+            }
+        });
     }
 
     public void bloquearUsuario(){

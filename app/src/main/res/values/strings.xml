@@ -154,6 +154,17 @@
         <item>Lebrel irlandés</item>
     </string-array>
 
+    <string-array name="motivos_reporte">
+        <item>Contenido inapropiado</item>
+        <item>Spam</item>
+        <item>Perfil falso</item>
+        <item>Violencia</item>
+        <item>Desnudos</item>
+        <item>Discriminación</item>
+        <item>Abuso</item>
+        <item>Otro</item>
+    </string-array>
+
     <string name="tvIniciarSesion">Inicia sesión</string>
     <string name="etCorreoElectronico"> ejemplo@ejemplo.com</string>
     <string name="tvMail">Correo electrónico </string>

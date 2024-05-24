@@ -79,4 +79,7 @@ public interface doginderAPI {
 
     @GET("/getNo")
     Call<List<Usuario2>> getNo(@Query("idUsu") int idUsu);
+
+    @POST("/report")
+    Call<Void> reportarUsuario(@Query("idUsu")int idUsu, @Query("idUsuReportado") int idUsuReportado, @Query("motivo") String motivo);
 }
