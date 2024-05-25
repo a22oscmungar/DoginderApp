@@ -63,9 +63,20 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Verificar si hay una sesión guardada
+        SharedPreferences preferences = getSharedPreferences("credenciales", MODE_PRIVATE);
+        int userId = preferences.getInt("id", -1); // Si no hay id, devuelve -1
+
+        if (userId == -1) {
+            // No hay usuario guardado, redirigir a la pantalla de login
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return; // Salir del método onCreate para no seguir ejecutando el código
+        }
+
         setContentView(R.layout.activity_main);
-
-
 
         askNotificationPermission();
 
@@ -80,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         }
 
         configurarSocket();
-
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Swipe"));
@@ -173,7 +183,6 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
     public void onDestroy() {
 
         super.onDestroy();
-        socketManager.disconnect();
     }
 
     @SuppressLint("StaticFieldLeak")

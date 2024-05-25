@@ -1,5 +1,7 @@
 package com.example.doginder6.Fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,7 +13,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +38,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.doginder6.Activities.LoginActivity;
 import com.example.doginder6.Activities.MainActivity;
 import com.example.doginder6.Helpers.LocationHelper;
 import com.example.doginder6.Helpers.Settings;
@@ -77,9 +80,7 @@ public class FragmentSwiper extends Fragment implements LocationListener {
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     static View rootView;
     public LocationManager locationManager;
-
-
-
+    public ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -122,7 +123,6 @@ public class FragmentSwiper extends Fragment implements LocationListener {
                 == PackageManager.PERMISSION_GRANTED) {
             // Si los permisos ya están otorgados, obtener la ubicación
             getLocation2();
-            llamarUsuarios();
         } else {
             // Si no, solicitar permisos
             ActivityCompat.requestPermissions(this.requireActivity(),
@@ -138,6 +138,8 @@ public class FragmentSwiper extends Fragment implements LocationListener {
                 btnBuscar.setVisibility(View.GONE);
             }
         });
+        progressBar = rootView.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         return rootView;
     }
 
@@ -183,9 +185,28 @@ public class FragmentSwiper extends Fragment implements LocationListener {
             case R.id.filtro:
                 etDistancia.setVisibility(View.VISIBLE);
                 btnBuscar.setVisibility(View.VISIBLE);
+                return true;
+            case R.id.cerrarSesion:
+                logout();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void logout() {
+        // Borrar las credenciales almacenadas en SharedPreferences
+        SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+
+        // Redirigir al usuario a la pantalla de login
+        Intent intent = new Intent(rootView.getContext(), LoginActivity.class);
+        startActivity(intent);
+
+        // Cerrar la MainActivity para que no esté en el back stack
+        requireActivity().finish();
     }
 
     public void getLocation2(){
@@ -245,6 +266,7 @@ public class FragmentSwiper extends Fragment implements LocationListener {
             Toast.makeText(rootView.getContext(), "Introduce una distancia", Toast.LENGTH_LONG).show();
         } else {
             //llamamos a la función que nos devuelve los usuarios
+
             recibirUsuarios(new UserCallback() {
                 @Override
                 public void onUsersReceived(List<Usuario2> users) {
@@ -289,6 +311,7 @@ public class FragmentSwiper extends Fragment implements LocationListener {
 
                         koloda.setAdapter(swipeAdapter);
                         swipeAdapter.notifyDataSetChanged();
+                        progressBar.setVisibility(View.GONE);
 
                     } else {
                         //si no hemos recibido ningun usuario, mostramos un mensaje
@@ -299,6 +322,7 @@ public class FragmentSwiper extends Fragment implements LocationListener {
                 @Override
                 public void onFailure(String errorMessage) {
                     Log.d("TAG1", "onFailure: " + errorMessage);
+                    progressBar.setVisibility(View.GONE);
                 }
             });
         }
@@ -338,42 +362,31 @@ public class FragmentSwiper extends Fragment implements LocationListener {
 
     }
 
-    public static void getNo() {
-        new AsyncTask<Void, Void, List<Usuario2>>() {
-            @Override
-            protected List<Usuario2> doInBackground(Void... voids) {
-                try {
-                    SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
-                    int idUsu = preferences.getInt("id", 0);
+    public void getNo(){
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Settings.URL2)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .build();
 
-                    // Realizar la llamada a la API en segundo plano
-                    Call<List<Usuario2>> call = doginderAPI.getNo(idUsu);
-                    Response<List<Usuario2>> response = call.execute();
-                    if (response.isSuccessful()) {
-                        return response.body();
-                    } else {
-                        Log.d("prueba", "Error en la respuesta: " + response.message());
-                        return null;
-                    }
-                } catch (IOException e) {
-                    Log.d("prueba", "Error en la llamada: " + e.getMessage());
-                    return null;
-                }
-            }
+        doginderAPI = retrofit.create(doginderAPI.class);
 
+        SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
+        int idUsu = preferences.getInt("id", 0);
+
+        Call<List<Usuario2>> call = doginderAPI.getNo(idUsu);
+
+        call.enqueue(new Callback<List<Usuario2>>() {
             @Override
-            protected void onPostExecute(List<Usuario2> usuarios) {
-                super.onPostExecute(usuarios);
-                if (usuarios != null) {
-                    // Procesar la respuesta en el hilo principal
-                    Log.d("prueba", "onResponse getNo: " + usuarios);
+            public void onResponse(Call<List<Usuario2>> call, Response<List<Usuario2>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("prueba", "onResponse getNo: " + response.body());
                     AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                     builder.setTitle("¿Una segunda oportunidad?");
 
                     // Crear RecyclerView y configurar el adaptador
                     RecyclerView recyclerView = new RecyclerView(rootView.getContext());
                     recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-                    UserNoAdapter adapter = new UserNoAdapter(usuarios, rootView.getContext());
+                    UserNoAdapter adapter = new UserNoAdapter(response.body(), rootView.getContext());
                     recyclerView.setAdapter(adapter);
 
                     builder.setView(recyclerView);
@@ -389,9 +402,17 @@ public class FragmentSwiper extends Fragment implements LocationListener {
                     // Mostrar el diálogo
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                } else {
+                    Log.d("prueba", "onResponse: " + response.message());
                 }
             }
-        }.execute();
+
+            @Override
+            public void onFailure(Call<List<Usuario2>> call, Throwable t) {
+                Log.d("prueba", "onFailure: " + t.getMessage());
+            }
+        });
+
     }
 
 

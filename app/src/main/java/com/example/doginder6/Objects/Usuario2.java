@@ -26,6 +26,7 @@ public class Usuario2 implements Parcelable {
     public String raza;
     public String tamano;
     public String imgProfile;
+    public String token;
 
     public Usuario2(int idUsu, Ubi ubi, String nombreUsu, String apellidosUsu, String mailUsu, String pass, String genero, String edadUsu, int mascotaId, String nombre, String edad, String sexo, String foto, String descripcion, String relacionHumanos, String relacionMascotas, int idHumano, String raza, String tamano, String imgProfile){
         this.idUsu = idUsu;
@@ -253,6 +254,14 @@ public class Usuario2 implements Parcelable {
 
     public String getImgProfile() {
         return imgProfile;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
 

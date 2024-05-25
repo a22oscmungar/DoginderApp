@@ -44,6 +44,15 @@
             android:text="@string/btnBuscar"
             android:id="@+id/btnBuscar"
             />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+
+            android:visibility="gone" />
+
         <com.yalantis.library.Koloda
             android:id="@+id/koloda"
             android:layout_width="match_parent"

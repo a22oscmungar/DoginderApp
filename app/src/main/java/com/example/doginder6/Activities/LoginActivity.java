@@ -126,17 +126,17 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    public void login(){
+    public void login() {
         // recogemos los datos de los campos
         String usuario = etUsuario.getText().toString();
         String pass = etContrasena.getText().toString();
 
         // comprobamos que los campos no estén vacíos
-        if(usuario.isEmpty()){
+        if (usuario.isEmpty()) {
             Toast.makeText(this, "Introduce un nombre de usuario!", Toast.LENGTH_SHORT).show();
-        }else if(pass.isEmpty()){
+        } else if (pass.isEmpty()) {
             Toast.makeText(this, "Introduce una contraseña!", Toast.LENGTH_LONG).show();
-        }else{
+        } else {
             // creamos el objeto retrofit y llamamos al método loginUser del API
             retrofit = new Retrofit.Builder()
                     .baseUrl(Settings.URL2)
@@ -151,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
             call.enqueue(new Callback<Usuario2>() {
                 @Override
                 public void onResponse(Call<Usuario2> call, Response<Usuario2> response) {
-                    if(response.isSuccessful() && response.body() != null){
+                    if (response.isSuccessful() && response.body() != null) {
                         // si la respuesta es correcta, guardamos el usuario en la base de datos y vamos a la pantalla principal
                         user = response.body();
 
@@ -159,25 +159,28 @@ public class LoginActivity extends AppCompatActivity {
                         db.borrarTodosLosDatos();
                         db.insertUsu(user);
 
-
+                        // Guardamos las credenciales en SharedPreferences
                         SharedPreferences preferences = getSharedPreferences("credenciales", MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
-                        Log.d("usuario", "login "+ user.getIdUsu());
+                        Log.d("usuario", "login " + user.getIdUsu());
                         editor.putInt("id", user.getIdUsu());
+                        editor.putString("nombre", user.getNombre()); // Guarda el nombre del usuario si es necesario
+                        editor.putString("token", user.getToken()); // Guarda el token si está disponible
                         editor.apply();
 
                         Log.d("pruebaLogin", user.toString());
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
-                    }else{
+                        finish(); // Finaliza la LoginActivity para que no pueda volver al login con el botón de retroceso
+                    } else {
                         Toast.makeText(LoginActivity.this, "Algo va mal, revisa los datos", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Usuario2> call, Throwable t) {
-                    Log.d("prueba", "onFailure: "+ t.getMessage());
+                    Log.d("prueba", "onFailure: " + t.getMessage());
                 }
             });
         }
