@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="banner_height_100dp">100dp</dimen>
-    <dimen name="layout_margin_15dp">15dp</dimen>
-    <dimen name="padding_top_large_18dp">18dp</dimen>
-    <dimen name="text_size_large_40sp">40sp</dimen>
-    <dimen name="text_size_medium_18sp">18sp</dimen>
-    <dimen name="layout_margin_small_10dp">10dp</dimen>
-    <dimen name="layout_margin_start_large_30dp">30dp</dimen>
-    <dimen name="edittext_height_75dp">75dp</dimen>
-    <dimen name="layout_margin_horizontal_large_50dp">50dp</dimen>
-    <dimen name="layout_margin_top_large_25dp">25dp</dimen>
-    <dimen name="frame_layout_margin_top__70dp">-70dp</dimen>
-    <dimen name="button_padding_horizontal_80dp">80dp</dimen>
-    <dimen name="image_width_large_400dp">400dp</dimen>
-    <dimen name="image_margin_end_negative__50dp">-50dp</dimen>
+    <dimen name="banner_height">100dp</dimen>
+    <dimen name="layout_margin">15dp</dimen>
+    <dimen name="padding_top_large">18dp</dimen>
+    <dimen name="text_size_large">40sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="layout_margin_small">10dp</dimen>
+    <dimen name="layout_margin_start_large">30dp</dimen>
+    <dimen name="layout_margin_top_large">25dp</dimen>
+    <dimen name="edittext_height">75dp</dimen>
+    <dimen name="layout_margin_horizontal_large">50dp</dimen>
+    <dimen name="frame_layout_margin_top">30dp</dimen>
+    <dimen name="button_padding_horizontal">80dp</dimen>
+    <dimen name="image_width_large">400dp</dimen>
+    <dimen name="image_margin_end_negative">-50dp</dimen>
 </resources>

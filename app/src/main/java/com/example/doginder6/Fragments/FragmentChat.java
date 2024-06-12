@@ -62,10 +62,6 @@ public class FragmentChat extends Fragment {
         recyclerView.setAdapter(chatAdapter);
         btnCrearGrupo = rootView.findViewById(R.id.btnCrearGrupo);
 
-
-
-
-
         SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
         idUsu = preferences.getInt("id", 0);
 

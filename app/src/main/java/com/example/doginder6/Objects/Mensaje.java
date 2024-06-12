@@ -4,11 +4,13 @@ public class Mensaje {
     private int senderId;
     private int receiverId;
     private String message;
+    private String timesStamp;
 
-    public Mensaje(int senderId, int receiverId, String message) {
+    public Mensaje(int senderId, int receiverId, String message, String timesStamp) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.message = message;
+        this.timesStamp = timesStamp;
     }
 
     public int getSenderId() {
@@ -33,6 +35,14 @@ public class Mensaje {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getTimesStamp() {
+        return timesStamp;
+    }
+
+    public void setTimesStamp(String timesStamp) {
+        this.timesStamp = timesStamp;
     }
 
     @Override

@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.doginder6.Fragments.FragmentChat;
+import com.example.doginder6.Fragments.FragmentMasFunciones;
 import com.example.doginder6.Fragments.FragmentPerfil;
 import com.example.doginder6.Fragments.FragmentSwiper;
 import com.example.doginder6.Helpers.MatchListener;
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         tabLayout.addTab(tabLayout.newTab().setText("Swipe"));
         tabLayout.addTab(tabLayout.newTab().setText("Mi perfil"));
         tabLayout.addTab(tabLayout.newTab().setText("Chat"));
+        tabLayout.addTab(tabLayout.newTab().setText("Más funciones"));
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new FragmentSwiper())
@@ -123,6 +125,12 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
                         // Cargar el segundo fragmento
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new FragmentChat())
+                                .commit();
+                        break;
+                    case 3:
+                        // Cargar el segundo fragmento
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new FragmentMasFunciones())
                                 .commit();
                         break;
                     // Añadir más casos según sea necesario

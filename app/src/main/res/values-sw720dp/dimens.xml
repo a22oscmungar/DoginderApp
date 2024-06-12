@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="banner_height">150dp</dimen>
+    <dimen name="layout_margin">20dp</dimen>
+    <dimen name="padding_top_large">24dp</dimen>
+    <dimen name="text_size_large">50sp</dimen>
+    <dimen name="text_size_medium">22sp</dimen>
+    <dimen name="layout_margin_small">15dp</dimen>
+    <dimen name="layout_margin_start_large">40dp</dimen>
+    <dimen name="layout_margin_top_large">30dp</dimen>
+    <dimen name="edittext_height">90dp</dimen>
+    <dimen name="layout_margin_horizontal_large">60dp</dimen>
+    <dimen name="frame_layout_margin_top">80dp</dimen>
+    <dimen name="button_padding_horizontal">100dp</dimen>
+    <dimen name="image_width_large">500dp</dimen>
+    <dimen name="image_margin_end_negative">-60dp</dimen>
+</resources>

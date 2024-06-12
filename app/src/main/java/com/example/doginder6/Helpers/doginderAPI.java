@@ -82,4 +82,10 @@ public interface doginderAPI {
 
     @POST("/report")
     Call<Void> reportarUsuario(@Query("idUsu")int idUsu, @Query("idUsuReportado") int idUsuReportado, @Query("motivo") String motivo);
+
+    @POST("/pasear")
+    Call<Void> pasear(@Query("idUsu")int idUsu);
+
+    @POST("/social")
+    Call<Void> social(@Query("idUsu")int idUsu);
 }

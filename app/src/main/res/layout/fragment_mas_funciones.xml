@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Doginder no para, y nuestro trineo de huskeis de confianza nos está trayendo nuevas funciones para Doginder!"
+            android:textAlignment="center"
+            android:layout_margin="25dp"
+            android:textSize="25sp"
+            android:fontFamily="@font/poppins_black"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="50dp"
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Paseales o que te lo paseen"
+                    android:textAlignment="center"
+                    android:textSize="25sp"
+                    android:fontFamily="@font/poppins_light"/>
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:src="@drawable/paseador_de_perros"
+                    android:layout_gravity="center"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnPasear"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:text="Como funciona?"
+                    android:fontFamily="@font/poppins_black"
+                    android:layout_marginBottom="30dp"/>
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ayuda o recibe ayuda"
+                    android:textAlignment="center"
+                    android:textSize="25sp"
+                    android:fontFamily="@font/poppins_light"/>
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:src="@drawable/perro_persona_mayor"
+                    android:layout_gravity="center"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSocial"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:text="Como funciona?"
+                    android:fontFamily="@font/poppins_black"/>
+            </LinearLayout>
+
+
+
+        </ScrollView>
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

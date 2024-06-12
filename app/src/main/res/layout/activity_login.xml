@@ -14,41 +14,35 @@
         <!-- Banner -->
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/banner_height_100dp"
+            android:layout_height="@dimen/banner_height"
             android:src="@drawable/banner_sin_back"
-            android:layout_margin="@dimen/layout_margin_15dp"
+            android:layout_margin="@dimen/layout_margin"
             android:contentDescription="@string/ivbanner"
-
             />
 
         <!-- titulo inicio sesion -->
         <TextView
             android:id="@+id/tvIniciarSesion"
-            android:paddingTop="@dimen/padding_top_large_18dp"
+            android:paddingTop="@dimen/padding_top_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tvIniciarSesion"
-            android:textSize="@dimen/text_size_large_40sp"
+            android:textSize="@dimen/text_size_large"
             android:fontFamily="@font/poppins_black"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="@color/naranjaMain"/>
+
         <!-- texto para ir al registro -->
         <TextView
             android:id="@+id/tvORegistrate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="@dimen/text_size_medium_18sp"
-            android:layout_margin="@dimen/layout_margin_small_10dp"
+            android:textSize="@dimen/text_size_medium"
+            android:layout_margin="@dimen/layout_margin_small"
             android:fontFamily="@font/poppins_light"
             />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fillViewport="true"
-            android:scrollbars="none">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,20 +53,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tvMail"
-                    android:textSize="@dimen/text_size_medium_18sp"
+                    android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold"
-                    android:layout_marginStart="@dimen/layout_margin_start_large_30dp"
+                    android:layout_marginStart="@dimen/layout_margin_start_large"
                     android:autofillHints="emailAddress"
                     android:fontFamily="@font/poppins_black"
-                    android:layout_marginTop="@dimen/layout_margin_top_large_25dp"/>
+                    android:layout_marginTop="@dimen/layout_margin_top_large"/>
                 <EditText
                     android:id="@+id/etUsuario"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/edittext_height_75dp"
+                    android:layout_height="@dimen/edittext_height"
                     android:hint="@string/etCorreoElectronico"
                     android:fontFamily="@font/poppins_light"
                     android:textColor="@color/black"
-                    android:layout_marginHorizontal="@dimen/layout_margin_horizontal_large_50dp"
+                    android:layout_marginHorizontal="@dimen/layout_margin_horizontal_large"
                     android:autofillHints="emailAddress"
                     android:textSize="17sp"
                     android:backgroundTint="@color/naranjaMain"
@@ -83,21 +77,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/etContrasena"
-                    android:textSize="@dimen/text_size_medium_18sp"
+                    android:textSize="@dimen/text_size_medium"
                     android:fontFamily="@font/poppins_black"
                     android:textStyle="bold"
-                    android:layout_marginStart="@dimen/layout_margin_start_large_30dp"
-                    android:layout_marginTop="@dimen/layout_margin_top_large_25dp"/>
+                    android:layout_marginStart="@dimen/layout_margin_start_large"
+                    android:layout_marginTop="@dimen/layout_margin_top_large"/>
 
                 <EditText
                     android:id="@+id/etContrasena"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/edittext_height_75dp"
+                    android:layout_height="@dimen/edittext_height"
                     android:hint="@string/etContrasena"
                     android:fontFamily="@font/poppins_light"
                     android:inputType="textPassword"
                     android:textColor="@color/black"
-                    android:layout_marginHorizontal="@dimen/layout_margin_horizontal_large_50dp"
+                    android:layout_marginHorizontal="@dimen/layout_margin_horizontal_large"
                     android:backgroundTint="@color/naranjaMain"
                     android:autofillHints="password" />
 
@@ -108,9 +102,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tvOlvidasteContrasena"
                     android:textAlignment="center"
-                    android:layout_marginTop="@dimen/layout_margin_top_large_25dp"
+                    android:layout_marginTop="@dimen/layout_margin_top_large"
                     android:layout_marginBottom="5dp"
-                    android:textSize="@dimen/text_size_medium_18sp"
+                    android:textSize="@dimen/text_size_medium"
                     android:fontFamily="@font/poppins_medium_italic"
                     android:clickable="true"
                     android:textStyle="bold"
@@ -131,24 +125,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/frame_layout_margin_top__70dp"
                         android:background="@drawable/rounded_image"
                         android:backgroundTint="@color/naranjaBotones"
-                        android:paddingHorizontal="@dimen/button_padding_horizontal_80dp"
+                        android:paddingHorizontal="@dimen/button_padding_horizontal"
                         android:fontFamily="@font/poppins_black"
                         android:text="@string/btnLogin"
                         android:textColor="@color/white" />
 
                     <ImageView
-                        android:layout_width="@dimen/image_width_large_400dp"
-                        android:layout_height="@dimen/image_width_large_400dp"
+                        android:layout_width="@dimen/image_width_large"
+                        android:layout_height="@dimen/image_width_large"
                         android:src="@drawable/rastro_huellas"
                         android:layout_gravity="end"
-                        android:layout_marginEnd="@dimen/image_margin_end_negative__50dp"
+                        android:layout_marginEnd="@dimen/image_margin_end_negative"
                         android:contentDescription="@string/ivhuellas"
                         android:scaleType="centerCrop"/>
                 </FrameLayout>
             </LinearLayout>
-        </ScrollView>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,8 +42,11 @@ import com.example.doginder6.Helpers.SocketManager;
 import com.example.doginder6.Helpers.doginderAPI;
 import com.google.gson.GsonBuilder;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.socket.emitter.Emitter;
 import retrofit2.Call;
@@ -116,13 +119,15 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
         btnEnviar.setOnClickListener(v -> {
             String mensaje = etMensaje.getText().toString();
             Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+
+            // Obtener el timestamp actual
+            String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
             dbHelper.insertMessage(idUsu1, usuario2.getIdUsu(), mensaje);
             Log.d("pruebaSocket", "mensaje: " + mensaje + " " + idUsu1 + " " + usuario2.getIdUsu());
             socket.emitMensaje(mensaje, idUsu1, usuario2.getIdUsu());
-            agregarMensajeAlScrollView("Yo", mensaje);
-            //agregarMensajeAlScrollView("otro", "okey");
+            agregarMensajeAlScrollView("Yo", mensaje, timestamp);
             etMensaje.setText("");
-
         });
         mostrarMensajesDelChat();
 
@@ -302,9 +307,9 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
 
         for (Mensaje mensaje : mensajes) {
             if(mensaje.getSenderId() == idUsu1){
-                agregarMensajeAlScrollView("Yo", mensaje.getMessage());}
-            else{
-                agregarMensajeAlScrollView("otro", mensaje.getMessage());
+                agregarMensajeAlScrollView("Yo", mensaje.getMessage(), mensaje.getTimesStamp());
+            } else {
+                agregarMensajeAlScrollView("otro", mensaje.getMessage(), mensaje.getTimesStamp());
             }
         }
     }
@@ -356,54 +361,106 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
             }
         });
     }
-
-    private void agregarMensajeAlScrollView(String remitente, String mensaje) {
+    private void agregarMensajeAlScrollView(String remitente, String mensaje, String timestamp) {
         if (llContainer != null) {
-            TextView textView = new TextView(this);
-            textView.setText(mensaje);
+            try {
+                String formattedDate = "";
+                String formattedTime = "";
 
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
+                // Verificar si el timestamp es numérico
+                if (timestamp.matches("\\d+")) {
+                    long timestampMillis = Long.parseLong(timestamp);
+                    Date date = new Date(timestampMillis);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+                    formattedDate = dateFormat.format(date);
+                    formattedTime = timeFormat.format(date);
+                } else {
+                    // Asumir que el timestamp está en formato legible
+                    String[] dateTimeParts = timestamp.split(" ");
+                    if (dateTimeParts.length < 2) {
+                        throw new IllegalArgumentException("El formato del timestamp es incorrecto: " + timestamp);
+                    }
+                    formattedDate = dateTimeParts[0]; // Obtener solo la fecha
+                    formattedTime = dateTimeParts[1]; // Obtener solo la hora
+                }
 
-            // Ajusta la gravedad del contenedor para posicionar el mensaje a la derecha o izquierda
-            if (remitente.equals("Yo")) {
-                layoutParams.gravity = Gravity.END;
-                textView.setBackground(getDrawable(R.drawable.background_mensaje));
-                textView.setTextColor(getColor(R.color.white));
-                textView.setGravity(Gravity.END);
+                // Crear un TextView para la fecha si es un nuevo día
+                if (!lastDate.equals(formattedDate)) {
+                    TextView dateView = new TextView(this);
+                    dateView.setText(formattedDate);
+                    dateView.setTypeface(ResourcesCompat.getFont(this, R.font.poppins_bold));
+                    dateView.setTextSize(18);
+                    dateView.setGravity(Gravity.CENTER);
+                    llContainer.addView(dateView);
+                    lastDate = formattedDate;
+                }
 
-                textView.setPadding(120, 40, 40, 20);
+                TextView textView = new TextView(this);
+                textView.setText(mensaje);
 
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
 
-            } else {
-                layoutParams.gravity = Gravity.START;
-                textView.setBackground(getDrawable(R.drawable.background_mensaje_recibido));
-                textView.setTextColor(getColor(R.color.black));
+                // Ajusta la gravedad del contenedor para posicionar el mensaje a la derecha o izquierda
+                if (remitente.equals("Yo")) {
+                    layoutParams.gravity = Gravity.END;
+                    textView.setBackground(getDrawable(R.drawable.background_mensaje));
+                    textView.setTextColor(getColor(R.color.white));
+                    textView.setGravity(Gravity.END);
+                    textView.setPadding(120, 40, 40, 20);
+                } else {
+                    layoutParams.gravity = Gravity.START;
+                    textView.setBackground(getDrawable(R.drawable.background_mensaje_recibido));
+                    textView.setTextColor(getColor(R.color.black));
+                    textView.setPadding(40, 40, 120, 40);
+                }
 
-                textView.setPadding(40, 40, 120, 40);
+                // Añadir hora de envío del mensaje
+                TextView timeView = new TextView(this);
+                if(remitente.equals("Yo")){
+                    timeView.setGravity(Gravity.END);
+                }else{
+                    timeView.setGravity(Gravity.START);
+                }
+                timeView.setText(formattedTime);
+                timeView.setTextSize(12);
+                timeView.setTextColor(getColor(R.color.black));
+
+                // Agregar márgenes alrededor de cada mensaje
+                int marginInPixels = 20;
+                layoutParams.setMargins(marginInPixels, marginInPixels, marginInPixels, marginInPixels);
+
+                textView.setTextSize(20);
+                textView.setPadding(40, 40, 80, 40);
+                textView.setLayoutParams(layoutParams);
+
+                // Cambiar la fuente del textView
+                textView.setTypeface(ResourcesCompat.getFont(this, R.font.poppins_light));
+
+                // Agregar el TextView al contenedor de mensajes
+                llContainer.addView(textView);
+                llContainer.addView(timeView);
+
+                // Desplazar la ScrollView hasta el final para mostrar el nuevo mensaje
+                svMensajes.post(() -> svMensajes.fullScroll(View.FOCUS_DOWN));
+            } catch (IllegalArgumentException e) {
+                Log.e("ChatActivity", "Error de formato en timestamp: " + e.getMessage());
+            } catch (Exception e) {
+                Log.e("ChatActivity", "Error inesperado al agregar mensaje: ", e);
             }
-
-            // Agrega márgenes alrededor de cada mensaje
-            int marginInPixels = 20;
-            layoutParams.setMargins(marginInPixels, marginInPixels, marginInPixels, marginInPixels);
-
-            textView.setTextSize(20);
-            textView.setPadding(40, 40, 80, 40);
-            textView.setLayoutParams(layoutParams);
-            //cambiar la fuente del textView
-            textView.setTypeface(ResourcesCompat.getFont(this, R.font.poppins_light));
-
-            // Agrega el TextView al contenedor de mensajes
-            llContainer.addView(textView);
-
-            // Desplaza la ScrollView hasta el final para mostrar el nuevo mensaje
-            svMensajes.post(() -> svMensajes.fullScroll(View.FOCUS_DOWN));
         } else {
             Log.e("ChatActivity", "Error: llContainer es nulo al intentar agregar mensajes.");
         }
     }
+
+
+
+
+    private String lastDate = ""; // Variable para almacenar la última fecha mostrada
+
 
 
 
@@ -420,6 +477,8 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
             String idUsu1 = String.valueOf(args[1]); // Convertir a String
             int idUsu2 = (int) (args[2]); // Convertir a String
             int idUsu = (int) (args[3]); // Convertir a String
+            String timestamp = (String) args[4]; // Obtener timestamp
+
             Log.d("pruebaSocket", "nuevoMensaje: " + mensaje + " " + idUsu1 + " " + idUsu2);
 
             dbHelper.insertMessage(idUsu, idUsu2, mensaje);
@@ -429,10 +488,11 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
                 public void run() {
                     String mensajeMostrado = "Usuario " + idUsu + ": " + mensaje ;
                     Log.d("pruebaSocket", mensajeMostrado);
-                    agregarMensajeAlScrollView("otro", mensaje);
+                    agregarMensajeAlScrollView("otro", mensaje, timestamp);
                 }
             });
         }
     };
+
 
 }

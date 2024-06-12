@@ -15,20 +15,21 @@ import java.util.List;
 public class ChatDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "chat_database";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2; // Actualiza la versión de la base de datos
 
     private static final String TABLE_MESSAGES = "messages";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_SENDER_ID = "sender_id";
     private static final String COLUMN_RECEIVER_ID = "receiver_id";
     private static final String COLUMN_MESSAGE = "message";
-    private static final String security = " IF NOT EXISTS";
+    private static final String COLUMN_TIMESTAMP = "timestamp"; // Nueva columna para la marca de tiempo
 
-    private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES +"(" +
+    private static final String CREATE_TABLE_MESSAGES = "CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES + " (" +
             COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             COLUMN_SENDER_ID + " INTEGER," +
             COLUMN_RECEIVER_ID + " INTEGER," +
-            COLUMN_MESSAGE + " TEXT" +
+            COLUMN_MESSAGE + " TEXT," +
+            COLUMN_TIMESTAMP + " TEXT" + // Nueva columna en la creación de la tabla
             ")";
 
     public ChatDatabaseHelper(Context context) {
@@ -43,7 +44,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
-            db.execSQL("ALTER TABLE " + TABLE_MESSAGES + " ADD COLUMN " + COLUMN_RECEIVER_ID + " INTEGER");
+            db.execSQL("ALTER TABLE " + TABLE_MESSAGES + " ADD COLUMN " + COLUMN_TIMESTAMP + " TEXT");
         }
     }
 
@@ -53,6 +54,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_SENDER_ID, senderId);
         values.put(COLUMN_RECEIVER_ID, receiverId);
         values.put(COLUMN_MESSAGE, message);
+        values.put(COLUMN_TIMESTAMP, System.currentTimeMillis()); // Inserta la marca de tiempo actual
         db.insert(TABLE_MESSAGES, null, values);
 
         db.close();
@@ -60,8 +62,8 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
         Log.d("ChatDatabaseHelper", "Message inserted");
     }
 
-    //funcion para borrar la tabla messages
-    public void deleteTableMessages(){
+    // Función para borrar la tabla messages
+    public void deleteTableMessages() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MESSAGES);
         db.execSQL(CREATE_TABLE_MESSAGES);
@@ -73,7 +75,7 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         // Define la consulta SQL para seleccionar mensajes según los IDs del remitente y el receptor
-        String query = "SELECT " + COLUMN_SENDER_ID + ", " + COLUMN_RECEIVER_ID + ", " + COLUMN_MESSAGE +
+        String query = "SELECT " + COLUMN_SENDER_ID + ", " + COLUMN_RECEIVER_ID + ", " + COLUMN_MESSAGE + ", " + COLUMN_TIMESTAMP +
                 " FROM " + TABLE_MESSAGES +
                 " WHERE (" + COLUMN_SENDER_ID + " = ? AND " + COLUMN_RECEIVER_ID + " = ?) OR " +
                 "(" + COLUMN_SENDER_ID + " = ? AND " + COLUMN_RECEIVER_ID + " = ?)";
@@ -90,9 +92,10 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
                 int mensajeSenderId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_SENDER_ID));
                 int mensajeReceiverId = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RECEIVER_ID));
                 String message = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_MESSAGE));
+                String timestamp = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIMESTAMP)); // Obtiene la marca de tiempo
 
                 // Crea un nuevo objeto Mensaje y agrégalo a la lista
-                Mensaje mensaje = new Mensaje(mensajeSenderId, mensajeReceiverId, message);
+                Mensaje mensaje = new Mensaje(mensajeSenderId, mensajeReceiverId, message, timestamp); // Incluye la marca de tiempo
                 mensajes.add(mensaje);
             } while (cursor.moveToNext());
         }
@@ -103,7 +106,6 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
 
         return mensajes;
     }
-
 
     public void limpiarChat(int userId1, int userId2) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -126,5 +128,3 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
     }
 
 }
-
-
