@@ -351,15 +351,10 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
                         return;
                     }
                     notificationManager.notify(NOTIFICATION_ID, builder.build());
-
-
                 }
             });
         }
     };
-
-
-
 }
 
 
