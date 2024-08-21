@@ -13,6 +13,9 @@
         android:protectionLevel="signature"/>
     <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE"/>
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+
 
 
     <uses-feature
@@ -32,6 +35,11 @@
         android:theme="@style/Theme.Doginder6"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <service
+            android:name=".Helpers.SocketForegroundService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="connectedDevice"/>
 
 
         <meta-data

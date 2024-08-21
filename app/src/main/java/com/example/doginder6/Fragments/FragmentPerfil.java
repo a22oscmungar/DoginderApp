@@ -1,5 +1,6 @@
 package com.example.doginder6.Fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,11 +39,16 @@ public class FragmentPerfil extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_perfil, container, false);
 
-        Log.d("FragmentPerfil", "onCreateView");
         db = new DataBaseHelper(rootView.getContext(), "MiPerfil", null, 1);
 
-        SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
-        Usuario2 usuario = db.getUsuarioCompleto(preferences.getInt("id", 0));
+        SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", Context.MODE_PRIVATE);
+        int userId = preferences.getInt("id", -1); // Si no hay id, devuelve -1
+        Usuario2 usuario = db.getUsuarioCompleto(userId);
+        if(usuario == null){
+            Log.d("FragmentPerfil", "Usuario nulo");
+            return rootView;
+        }
+        Log.d("FragmentPerfil", "Usuario: " + usuario);
 
         TextView nombre = rootView.findViewById(R.id.tvNombreMascota);
         ImageView foto = rootView.findViewById(R.id.ivFotoMascota);
@@ -64,9 +70,10 @@ public class FragmentPerfil extends Fragment {
 
         nombre.setText(usuario.getNombre().toUpperCase());
         nombre.setShadowLayer(5, 10, 10, R.color.black);
-        String url = Settings.URL2 +usuario.getDescripcion();
-        String url2 = Settings.URL2 +usuario.getImgProfile();
+        String url = Settings.URL3 +usuario.getDescripcion();
+        String url2 = Settings.URL3 +usuario.getImgProfile();
         //Picasso.get().load(url).error(R.drawable.two).into(foto);
+        Log.d("FragmentPerfil", "URL: " + url);
 
         Glide.with(this)
                 .load(url)  // Reemplaza con tu recurso de imagen

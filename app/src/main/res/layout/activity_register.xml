@@ -586,6 +586,25 @@
                                 android:text="@string/rbMal"/>
                         </RadioGroup>
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <CheckBox
+                                android:id="@+id/checkTerminos"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone"/>
+                            <TextView
+                                android:id="@+id/tvTerminos"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" TERMINOS Y CONDICIONES "
+                                android:fontFamily="@font/poppins_extra_bold"
+                                android:textSize="15sp"
+                                android:visibility="gone"/>
+                        </LinearLayout>
+
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btnRegistrar"

@@ -3,12 +3,17 @@ package com.example.doginder6.Activities;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -69,8 +74,12 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
 
     Usuario2 usuario2 = null;
 
-    public ImageButton btnAtras, btnBorrar, btnBloquear;
+    public ImageButton btnAtras;
     String motivo = "";
+    public static final int NOTIFICATION_ID = 1;
+    private static final String CHANNEL_ID = "message_notification_channel";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -392,6 +401,7 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
                     dateView.setTypeface(ResourcesCompat.getFont(this, R.font.poppins_bold));
                     dateView.setTextSize(18);
                     dateView.setGravity(Gravity.CENTER);
+                    dateView.setTextColor(getColor(R.color.black));
                     llContainer.addView(dateView);
                     lastDate = formattedDate;
                 }
@@ -491,6 +501,26 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
                     agregarMensajeAlScrollView("otro", mensaje, timestamp);
                 }
             });
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                    .setSmallIcon(R.drawable.notificacion)
+                    .setContentTitle("Nuevo mensaje!")
+                    .setContentText("Has recibido un nuevo mensaje, entra en la app para verlo!")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            notificationManager.notify(NOTIFICATION_ID, builder.build());
+
         }
     };
 

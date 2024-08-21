@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
+    android:background="@color/white"
     tools:context=".Activities.LoginActivity">
 
     <LinearLayout
@@ -58,6 +59,7 @@
                     android:layout_marginStart="@dimen/layout_margin_start_large"
                     android:autofillHints="emailAddress"
                     android:fontFamily="@font/poppins_black"
+
                     android:layout_marginTop="@dimen/layout_margin_top_large"/>
                 <EditText
                     android:id="@+id/etUsuario"
@@ -87,7 +89,7 @@
                     android:id="@+id/etContrasena"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/edittext_height"
-                    android:hint="@string/etContrasena"
+                    android:hint="@string/etContrasenaHint"
                     android:fontFamily="@font/poppins_light"
                     android:inputType="textPassword"
                     android:textColor="@color/black"
@@ -102,8 +104,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/tvOlvidasteContrasena"
                     android:textAlignment="center"
-                    android:layout_marginTop="@dimen/layout_margin_top_large"
-                    android:layout_marginBottom="5dp"
+                    android:paddingTop="@dimen/layout_margin_top_large"
+                    android:paddingBottom="25dp"
                     android:textSize="@dimen/text_size_medium"
                     android:fontFamily="@font/poppins_medium_italic"
                     android:clickable="true"

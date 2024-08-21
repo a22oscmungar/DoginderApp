@@ -13,7 +13,7 @@ import com.example.doginder6.Objects.Usuario2;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "MiPerfil";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String TABLEUSU_NAME = "DatosDeUsuario";
     public static final String TABLEMASC_NAME = "DatosDeMascota";
     public static final String COLUMN_IDUSU = "idUsuario";
@@ -69,6 +69,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     "FOREIGN KEY(" + COLUMN_IDHUMANO + ") REFERENCES " + TABLEUSU_NAME + "(" + COLUMN_IDUSU + "));";
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        logDatabaseSchema();
         db.execSQL(TABLEUSU_CREATE);
         db.execSQL(TABLEMASC_CREATE);
     }
@@ -78,6 +80,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLEUSU_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLEMASC_NAME);
         onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + TABLEUSU_NAME + " ADD COLUMN " + COLUMN_IMGPROFILE + " TEXT;");
+        }
+        logDatabaseSchema();
     }
 
     public long insertUsu(Usuario2 usuario2) {
@@ -257,6 +263,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Log.d("pruebaDelete", "Usuarios borrados");
 
         // Cierra la conexión
+        db.close();
+    }
+
+    public void logDatabaseSchema() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("PRAGMA table_info(" + TABLEUSU_NAME + ")", null);
+        if (cursor.moveToFirst()) {
+            do {
+                int nameIndex = cursor.getColumnIndex("name");
+                int typeIndex = cursor.getColumnIndex("type");
+
+                if (nameIndex >= 0 && typeIndex >= 0) {
+                    String columnName = cursor.getString(nameIndex);
+                    String columnType = cursor.getString(typeIndex);
+                    Log.d("DatabaseSchema", "Column: " + columnName + " Type: " + columnType);
+                } else {
+                    Log.e("DatabaseSchema", "Column indices are invalid");
+                }
+            } while (cursor.moveToNext());
+        } else {
+            Log.e("DatabaseSchema", "No columns found");
+        }
+        cursor.close();
         db.close();
     }
 

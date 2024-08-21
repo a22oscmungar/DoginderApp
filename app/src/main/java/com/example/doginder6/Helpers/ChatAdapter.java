@@ -62,7 +62,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
 
         Glide.with(holder.itemView.getContext())
-                .load(Settings.URL2 +chatItem.getFoto())  // Reemplaza con tu recurso de imagen
+                .load(Settings.URL3 +chatItem.getFoto())  // Reemplaza con tu recurso de imagen
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.ivFotoMascota);
         // Puedes agregar más configuraciones según tus necesidades

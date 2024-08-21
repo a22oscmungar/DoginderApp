@@ -31,6 +31,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -80,7 +81,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     ScrollView svMascota;
     RadioGroup rgGenero, rgRelacionPersonas, rgRelacionMascotas, rgSexoPerro;
     Spinner spinnerRaza;
-    TextView oLogin, tvSobreTi, tvNombre, tvApellidos, tvMail, tvMail2, tvContrasena, tvContrasena2, tvGenero, tvEdad, tvSobreMascota;
+    TextView oLogin, tvSobreTi, tvNombre, tvApellidos, tvMail, tvMail2, tvContrasena, tvContrasena2, tvGenero, tvEdad, tvSobreMascota, tvTerminos;
+    CheckBox checkTerminos;
 
     com.example.doginder6.Helpers.doginderAPI doginderAPI;
     ImageView ivFoto, ojo1, ojo2, ivFotoPerfil;
@@ -98,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
 
     public LocationHelper locationHelper;
     public LocationManager locationManager;
+    boolean acceptedTerms = false;
 
 
     @Override
@@ -150,6 +153,32 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         btnDatePicker = findViewById(R.id.btnDatePicker);
         btnDatePickerMascota = findViewById(R.id.btnDatePickerMascota);
         btnDatePickerMascotaHelp = findViewById(R.id.btnDatePickerMascotaHelp);
+        tvTerminos = findViewById(R.id.tvTerminos);
+        checkTerminos = findViewById(R.id.checkTerminos);
+
+        //listener para los terminos
+        tvTerminos.setOnClickListener(v -> {
+            //abrimos un dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+            builder.setTitle("Términos y condiciones");
+
+            builder.setMessage(getString(R.string.terminos_y_condiciones));
+            builder.setPositiveButton("Aceptar", (dialog, which) -> {
+                dialog.dismiss();
+            });
+
+            builder.show();
+
+        });
+
+        //listener para el check de los terminos
+        checkTerminos.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                acceptedTerms = true;
+            } else {
+                acceptedTerms = false;
+            }
+        });
 
         btnDatePickerMascotaHelp.setOnClickListener(v -> {
             //abrimos un dialog
@@ -412,7 +441,11 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         });
         //boton final
         btnRegistro.setOnClickListener(v -> {
-            register();
+            if(acceptedTerms){
+                register();}
+            else{
+                Toast.makeText(this, "Debes aceptar los términos y condiciones", Toast.LENGTH_SHORT).show();
+            }
         });
 
         //texto para ir al login
@@ -513,6 +546,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                 rgSexoPerro.setVisibility(View.VISIBLE);
                 btnDatePickerMascota.setVisibility(View.VISIBLE);
                 etEdadPerro.setVisibility(View.VISIBLE);
+                checkTerminos.setVisibility(View.VISIBLE);
+                tvTerminos.setVisibility(View.VISIBLE);
 
                 // Para la foto de la mascota
                 btnFoto.setOnClickListener(v3 -> {
@@ -548,11 +583,10 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
 
         File filePerfil = new File(getRealPathFromURI(imageUriPerfil));
 
-        if (filePerfil == null || !filePerfil.exists()) {
+        if (!filePerfil.exists()) {
             Toast.makeText(this, "La imagen seleccionada no es válida", Toast.LENGTH_LONG).show();
             return;
         }
-
         // Obtener los valores de los campos de texto
         nombre = etName.getText().toString();
         apellidos = etSurname.getText().toString();

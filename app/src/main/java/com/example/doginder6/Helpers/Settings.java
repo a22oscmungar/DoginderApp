@@ -5,4 +5,6 @@ public class Settings {
     public static final String URL2 = "http://192.168.1.48:3745/";
     public static final String URLlocal = "http://192.168.1.48:3745/";
 
+    public static final String URL3 = "http://192.168.1.48:3745";
+
 }

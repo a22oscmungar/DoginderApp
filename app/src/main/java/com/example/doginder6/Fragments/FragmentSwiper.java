@@ -94,7 +94,7 @@ public class FragmentSwiper extends Fragment implements LocationListener {
 
         setHasOptionsMenu(true); // Indica que este fragmento tiene un menú de opciones
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
         Objects.requireNonNull(((AppCompatActivity) getActivity()).
                 getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
@@ -278,7 +278,7 @@ public class FragmentSwiper extends Fragment implements LocationListener {
                     }
                     list.addAll(users);
                     //si hemos recibido algun usuario, creamos el adaptador
-                    if (list.size() != 0 && list != null) {
+                    if (!list.isEmpty()) {
                         SwipeAdapter.UserClickListener userClickListener = new SwipeAdapter.UserClickListener() {
                             @Override
                             public void onSwipeRight(Usuario2 user) {

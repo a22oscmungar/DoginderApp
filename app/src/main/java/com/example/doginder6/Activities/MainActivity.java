@@ -2,7 +2,9 @@ package com.example.doginder6.Activities;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -16,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +33,7 @@ import com.example.doginder6.Fragments.FragmentPerfil;
 import com.example.doginder6.Fragments.FragmentSwiper;
 import com.example.doginder6.Helpers.MatchListener;
 import com.example.doginder6.Helpers.Settings;
+import com.example.doginder6.Helpers.SocketForegroundService;
 import com.example.doginder6.Objects.UserResponse;
 import com.example.doginder6.R;
 import com.example.doginder6.Helpers.SocketListener;
@@ -65,10 +69,27 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Check current theme
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (nightModeFlags) {
+            case Configuration.UI_MODE_NIGHT_YES:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+
+            case Configuration.UI_MODE_NIGHT_NO:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+        }
+        setContentView(R.layout.activity_main);
+
         // Verificar si hay una sesión guardada
         SharedPreferences preferences = getSharedPreferences("credenciales", MODE_PRIVATE);
         int userId = preferences.getInt("id", -1); // Si no hay id, devuelve -1
-
+        Log.d("pruebaId", "id: " + userId);
         if (userId == -1) {
             // No hay usuario guardado, redirigir a la pantalla de login
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -79,7 +100,9 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
 
         setContentView(R.layout.activity_main);
 
-        askNotificationPermission();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            askNotificationPermission();
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.channel_name);
@@ -93,10 +116,17 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
 
         configurarSocket();
 
+        // Solicitar permiso si es necesario
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            askNotificationPermission();
+        } else {
+            startSocketService();
+        }
+
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Swipe"));
-        tabLayout.addTab(tabLayout.newTab().setText("Mi perfil"));
         tabLayout.addTab(tabLayout.newTab().setText("Chat"));
+        tabLayout.addTab(tabLayout.newTab().setText("Mi perfil"));
         tabLayout.addTab(tabLayout.newTab().setText("Más funciones"));
 
         getSupportFragmentManager().beginTransaction()
@@ -118,13 +148,14 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
                     case 1:
                         // Cargar el segundo fragmento
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new FragmentPerfil())
+                                .replace(R.id.fragment_container, new FragmentChat())
                                 .commit();
                         break;
                     case 2:
                         // Cargar el segundo fragmento
+
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new FragmentChat())
+                                .replace(R.id.fragment_container, new FragmentPerfil())
                                 .commit();
                         break;
                     case 3:
@@ -152,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         String tabToOpen = intent.getStringExtra("Tab");
         if (tabToOpen != null && tabToOpen.equals("Chat")) {
             // Seleccionar la pestaña de chat
-            TabLayout.Tab chatTab = tabLayout.getTabAt(2); // Índice de la pestaña de chat
+            TabLayout.Tab chatTab = tabLayout.getTabAt(1); // Índice de la pestaña de chat
             if (chatTab != null) {
                 chatTab.select();
             }
@@ -169,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
                 }
             });
 
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     private void askNotificationPermission() {
         // This is only necessary for API level >= 33 (TIRAMISU)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -185,12 +217,32 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
             }
         }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+        }
     }
 
     @Override
     public void onDestroy() {
-
         super.onDestroy();
+        Intent serviceIntent = new Intent(this, SocketForegroundService.class);
+        stopService(serviceIntent);
+    }
+
+    private ActivityResultLauncher<String> requestPermissionLauncher2 =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // Permiso concedido, puedes proceder
+                    startSocketService();
+                } else {
+                    // Permiso denegado, toma medidas adicionales si es necesario
+                }
+            });
+
+    private void startSocketService() {
+        // Iniciar el servicio en primer plano
+        Intent serviceIntent = new Intent(this, SocketForegroundService.class);
+        ContextCompat.startForegroundService(this, serviceIntent);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -205,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
                     socketId = socketManager.getSocketId();
 
                     retrofit = new Retrofit.Builder()
-                            .baseUrl(Settings.URL2)
+                            .baseUrl(Settings.URLlocal)
                             .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                             .build();
 

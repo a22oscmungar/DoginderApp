@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Fragments.FragmentSwiper">
 
         <androidx.appcompat.widget.Toolbar
@@ -56,8 +57,9 @@
         <com.yalantis.library.Koloda
             android:id="@+id/koloda"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:background="@android:color/white"
             app:koloda_card_layout="@layout/item_koloda"
             />
 

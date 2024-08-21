@@ -70,7 +70,7 @@ public class FragmentChat extends Fragment {
         btnCrearGrupo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+                /*AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
                 if (matches.size() == 0) {
                     Toast.makeText(rootView.getContext(), "No tienes matches para crear un grupo", Toast.LENGTH_SHORT).show();
                 } else {
@@ -89,7 +89,13 @@ public class FragmentChat extends Fragment {
                     AlertDialog dialog = builder.create();
                     dialog.show();
 
-                }
+                }*/
+                AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+                builder.setTitle("Crear grupo");
+                builder.setMessage("Estamos trabajando en poder crear chats grupales, para que puedas hablar con varios de tus matches a la vez. ¡Pronto estará disponible!");
+                builder.setPositiveButton("Aceptar", null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 

@@ -4,7 +4,7 @@
     <dimen name="layout_margin">15dp</dimen>
     <dimen name="padding_top_large">18dp</dimen>
     <dimen name="text_size_large">40sp</dimen>
-    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_medium">20sp</dimen>
     <dimen name="layout_margin_small">10dp</dimen>
     <dimen name="layout_margin_start_large">30dp</dimen>
     <dimen name="layout_margin_top_large">25dp</dimen>

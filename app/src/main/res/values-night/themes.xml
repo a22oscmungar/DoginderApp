@@ -1,7 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme for dark mode. -->
     <style name="Base.Theme.Doginder6" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/naranjaMain</item>
+        <item name="colorPrimaryVariant">@color/naranjaBotones</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSecondary">@color/grisOscuro</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:windowBackground">@color/black</item>
+        <!-- Other dark theme attributes -->
+    </style>
+
+    <style name="Theme.Doginder6" parent="Base.Theme.Doginder6" />
+    <style name="Shape" parent="">
+        <item name="cornerSize">5%</item>
     </style>
 </resources>
