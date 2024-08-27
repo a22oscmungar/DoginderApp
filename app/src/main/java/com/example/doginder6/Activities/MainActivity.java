@@ -124,10 +124,10 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         }
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Swipe"));
-        tabLayout.addTab(tabLayout.newTab().setText("Chat"));
-        tabLayout.addTab(tabLayout.newTab().setText("Mi perfil"));
-        tabLayout.addTab(tabLayout.newTab().setText("Más funciones"));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.Swipe));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.chat));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.menuMiPerfil));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.mas));
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new FragmentSwiper())
@@ -283,11 +283,6 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
         updateSocket();
     }
 
-    /*@Override
-    public void onNuevoMensaje(String mensaje, int idUsu1, int idUsu2) {
-        Toast.makeText(this, "Tienes un nuevo mensaje!", Toast.LENGTH_SHORT).show();
-    }*/
-
     private void configurarSocket() {
         socketManager = new SocketManager(this);
 
@@ -310,8 +305,8 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
                 .setSmallIcon(R.drawable.notificacion)
-                .setContentTitle("Nuevo match!")
-                .setContentText("Has hecho match con alguien!")
+                .setContentTitle(getString(R.string.toastNuevoMatch))
+                .setContentText(getString(R.string.nuevoMatch))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
@@ -338,11 +333,11 @@ public class MainActivity extends AppCompatActivity implements SocketListener, M
                 public void run() {
                     Log.d("pruebaMatch", "Nuevo Match");
 
-                    Toast.makeText(getApplicationContext(), "Nuevo match!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.toastNuevoMatch, Toast.LENGTH_SHORT).show();
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
                             .setSmallIcon(R.drawable.notificacion)
-                            .setContentTitle("Nuevo match!")
-                            .setContentText("Has hecho match con alguien!")
+                            .setContentTitle(getString(R.string.toastNuevoMatch))
+                            .setContentText(getString(R.string.nuevoMatch))
                             .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());

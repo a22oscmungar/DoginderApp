@@ -174,6 +174,7 @@
     <string name="btnIrRegistro">Ir a registro</string>
     <string name="btnLogin">ENTRAR</string>
     <string name="tvOlvidasteContrasena">¿Olvidaste tu contraseña?</string>
+    <string name="registrateAqui">regístrate aquí</string>
     <string name="tituloRegistro">REGÍSTRATE</string>
     <string name="oLogin">o inicia sesión si ya tienes una cuenta</string>
     <string name="tvSobreTi">PRIMERO SOBRE TI</string>
@@ -237,4 +238,38 @@
     <string name="tituloTerminos">Terminos y condiciones</string>
     <string name="terminos_y_condiciones">Última actualización: [Fecha]\n\nBienvenido a [Nombre de la App] (en adelante, &quot;la App&quot;). Al descargar, instalar y utilizar la App, usted (en adelante, &quot;el Usuario&quot;) acepta y se compromete a cumplir con los siguientes términos y condiciones (en adelante, &quot;Términos y Condiciones&quot;). Si no está de acuerdo con estos Términos y Condiciones, le solicitamos que no utilice la App.\n\n1. Descripción del Servicio\n\nLa App está diseñada para conectar a personas que buscan compañeros para pasear a sus mascotas. La App no tiene fines de citas ni de apareamiento de mascotas. Nuestro objetivo es crear un ambiente amigable y seguro para todos los usuarios.\n\n2. Registro y Cuenta de Usuario\n\n2.1. Para utilizar la App, el Usuario debe registrarse y crear una cuenta proporcionando información veraz y actualizada.\n\n2.2. El Usuario es responsable de mantener la confidencialidad de su información de inicio de sesión y de todas las actividades que ocurran bajo su cuenta.\n\n2.3. El uso de la App está limitado a personas mayores de 18 años.\n\n3. Uso Aceptable\n\n3.1. El Usuario se compromete a utilizar la App de manera respetuosa y adecuada, absteniéndose de cualquier conducta que pueda ser considerada ofensiva, ilegal o que infrinja los derechos de otros usuarios.\n\n3.2. Está prohibido utilizar la App para cualquier propósito relacionado con citas, ligar entre humanos o aparear mascotas.\n\n3.3. El Usuario no debe publicar contenido que sea ofensivo, difamatorio, obsceno, acosador, amenazante o que de cualquier otra manera viole las normas comunitarias de la App.\n\n4. Privacidad y Protección de Datos\n\n4.1. La información personal del Usuario será tratada de acuerdo con nuestra Política de Privacidad, la cual forma parte integral de estos Términos y Condiciones.\n\n4.2. La App recopila y utiliza datos personales del Usuario con el propósito de proporcionar y mejorar el servicio.\n\n5. Responsabilidad del Usuario\n\n5.1. El Usuario es responsable de sus interacciones con otros usuarios. La App no verifica ni garantiza la veracidad de la información proporcionada por los usuarios.\n\n5.2. El Usuario acepta que la App no es responsable de ninguna pérdida, daño o inconveniente resultante de interacciones con otros usuarios.\n\n6. Propiedad Intelectual\n\n6.1. Todos los derechos de propiedad intelectual sobre la App y su contenido (incluyendo pero no limitado a software, textos, gráficos, logos) pertenecen a [Nombre de la Empresa] o a sus licenciantes.\n\n6.2. El Usuario se compromete a no reproducir, distribuir, modificar, crear trabajos derivados, o explotar comercialmente cualquier parte de la App sin el permiso expreso por escrito de [Nombre de la Empresa].\n\n7. Modificaciones a los Términos y Condiciones\n\n7.1. [Nombre de la Empresa] se reserva el derecho de modificar estos Términos y Condiciones en cualquier momento. Las modificaciones serán efectivas una vez publicadas en la App.\n\n7.2. El uso continuado de la App después de la publicación de las modificaciones implica la aceptación de los nuevos Términos y Condiciones.\n\n8. Terminación del Servicio\n\n8.1. [Nombre de la Empresa] se reserva el derecho de suspender o terminar la cuenta del Usuario y el acceso a la App en cualquier momento, sin previo aviso, en caso de incumplimiento de estos Términos y Condiciones o de cualquier conducta inapropiada.\n\n9. Limitación de Responsabilidad\n\n9.1. La App se proporciona &quot;tal cual&quot; y &quot;según disponibilidad&quot;. [Nombre de la Empresa] no garantiza que la App estará libre de errores, segura o ininterrumpida.\n\n9.2. En la máxima medida permitida por la ley, [Nombre de la Empresa] no será responsable por daños directos, indirectos, incidentales, especiales, consecuentes o punitivos relacionados con el uso de la App.\n\n10. Ley Aplicable y Jurisdicción\n\n10.1. Estos Términos y Condiciones se regirán e interpretarán de acuerdo con las leyes de [País/Estado].\n\n10.2. Cualquier disputa que surja en relación con estos Términos y Condiciones estará sujeta a la jurisdicción exclusiva de los tribunales de [Ciudad/País/Estado].\n\n11. Contacto\n\nPara cualquier pregunta o consulta sobre estos Términos y Condiciones, por favor contacte a nuestro equipo de soporte en [Correo Electrónico de Soporte].</string>
 
+    <!-- Toasts -->
+    <string name="toastIntroduceNombreUsuario">Introduce un nombre de usuario!</string>
+    <string name="toastIntroduceContrasena">Introduce una contraseña!</string>
+    <string name="toastVaMal">Algo va mal, revisa los datos</string>
+    <string name="toastTerminos">Debes aceptar los términos y condiciones</string>
+    <string name="toastCoincidirContrasena">Las contraseñas no coinciden</string>
+    <string name="toastImagenValida">La imagen seleccionada no es válida</string>
+    <string name="toastErrorRegistro">Ha habido un error al registrar el usuario, prueba mas tarde o revisa tus datos</string>
+    <string name="toast18">Debes tener al menos 18 años para registrarte</string>
+    <string name="toastCorreoRepetido">Parece que ya hay un usuario con este correo electrónico</string>
+    <string name="toastCorreoNoFormato">Los formatos de los correos no son válidos</string>
+    <string name="toastCorreosCoincidir">Los correos no coinciden</string>
+    <string name="toastReportado">Usuario reportado</string>
+    <string name="toastProblemaReport">Ha habido un error al reportar el usuario</string>
+    <string name="toastBloqueado">Usuario bloqueado</string>
+    <string name="toastProblemaBloquear">Ha habido un error al bloquear el usuario</string>
+    <string name="toastNuevoMatch">Tienes un nuevo match!</string>
+    <string name="toastEmail">Email enviado, revisa tambien tu carpeta de spam</string>
+
+    <!-- notifiacion -->
+    <string name="nuevoMatch">Has hecho match con alguien!</string>
+
+    <!-- error -->
+    <string name="errorToken">Token incorrecto</string>
+    <string name="errorTokenVacio">Introduce un token</string>
+    <string name="errorEmailVacio">Introduce un email</string>
+    <string name="errorUsuarioVacio">Introduce un usuario</string>
+    <string name="errorContrasenaVacia">Introduce una contraseña</string>
+
+    <!-- Menu -->
+    <string name="menuMiPerfil">Mi perfil</string>
+    <string name="Swipe">Swipe</string>
+    <string name="chat">Chat</string>
+    <string name="mas">Más funciones</string>
 </resources>

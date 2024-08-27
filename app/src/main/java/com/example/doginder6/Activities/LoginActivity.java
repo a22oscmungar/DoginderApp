@@ -66,6 +66,8 @@ public class LoginActivity extends AppCompatActivity {
 
         String textoCompleto2 = tvRecuperarContrasena.getText().toString();
         SpannableString textoParcial2 = new SpannableString(textoCompleto2);
+
+// Todo el texto es clicable
         ClickableSpan clickableSpan2 = new ClickableSpan() {
             @Override
             public void onClick(android.view.View widget) {
@@ -76,8 +78,10 @@ public class LoginActivity extends AppCompatActivity {
 
         int color2 = ContextCompat.getColor(this, R.color.naranjaMain);
         ForegroundColorSpan colorSpan2 = new ForegroundColorSpan(color2);
-        textoParcial2.setSpan(clickableSpan2, 0, 25, 0);
-        textoParcial2.setSpan(colorSpan2, 0, 25, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+// Aplica el span en todo el texto
+        textoParcial2.setSpan(clickableSpan2, 0, textoCompleto2.length(), 0);
+        textoParcial2.setSpan(colorSpan2, 0, textoCompleto2.length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         tvRecuperarContrasena.setText(textoParcial2);
         tvRecuperarContrasena.setMovementMethod(LinkMovementMethod.getInstance());
@@ -86,25 +90,36 @@ public class LoginActivity extends AppCompatActivity {
         // añadimos el listener al botón
         btnLogin.setOnClickListener(v -> login());
 
-        // editamos el texto para ir al registro
         String textoCompleto = getString(R.string.oRegistrate);
         SpannableString textoParcial = new SpannableString(textoCompleto);
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(android.view.View widget) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        };
 
-        int color = ContextCompat.getColor(this, R.color.naranjaMain);
-        ForegroundColorSpan colorSpan = new ForegroundColorSpan(color);
-        textoParcial.setSpan(clickableSpan, 2, 17, 0);
-        textoParcial.setSpan(colorSpan, 2, 17, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+// Encuentra la posición del texto "regístrate aquí" dinámicamente
+        String textoRegistrateAqui = getString(R.string.registrateAqui);
+        int start = textoCompleto.indexOf(textoRegistrateAqui);
+        int end = start + textoRegistrateAqui.length();
 
-        tvORegistrate.setText(textoParcial);
-        tvORegistrate.setMovementMethod(LinkMovementMethod.getInstance());
-        tvORegistrate.setHighlightColor(Color.TRANSPARENT);
+        if (start != -1) {  // Verifica que la subcadena exista en el texto completo
+            ClickableSpan clickableSpan = new ClickableSpan() {
+                @Override
+                public void onClick(android.view.View widget) {
+                    Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                    startActivity(intent);
+                }
+            };
+
+            int color = ContextCompat.getColor(this, R.color.naranjaMain);
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(color);
+
+            // Aplica el span solo al texto "regístrate aquí"
+            textoParcial.setSpan(clickableSpan, start, end, 0);
+            textoParcial.setSpan(colorSpan, start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            tvORegistrate.setText(textoParcial);
+            tvORegistrate.setMovementMethod(LinkMovementMethod.getInstance());
+            tvORegistrate.setHighlightColor(Color.TRANSPARENT);
+        }else{
+            tvORegistrate.setText(textoCompleto);
+        }
 
 
     }
@@ -132,14 +147,19 @@ public class LoginActivity extends AppCompatActivity {
         String pass = etContrasena.getText().toString();
 
         // comprobamos que los campos no estén vacíos
-        if (usuario.isEmpty()) {
-            Toast.makeText(this, "Introduce un nombre de usuario!", Toast.LENGTH_SHORT).show();
-        } else if (pass.isEmpty()) {
-            Toast.makeText(this, "Introduce una contraseña!", Toast.LENGTH_LONG).show();
+        if (usuario.isEmpty() || pass.isEmpty()) {
+            if(usuario.isEmpty()){
+                etUsuario.setError(getString(R.string.errorUsuarioVacio));
+                Toast.makeText(this, R.string.toastIntroduceNombreUsuario, Toast.LENGTH_SHORT).show();
+            }
+            if(pass.isEmpty()){
+                etContrasena.setError(getString(R.string.errorContrasenaVacia));
+                Toast.makeText(this, R.string.toastIntroduceContrasena, Toast.LENGTH_SHORT).show();
+            }
         } else {
             // creamos el objeto retrofit y llamamos al método loginUser del API
             retrofit = new Retrofit.Builder()
-                    .baseUrl(Settings.URL2)
+                    .baseUrl(Settings.URLlocal)
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                     .build();
 
@@ -174,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish(); // Finaliza la LoginActivity para que no pueda volver al login con el botón de retroceso
                     } else {
-                        Toast.makeText(LoginActivity.this, "Algo va mal, revisa los datos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, R.string.toastVaMal, Toast.LENGTH_SHORT).show();
                     }
                 }
 

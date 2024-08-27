@@ -101,6 +101,9 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     public LocationHelper locationHelper;
     public LocationManager locationManager;
     boolean acceptedTerms = false;
+    boolean fotoPerfil = false;
+    boolean fotoPerro = false;
+
 
 
     @Override
@@ -234,7 +237,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                             // Ahora puedes utilizar fechaNacimientoMillis en otros lugares, como enviarlo a través de Retrofit
                         } else {
                             // El usuario no tiene al menos 18 años, muestra un mensaje de error o realiza alguna acción adecuada
-                            Toast.makeText(context, "Debes tener al menos 18 años para registrarte", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, getString(R.string.toast18), Toast.LENGTH_SHORT).show();
                             // Aquí puedes reiniciar el DatePickerDialog si lo deseas
                         }
                     }
@@ -424,14 +427,10 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             nombre = etName.getText().toString();
             apellidos = etSurname.getText().toString();
             String edadString = etEdadPersona.getText().toString();
-            if(!nombre.isEmpty() && !apellidos.isEmpty() && !genero.isEmpty() && !genero.isEmpty() && !edadString.isEmpty()){
-                //edadPersona = Integer.parseInt(edadString);
-
-                Log.d("prueba", "onClick: " + nombre + " " + apellidos + " " + genero + " " + edadPersona);
-
+            if(!nombre.isEmpty() && !apellidos.isEmpty() && !genero.isEmpty() && !genero.isEmpty() && !edadString.isEmpty() && fotoPerfil){
                 confirmarMail();
             }else{
-                Toast.makeText(this, "Faltan datos obligatorios!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toastVaMal, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -444,7 +443,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             if(acceptedTerms){
                 register();}
             else{
-                Toast.makeText(this, "Debes aceptar los términos y condiciones", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toastTerminos, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -554,11 +553,11 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                     openFileChooser(PICK_IMAGE_REQUEST_USER);
                 });
             }else{
-                Toast.makeText(this, "Las contraseñas no coinciden!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toastCoincidirContrasena, Toast.LENGTH_SHORT).show();
             }
 
         }else{
-            Toast.makeText(this, "Introduce la contraseña!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toastIntroduceContrasena, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -577,14 +576,14 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
 
         // Convertir otros campos a RequestBody
         if (file == null || !file.exists()) {
-            Toast.makeText(this, "La imagen seleccionada no es válida", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toastImagenValida, Toast.LENGTH_LONG).show();
             return;
         }
 
         File filePerfil = new File(getRealPathFromURI(imageUriPerfil));
 
         if (!filePerfil.exists()) {
-            Toast.makeText(this, "La imagen seleccionada no es válida", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toastImagenValida, Toast.LENGTH_LONG).show();
             return;
         }
         // Obtener los valores de los campos de texto
@@ -637,17 +636,16 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, R.string.toastErrorRegistro, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(RegisterActivity.this, "Error al registrar usuario onFailure", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, R.string.toastErrorRegistro, Toast.LENGTH_SHORT).show();
                 Log.d("prueba", "onFailure: " + t.getMessage());
             }
         });
@@ -730,7 +728,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                         if (response.isSuccessful()) {
                             Usuario usuario = response.body();
                             if (usuario != null) {
-                                Toast.makeText(RegisterActivity.this, "Parece que ya hay un usuario con este correo electrónico :(", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, R.string.toastCorreoRepetido, Toast.LENGTH_SHORT).show();
                             } else {
                                 // El correo no está registrado
 
@@ -751,20 +749,20 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                         } else {
                             // Otro tipo de error
                             Log.d("prueba", "Error: " + response.code() + ", " + response.message());
-                            Toast.makeText(RegisterActivity.this, "Algo falla", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, R.string.toastVaMal, Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Usuario> call, Throwable t) {
-                        Toast.makeText(RegisterActivity.this, "error onFailure", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, R.string.toastVaMal, Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
-                Toast.makeText(this, "Los formatos de los correos no son válidos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toastCorreoNoFormato, Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "Los correos no coinciden", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.toastCorreosCoincidir, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -778,10 +776,12 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                 // Se seleccionó una imagen para el usuario
                 imageUri = data.getData();
                 ivFoto.setImageURI(imageUri);
+                fotoPerro = true;
             } else if (requestCode == PICK_IMAGE_REQUEST_PROFILE && data != null && data.getData() != null) {
                 // Se seleccionó una imagen para el perfil
                 imageUriPerfil = data.getData();
                 ivFotoPerfil.setImageURI(imageUriPerfil);
+                fotoPerfil = true;
             }
         }
 

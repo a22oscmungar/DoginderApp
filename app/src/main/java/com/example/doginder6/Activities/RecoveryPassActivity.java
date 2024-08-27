@@ -56,7 +56,7 @@ public class RecoveryPassActivity extends AppCompatActivity {
         btnRecuperar.setOnClickListener(v -> {
             String email = etEmail.getText().toString();
             if (email.isEmpty()) {
-                etEmail.setError("Introduce un email");
+                etEmail.setError(getString(R.string.errorEmailVacio));
             } else {
                 enviarMail(email);
             }
@@ -107,13 +107,13 @@ public class RecoveryPassActivity extends AppCompatActivity {
                 super.onPostExecute(aVoid);
                 // Aquí puedes agregar cualquier lógica que necesites después de enviar el correo electrónico,
                 // como mostrar un mensaje o cambiar la interfaz de usuario.
-                Toast.makeText(RecoveryPassActivity.this, "Email enviado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RecoveryPassActivity.this, R.string.toastEmail, Toast.LENGTH_SHORT).show();
                 llEmail.setVisibility(View.GONE);
                 llToken.setVisibility(View.VISIBLE);
                 btnConfirmar.setOnClickListener(v -> {
                     String tokenIntroducido = etToken.getText().toString();
                     if (tokenIntroducido.isEmpty()) {
-                        etToken.setError("Introduce un token");
+                        etToken.setError(getString(R.string.errorTokenVacio));
                     } else {
                         comprobarToken(tokenIntroducido);
                     }
@@ -152,12 +152,11 @@ public class RecoveryPassActivity extends AppCompatActivity {
             protected void onPostExecute(Boolean tokenCorrecto) {
                 super.onPostExecute(tokenCorrecto);
                 if (tokenCorrecto) {
-                    Toast.makeText(RecoveryPassActivity.this, "Token correcto", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RecoveryPassActivity.this, ResetPasswordActivity.class);
                     intent.putExtra("mail", etEmail.getText().toString());
                     startActivity(intent);
                 } else {
-                    Toast.makeText(RecoveryPassActivity.this, "Token incorrecto", Toast.LENGTH_SHORT).show();
+                    etToken.setError(getString(R.string.errorToken));
                 }
             }
         }.execute(etEmail.getText().toString(), tokenIntroducido);

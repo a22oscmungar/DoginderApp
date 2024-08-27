@@ -121,13 +121,13 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
 
         tvNombre.setText(usuario2.getNombre().toUpperCase());
         Glide.with(this)
-                .load(Settings.URL2 +usuario2.getFoto())  // Reemplaza con tu recurso de imagen
+                .load(Settings.URLlocal +usuario2.getFoto())  // Reemplaza con tu recurso de imagen
                 .apply(RequestOptions.circleCropTransform())
                 .into(ivPerro);
 
         btnEnviar.setOnClickListener(v -> {
             String mensaje = etMensaje.getText().toString();
-            Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
 
             // Obtener el timestamp actual
             String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
@@ -229,7 +229,7 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
                     motivo = TextUtils.join(", ", motivosSeleccionados);
 
                     // Lógica para reportar al usuario
-                    Toast.makeText(ChatActivity.this, "Usuario reportado por " + motivo, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(ChatActivity.this, "Usuario reportado por " + motivo, Toast.LENGTH_SHORT).show();
                     reportarUsuario();
                 }
             });
@@ -262,18 +262,18 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(ChatActivity.this, "Usuario reportado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatActivity.this, R.string.toastReportado, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ChatActivity.this, MainActivity.class);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(ChatActivity.this, "Ha habido un error al reportar el usuario", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatActivity.this, R.string.toastProblemaReport, Toast.LENGTH_SHORT).show();
                     Log.d("errorReportar", response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(ChatActivity.this, "Ha habido un error al reportar el usuario", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatActivity.this, R.string.toastProblemaReport, Toast.LENGTH_SHORT).show();
                 Log.d("errorReportar", t.getMessage());
             }
         });
@@ -281,7 +281,7 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
 
     public void bloquearUsuario(){
         retrofit = new Retrofit.Builder()
-                .baseUrl(Settings.URL2)
+                .baseUrl(Settings.URLlocal)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .build();
 
@@ -294,18 +294,18 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(ChatActivity.this, "Usuario bloqueado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatActivity.this, R.string.toastBloqueado, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ChatActivity.this, MainActivity.class);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(ChatActivity.this, "Ha habido un error al bloquear el usuario", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatActivity.this, R.string.toastProblemaBloquear, Toast.LENGTH_SHORT).show();
                     Log.d("errorBloquear", response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(ChatActivity.this, "Ha habido un error al bloquear el usuario", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatActivity.this, R.string.toastProblemaBloquear, Toast.LENGTH_SHORT).show();
                 Log.d("errorBloquear", t.getMessage());
             }
         });

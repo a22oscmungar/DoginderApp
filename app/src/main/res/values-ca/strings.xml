@@ -7,8 +7,9 @@
     <string name="btnLogin">ENTRAR</string>
     <string name="tvOlvidasteContrasena">Has oblidat la contrasenya?</string>
     <string name="etContrasena">Contrasenya: </string>
-    <string name="tvAunNoEstasRegistrado">Encara no estàs registrat?</string>
+    <string name="tvAunNoEstasRegistrado">O registrat aquí si encara no tens un compte</string>
     <string name="btnIrRegistro">Anar a registre</string>
+    <string name="registrateAqui">regístrat aquí</string>
     <string name="tituloRegistro">REGISTRAT</string>
     <string name="oLogin">o inicia sessió si ja tens un compte</string>
     <string name="tvSobreTi">SOBRE TU</string>
@@ -71,4 +72,39 @@
 
     <string name="tituloTerminos">TERMINIS I CONDICIONS</string>
     <string name="terminos_y_condiciones">Termes i Condicions d\'Ús de [Nom de l\'Aplicació]\n\nÚltima actualització: [Data]\n\nBenvingut a [Nom de l\'Aplicació] (d\'ara endavant, &quot;l\'Aplicació&quot;). En descarregar, instal·lar i utilitzar l\'Aplicació, vostè (d\'ara endavant, &quot;l\'Usuari&quot;) accepta i es compromet a complir amb els següents termes i condicions (d\'ara endavant, &quot;Termes i Condicions&quot;). Si no està d\'acord amb aquests Termes i Condicions, li preguem que no utilitzi l\'Aplicació.\n\n1. Descripció del Servei\n\nL\'Aplicació està dissenyada per connectar persones que busquen companys per passejar les seves mascotes. L\'Aplicació no té finalitats de cites ni d\'aparellament de mascotes. El nostre objectiu és crear un ambient amigable i segur per a tots els usuaris.\n\n2. Registre i Compte d\'Usuari\n\n2.1. Per utilitzar l\'Aplicació, l\'Usuari ha de registrar-se i crear un compte proporcionant informació verídica i actualitzada.\n\n2.2. L\'Usuari és responsable de mantenir la confidencialitat de la seva informació d\'inici de sessió i de totes les activitats que es produeixin sota el seu compte.\n\n2.3. L\'ús de l\'Aplicació està limitat a persones majors de 18 anys.\n\n3. Ús Acceptable\n\n3.1. L\'Usuari es compromet a utilitzar l\'Aplicació de manera respectuosa i adequada, abstenint-se de qualsevol conducta que pugui ser considerada ofensiva, il·legal o que infringeixi els drets d\'altres usuaris.\n\n3.2. Està prohibit utilitzar l\'Aplicació per a qualsevol propòsit relacionat amb cites, lligar entre humans o aparellar mascotes.\n\n3.3. L\'Usuari no ha de publicar contingut que sigui ofensiu, difamatori, obscè, assetjador, amenaçador o que de qualsevol altra manera violi les normes comunitàries de l\'Aplicació.\n\n4. Privadesa i Protecció de Dades\n\n4.1. La informació personal de l\'Usuari serà tractada d\'acord amb la nostra Política de Privadesa, que forma part integral d\'aquests Termes i Condicions.\n\n4.2. L\'Aplicació recull i utilitza dades personals de l\'Usuari amb la finalitat de proporcionar i millorar el servei.\n\n5. Responsabilitat de l\'Usuari\n\n5.1. L\'Usuari és responsable de les seves interaccions amb altres usuaris. L\'Aplicació no verifica ni garanteix la veracitat de la informació proporcionada pels usuaris.\n\n5.2. L\'Usuari accepta que l\'Aplicació no és responsable de cap pèrdua, dany o inconvenient resultant de les interaccions amb altres usuaris.\n\n6. Propietat Intel·lectual\n\n6.1. Tots els drets de propietat intel·lectual sobre l\'Aplicació i el seu contingut (incloent-hi però no limitat a programari, textos, gràfics, logotips) pertanyen a [Nom de l\'Empresa] o als seus llicenciants.\n\n6.2. L\'Usuari es compromet a no reproduir, distribuir, modificar, crear treballs derivats o explotar comercialment qualsevol part de l\'Aplicació sense el permís exprés per escrit de [Nom de l\'Empresa].\n\n7. Modificacions als Termes i Condicions\n\n7.1. [Nom de l\'Empresa] es reserva el dret de modificar aquests Termes i Condicions en qualsevol moment. Les modificacions seran efectives un cop publicades a l\'Aplicació.\n\n7.2. L\'ús continuat de l\'Aplicació després de la publicació de les modificacions implica l\'acceptació dels nous Termes i Condicions.\n\n8. Terminació del Servei\n\n8.1. [Nom de l\'Empresa] es reserva el dret de suspendre o cancel·lar el compte de l\'Usuari i l\'accés a l\'Aplicació en qualsevol moment, sense previ avís, en cas d\'incompliment d\'aquests Termes i Condicions o de qualsevol conducta inadequada.\n\n9. Limitació de Responsabilitat\n\n9.1. L\'Aplicació s\'ofereix &quot;tal com és&quot; i &quot;segons la seva disponibilitat&quot;. [Nom de l\'Empresa] no garanteix que l\'Aplicació serà lliure d\'errors, segura o sense interrupcions.\n\n9.2. En la màxima mesura permesa per la llei, [Nom de l\'Empresa] no serà responsable de danys directes, indirectes, incidentals, especials, consecutius o punitius relacionats amb l\'ús de l\'Aplicació.\n\n10. Llei Aplicable i Jurisdicció\n\n10.1. Aquests Termes i Condicions es regiran i interpretaran d\'acord amb les lleis de [País/Estat].\n\n10.2. Qualsevol disputa que sorgeixi en relació amb aquests Termes i Condicions estarà subjecta a la jurisdicció exclusiva dels tribunals de [Ciutat/País/Estat].\n\n11. Contacte\n\nPer a qualsevol pregunta o consulta sobre aquests Termes i Condicions, si us plau, contacti amb el nostre equip de suport a [Correu Electrònic de Suport].</string>
+
+    <!-- Toasts -->
+    <string name="toastIntroduceNombreUsuario">Introdueix un nom d\'usuari!</string>
+    <string name="toastIntroduceContrasena">Introdueix una contrassenya!</string>
+    <string name="toastVaMal">Sembla que algo falla, revisa les teves dades</string>
+    <string name="toastTerminos">Has d\'acceptar els terminis i condicions</string>
+    <string name="toastCoincidirContrasena">Les contrassenyes no coincideixen</string>
+    <string name="toastImagenValida">La imatge seleccionada no és válida</string>
+    <string name="toastErrorRegistro">Sembla que hi ha un error al registrar el teu usuari, torna a provar més tard</string>
+    <string name="toast18">Has de tenir al menys 18 anys</string>
+    <string name="toastCorreoRepetido">Sembla que ja hi ha un compte amb aquest correu electrònic</string>
+    <string name="toastCorreoNoFormato">El format del correu electrònic no és vàlid</string>
+    <string name="toastCorreosCoincidir">Els correus no coincideixen</string>
+    <string name="toastReportado">Usuari reportat</string>
+    <string name="toastProblemaReport">Hi ha hagut un error reportant a l\'usuari</string>
+    <string name="toastBloqueado">Usuari bloquejat</string>
+    <string name="toastProblemaBloquear">Hi ha hagut un error bloquejant a l\'usuari</string>
+    <string name="toastNuevoMatch">Tens nou match!</string>
+    <string name="toastEmail">Email enviat, revisa també la carpeta d\'spam</string>
+
+    <!-- notifiacion -->
+    <string name="nuevoMatch">Has fet match amb un nou perfil!</string>
+
+    <!-- error -->
+    <string name="errorToken">Token incorrecte</string>
+    <string name="errorTokenVacio">Introdueix un token</string>
+    <string name="errorEmailVacio">Introdueix un email</string>
+    <string name="errorUsuarioVacio">Introdueix un usuari</string>
+    <string name="errorContrasenaVacia">Introdueix una contrasenya</string>
+
+    <!-- Menu -->
+    <string name="menuMiPerfil">El meu perfil</string>
+    <string name="Swipe">Swipe</string>
+    <string name="chat">Xat</string>
+    <string name="mas">Més funcions</string>
 </resources>
