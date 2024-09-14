@@ -46,6 +46,9 @@ public interface doginderAPI {
     @GET("/users/nearby")
     Call<List<Usuario2>> getNearbyUsers(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("radius") int radius, @Query("idUsu") int idUsu);
 
+    @GET("/users/nearbyFilter")
+    Call<List<Usuario2>> getNearbyUsersFilter(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("radius") int radius, @Query("idUsu") int idUsu, @Query("genero") String genero, @Query("edadMin") int edadMin, @Query("edadMax") int edadMax);
+
     @GET("/users/nearbyAll")
     Call<List<Usuario2>> getNearbyUsersAll(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("radius") int radius, @Query("idUsu") int idUsu);
 

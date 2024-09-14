@@ -44,9 +44,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
             pass1 = etPass1.getText().toString();
             pass2 = etPass2.getText().toString();
             if (pass1.isEmpty() || pass2.isEmpty()) {
-                Toast.makeText(this, "Introduce una contraseña", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toastIntroduceContrasena, Toast.LENGTH_SHORT).show();
             } else if (!pass1.equals(pass2)) {
-                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toastCoincidirContrasena, Toast.LENGTH_SHORT).show();
             } else {
                 cambiarPass(pass1);
             }
@@ -80,7 +80,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
             protected void onPostExecute(Boolean success) {
                 super.onPostExecute(success);
                 if (success) {
-                    Toast.makeText(ResetPasswordActivity.this, "Contraseña cambiada correctamente", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
                     startActivity(intent);
                 } else {

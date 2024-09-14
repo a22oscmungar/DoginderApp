@@ -27,24 +27,100 @@
             android:contentDescription="@string/contentFiltrar"
             />
 
-        <EditText
-            android:id="@+id/etDistancia"
-            android:layout_marginTop="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:hint="Distancia en km"
-            android:inputType="number"
-            android:backgroundTint="@color/naranjaFlojo"
-            android:textAlignment="center"/>
-
-
-
-        <androidx.appcompat.widget.AppCompatButton
+        <LinearLayout
+            android:id="@+id/llFiltro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btnBuscar"
-            android:id="@+id/btnBuscar"
-            />
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="25dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/distanciaEnKm"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textSize="25sp"
+                    />
+
+                <EditText
+                    android:id="@+id/etDistancia"
+                    android:layout_marginTop="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:inputType="number"
+                    android:fontFamily="@font/poppins_extra_bold"
+                    android:backgroundTint="@color/naranjaFlojo"
+                    android:textAlignment="center"/>
+                <EditText
+                    android:id="@+id/etGenero"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:fontFamily="@font/poppins_extra_bold"
+                    android:backgroundTint="@color/naranjaFlojo"
+                    android:textAlignment="center"
+                    android:visibility="gone"
+                    android:hint="Género"/>
+                <EditText
+                    android:id="@+id/etEdad"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:fontFamily="@font/poppins_extra_bold"
+                    android:backgroundTint="@color/naranjaFlojo"
+                    android:textAlignment="center"
+                    android:visibility="gone"
+                    android:hint="Edad"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rango de edad"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textSize="25sp"
+                    android:layout_marginTop="50dp"
+                    />
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/sliderEdades"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:valueFrom="18"
+                    android:valueTo="99"
+                    android:stepSize="1"
+                    android:layout_marginBottom="50dp"
+
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sexo del dueño/a"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textSize="25sp"
+                    />
+
+                <Spinner
+                    android:id="@+id/spinnerGenero"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@drawable/descripcion_card"
+                    android:textAlignment="center"
+
+                    />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btnBuscar"
+                    android:background="@drawable/descripcion_card"
+                    android:layout_marginTop="25dp"
+                    android:id="@+id/btnBuscar"
+                    android:layout_gravity="end"
+                    />
+        </LinearLayout>
+
+
+
+
 
         <ProgressBar
             android:id="@+id/progressBar"

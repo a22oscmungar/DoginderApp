@@ -21,9 +21,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +56,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.slider.RangeSlider;
 import com.google.gson.GsonBuilder;
 import com.yalantis.library.Koloda;
 
@@ -69,7 +74,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FragmentSwiper extends Fragment implements LocationListener {
     public SwipeAdapter swipeAdapter;
     Button btnBuscar, btnFiltro;
-    EditText etDistancia;
+    EditText etDistancia, etSexo, etEdad;
     private List<Usuario2> list;
     public static Koloda koloda;
     Retrofit retrofit;
@@ -81,6 +86,11 @@ public class FragmentSwiper extends Fragment implements LocationListener {
     static View rootView;
     public LocationManager locationManager;
     public ProgressBar progressBar;
+    public LinearLayout llFiltro;
+    public String sexo;
+    public int edadMax, edadMin;
+    Spinner spinnerGenero;
+    RangeSlider sliderEdades;
 
     @Nullable
     @Override
@@ -91,6 +101,86 @@ public class FragmentSwiper extends Fragment implements LocationListener {
         etDistancia = rootView.findViewById(R.id.etDistancia);
         koloda = rootView.findViewById(R.id.koloda);
         btnFiltro = rootView.findViewById(R.id.btnFiltro);
+        llFiltro = rootView.findViewById(R.id.llFiltro);
+        etSexo = rootView.findViewById(R.id.etGenero);
+        etEdad = rootView.findViewById(R.id.etEdad);
+        spinnerGenero = rootView.findViewById(R.id.spinnerGenero);
+        sliderEdades = rootView.findViewById(R.id.sliderEdades);
+
+        SharedPreferences preferences = rootView.getContext().getSharedPreferences("filtros", rootView.getContext().MODE_PRIVATE);
+        sexo = preferences.getString("sexo", "null");
+        edadMin = preferences.getInt("edadMin", 18);
+        edadMax = preferences.getInt("edadMax", 99);
+        distancia = preferences.getInt("distancia", 50);
+
+        etDistancia.setText(String.valueOf(distancia));
+
+
+        sliderEdades.setValues((float) edadMin, (float) edadMax);
+
+
+        sliderEdades.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
+            @Override
+            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull RangeSlider slider) {
+                Float edadMax2 = slider.getValues().get(1);
+                Float edadMin2 = slider.getValues().get(0);
+
+                edadMax = Math.round(edadMax2);
+                edadMin = Math.round(edadMin2);
+                SharedPreferences preferences = rootView.getContext().getSharedPreferences("filtros", rootView.getContext().MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("edadMin", edadMin);
+                editor.putInt("edadMax", edadMax);
+                Log.d("prueba", "onStartTrackingTouch: " + edadMax + " " + edadMin);
+
+            }
+        });
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(rootView.getContext(),
+                R.array.generos, R.layout.spinner_generos);
+        adapter.setDropDownViewResource(R.layout.spinner_generos);
+        spinnerGenero.setAdapter(adapter);
+
+        spinnerGenero.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String generoSeleccionado = spinnerGenero.getSelectedItem().toString();
+                Log.d("prueba", "onItemSelected: " + generoSeleccionado);
+
+                // Mapear los valores a "Hombre", "Mujer" o ""
+                switch (generoSeleccionado) {
+                    case "Hombres":
+                    case "Men":
+                    case "Home":  // Catalán
+                        sexo = "Hombre";
+                        break;
+                    case "Mujeres":
+                    case "Women":
+                    case "Dona":  // Catalán
+                        sexo = "Mujer";
+                        break;
+                    case "Cualquier género":
+                    case "Any gender":
+                    case "Qualsevol genere":  // Catalán
+                        sexo = "";  // No filtrar por género
+                        break;
+                    default:
+                        sexo = "";  // Fallback, si algo no está cubierto
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        llFiltro.setVisibility(View.GONE);
 
         setHasOptionsMenu(true); // Indica que este fragmento tiene un menú de opciones
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
@@ -98,6 +188,9 @@ public class FragmentSwiper extends Fragment implements LocationListener {
         Objects.requireNonNull(((AppCompatActivity) getActivity()).
                 getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
+
+
+        Log.d("prueba", "onClick: " + sexo + " " + edadMin +" " + edadMax+ " " + distancia);
 
         //escondemos por defecto la distancia
         btnBuscar.setVisibility(View.GONE);
@@ -118,6 +211,35 @@ public class FragmentSwiper extends Fragment implements LocationListener {
             }
         });
 
+        btnBuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(etDistancia.getText().toString().isEmpty()){
+                    distancia = 50;
+                }else{
+                    distancia = Integer.parseInt(etDistancia.getText().toString());
+                }
+                //llamarUsuarios();
+                etDistancia.setVisibility(View.GONE);
+                btnBuscar.setVisibility(View.GONE);
+
+                //sexo = etSexo.getText().toString();
+                //edadMin = Integer.parseInt(etEdad.getText().toString());
+
+                SharedPreferences preferences = rootView.getContext().getSharedPreferences("filtros", rootView.getContext().MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("distancia", distancia);
+                editor.putString("sexo", sexo);
+                editor.putInt("edadMin", edadMin);
+                editor.putInt("edadMax", edadMax);
+                editor.apply();
+                Log.d("prueba", "onClick: " + sexo + " " + edadMin + " " + edadMax + " " + distancia);
+                llamarUsuarios();
+                llFiltro.setVisibility(View.GONE);
+                //koloda.setVisibility(View.VISIBLE);
+            }
+        });
+
         // Verificar y solicitar permisos
         if (ContextCompat.checkSelfPermission(rootView.getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -129,15 +251,6 @@ public class FragmentSwiper extends Fragment implements LocationListener {
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_LOCATION_PERMISSION);
         }
-        btnBuscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                distancia = Integer.parseInt(etDistancia.getText().toString());
-                llamarUsuarios();
-                etDistancia.setVisibility(View.GONE);
-                btnBuscar.setVisibility(View.GONE);
-            }
-        });
         progressBar = rootView.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         return rootView;
@@ -182,9 +295,15 @@ public class FragmentSwiper extends Fragment implements LocationListener {
             case R.id.unblock:
                 getNo();
                 return true;
-            case R.id.filtro:
-                etDistancia.setVisibility(View.VISIBLE);
+            case R.id.filtro:/*
+                etDistancia.setVisibility(View.VISIBLE);*/
                 btnBuscar.setVisibility(View.VISIBLE);
+                llFiltro.setVisibility(View.VISIBLE);
+                etDistancia.setVisibility(View.VISIBLE);
+
+
+                //koloda.setVisibility(View.GONE);
+
                 return true;
             case R.id.cerrarSesion:
                 logout();
@@ -267,7 +386,7 @@ public class FragmentSwiper extends Fragment implements LocationListener {
         } else {
             //llamamos a la función que nos devuelve los usuarios
 
-            recibirUsuarios(new UserCallback() {
+            recibirUsuarios2(new UserCallback() {
                 @Override
                 public void onUsersReceived(List<Usuario2> users) {
                     // Actualizar la lista y el adaptador aquí
@@ -326,6 +445,41 @@ public class FragmentSwiper extends Fragment implements LocationListener {
                 }
             });
         }
+    }
+
+    //funcion para recibir los usuarios con filtro
+    public void recibirUsuarios2(UserCallback callback) {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Settings.URL2)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
+                .build();
+
+        doginderAPI = retrofit.create(doginderAPI.class);
+
+        SharedPreferences preferences = rootView.getContext().getSharedPreferences("credenciales", rootView.getContext().MODE_PRIVATE);
+        int idUsu = preferences.getInt("id", 0);
+        Log.d("pruebaDistancia", "recibirUsuarios: " + idUsu + " " + latitude + " " + longitude + " distancia: " + distancia + " " + sexo + " " + edadMin + " " + edadMax);
+        Call<List<Usuario2>> call = doginderAPI.getNearbyUsersFilter(latitude, longitude, distancia, idUsu, sexo, edadMin, edadMax);
+        //Call<List<Usuario2>> call = doginderAPI.getNearbyUsers(41.4983767, 1.8122077, distancia, idUsu);
+        //Call<List<UserResponse.Usuario>> call = doginderAPI.getNearbyUsers(latitude, longitude, distancia);
+
+        call.enqueue(new Callback<List<Usuario2>>() {
+            @Override
+            public void onResponse(Call<List<Usuario2>> call, Response<List<Usuario2>> response) {
+                if (response.isSuccessful()) {
+                    callback.onUsersReceived(response.body());
+                    Log.d("TAG1", "onResponse: " + response.body());
+                } else {
+                    callback.onFailure("Error en la respuesta: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Usuario2>> call, Throwable t) {
+                callback.onFailure("Error en la llamada: " + t.getMessage());
+            }
+        });
+
     }
 
     public void recibirUsuarios(UserCallback callback) {

@@ -554,10 +554,13 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                 });
             }else{
                 Toast.makeText(this, R.string.toastCoincidirContrasena, Toast.LENGTH_SHORT).show();
+                etPass1.setError(getString(R.string.toastCoincidirContrasena));
+                etPass2.setError(getString(R.string.toastCoincidirContrasena));
             }
 
         }else{
             Toast.makeText(this, R.string.toastIntroduceContrasena, Toast.LENGTH_LONG).show();
+            etPass1.setError(getString(R.string.toastIntroduceContrasena));
         }
     }
 
@@ -760,9 +763,13 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                 });
             } else {
                 Toast.makeText(this, R.string.toastCorreoNoFormato, Toast.LENGTH_SHORT).show();
+                etMail1.setError(getString(R.string.toastCorreoNoFormato));
+                etMail2.setError(getString(R.string.toastCorreoNoFormato));
             }
         } else {
             Toast.makeText(this, R.string.toastCorreosCoincidir, Toast.LENGTH_LONG).show();
+            etMail1.setError(getString(R.string.toastCorreosCoincidir));
+            etMail2.setError(getString(R.string.toastCorreosCoincidir));
         }
     }
 
