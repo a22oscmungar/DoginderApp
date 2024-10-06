@@ -1,6 +1,7 @@
 package com.example.doginder6.Fragments;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -91,9 +92,9 @@ public class FragmentChat extends Fragment {
 
                 }*/
                 AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
-                builder.setTitle("Crear grupo");
-                builder.setMessage("Estamos trabajando en poder crear chats grupales, para que puedas hablar con varios de tus matches a la vez. ¡Pronto estará disponible!");
-                builder.setPositiveButton("Aceptar", null);
+                builder.setTitle(R.string.gruposTitulo);
+                builder.setMessage(R.string.gruposMensaje);
+                builder.setPositiveButton(R.string.builderEntendido, null);
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
@@ -128,15 +129,31 @@ public class FragmentChat extends Fragment {
 
                     Log.d("pruebaMatches", matches.toString());
                 }else{
-                    Toast.makeText(rootView.getContext(), "Ha habido un error al conseguir tus matches", Toast.LENGTH_SHORT).show();
+                    mostrarDialogError();
                     Log.d("errorMatches", response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Usuario2>> call, Throwable t) {
-                Toast.makeText(rootView.getContext(), "Ha habido un error con el servidor", Toast.LENGTH_SHORT).show();
+                mostrarDialogError();
+                //Toast.makeText(rootView.getContext(), "Ha habido un error con el servidor", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void mostrarDialogError(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+        builder.setTitle(R.string.errorTitulo);
+        builder.setMessage(R.string.errorMensaje);
+        builder.setPositiveButton(R.string.builderEntendido, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                getMatches(idUsu);
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

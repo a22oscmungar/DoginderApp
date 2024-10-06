@@ -27,7 +27,7 @@
             android:textSize="20sp"
             android:layout_margin="25dp"
             android:fontFamily="@font/poppins_light"
-            android:text="¿Has olvidado la contraseña?\nNo te preocupes, te mandaremos un token a tu correo electrónico para que puedas introducir una nueva contraseña.\n¡Recuerda revisat la carpeta de spam!"/>
+            android:text="@string/tvRecuperarContrasenya"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -37,7 +37,7 @@
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="CORREO ELECTRONICO"
+            android:hint="@string/tvMail"
             android:fontFamily="@font/poppins_light_italic"
             android:layout_margin="25dp"/>
 
@@ -45,7 +45,7 @@
             android:id="@+id/btnRecuperar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ENVIAR CORREO"
+            android:text="@string/enviar"
             android:layout_margin="25dp"
             android:fontFamily="@font/poppins_black"
             android:background="@color/naranjaFlojo"
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="200px"
             android:fontFamily="@font/poppins_black"
-            android:text="CONFIRMAR"/>
+            android:text="@string/Confirmar"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

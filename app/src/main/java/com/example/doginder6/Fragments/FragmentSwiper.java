@@ -270,16 +270,16 @@ public class FragmentSwiper extends Fragment implements LocationListener {
             case R.id.seeAll:
                 // Maneja la acción de búsqueda
                 AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
-                builder.setTitle("Ver todos");
-                builder.setMessage("¿Quieres incluir a los usuarios a los que has rechazado?");
-                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                builder.setTitle(R.string.tituloVerTodos);
+                builder.setMessage(R.string.mensajeVerTodos);
+                builder.setPositiveButton(R.string.builderSi, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Mostrar todos los usuarios
                         Toast.makeText(getContext(), "Ver todos", Toast.LENGTH_SHORT).show();
                     }
                 });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.builderNo, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Mostrar solo los usuarios que no has rechazado
@@ -380,10 +380,8 @@ public class FragmentSwiper extends Fragment implements LocationListener {
 
     //funcion para llamar a los usuarios cercanos
     public void llamarUsuarios() {
-        //comprobamos que la distancia no sea 0
-        if (distancia == 0) {
-            Toast.makeText(rootView.getContext(), "Introduce una distancia", Toast.LENGTH_LONG).show();
-        } else {
+        if(distancia == 0 || etDistancia.getText().toString().isEmpty()){
+            distancia = 50;}
             //llamamos a la función que nos devuelve los usuarios
 
             recibirUsuarios2(new UserCallback() {
@@ -434,7 +432,7 @@ public class FragmentSwiper extends Fragment implements LocationListener {
 
                     } else {
                         //si no hemos recibido ningun usuario, mostramos un mensaje
-                        Toast.makeText(rootView.getContext(), "No hay usuarios cerca", Toast.LENGTH_LONG).show();
+                        Toast.makeText(rootView.getContext(), R.string.toastSinUsuarios, Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -444,7 +442,7 @@ public class FragmentSwiper extends Fragment implements LocationListener {
                     progressBar.setVisibility(View.GONE);
                 }
             });
-        }
+
     }
 
     //funcion para recibir los usuarios con filtro
@@ -546,7 +544,7 @@ public class FragmentSwiper extends Fragment implements LocationListener {
                     builder.setView(recyclerView);
 
                     // boton para cerrar el dialogo
-                    builder.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton(R.string.builderCerrar, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

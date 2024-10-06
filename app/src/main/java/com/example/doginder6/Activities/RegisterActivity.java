@@ -186,10 +186,10 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         btnDatePickerMascotaHelp.setOnClickListener(v -> {
             //abrimos un dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-            builder.setTitle("La edad de tu mascota");
+            builder.setTitle(R.string.tituloEdad);
 
-            builder.setMessage("La edad de tu mascota es importante para poder encontrar a otros perros de su edad. Si no sabes la edad exacta, puedes poner una aproximada.");
-            builder.setPositiveButton("Entendido", (dialog, which) -> {
+            builder.setMessage(R.string.mensajeEdad);
+            builder.setPositiveButton(R.string.builderEntendido, (dialog, which) -> {
                 dialog.dismiss();
             });
 

@@ -156,17 +156,17 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
         if (id == R.id.action_bloquear) {
             // Acción para el botón Bloquear
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Confirmar bloqueo");
-            builder.setMessage("¿Estás seguro de que quieres bloquear a este usuario?");
+            builder.setTitle(R.string.tituloBloquear);
+            builder.setMessage(R.string.mensajeBloquear);
 
-            builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.builderSi, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     bloquearUsuario();
                 }
             });
 
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(R.string.builderNo, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -184,8 +184,8 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
         } else if (id == R.id.action_reportar) {
             // Acción para el botón Reportar
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Confirmar reporte");
-            builder.setMessage("¿Estás seguro de que quieres reportar a este usuario?");
+            builder.setTitle(R.string.tituloReportar);
+            builder.setMessage(R.string.mensajeReportar);
 
 // Inflar el layout personalizado
             LayoutInflater inflater = this.getLayoutInflater();
@@ -216,7 +216,7 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
             });
 
 // Configurar los botones del diálogo
-            builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(R.string.builderSi, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // Obtener el motivo personalizado
@@ -234,7 +234,7 @@ public class ChatActivity extends AppCompatActivity implements SocketListener {
                 }
             });
 
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(R.string.builderSi, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();

@@ -1,5 +1,6 @@
 package com.example.doginder6.Fragments;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -104,13 +105,15 @@ public class FragmentMasFunciones extends Fragment {
                 if (response.isSuccessful()) {
                     Toast.makeText(rootView.getContext(), "Gracias por mostrar tu interés!", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(rootView.getContext(), "Error al avisar de que estás interesado en pasear", Toast.LENGTH_SHORT).show();
+                   mostrarDialogError();
+                    // Toast.makeText(rootView.getContext(), "Error al avisar de que estás interesado en pasear", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(rootView.getContext(), "Error al avisar de que estás interesado en pasear", Toast.LENGTH_SHORT).show();
+                mostrarDialogError();
+                //Toast.makeText(rootView.getContext(), "Error al avisar de que estás interesado en pasear", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -132,17 +135,31 @@ public class FragmentMasFunciones extends Fragment {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
+                /*if (response.isSuccessful()) {
                     Toast.makeText(rootView.getContext(), "Gracias por mostrar tu interés!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(rootView.getContext(), "Error al avisar de que estás interesado en pasear", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(rootView.getContext(), "Error al avisar de que estás interesado en pasear", Toast.LENGTH_SHORT).show();
+                mostrarDialogError();
+                //Toast.makeText(rootView.getContext(), "Error al avisar de que estás interesado en pasear", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    public void mostrarDialogError(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+        builder.setTitle(R.string.errorTitulo);
+        builder.setMessage(R.string.errorMensaje);
+        builder.setPositiveButton(R.string.builderEntendido, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

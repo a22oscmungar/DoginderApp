@@ -75,7 +75,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Rango de edad"
+                    android:text="@string/rangoDeEdad"
                     android:fontFamily="@font/poppins_semibold"
                     android:textSize="25sp"
                     android:layout_marginTop="50dp"
@@ -94,7 +94,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sexo del dueño/a"
+                    android:text="@string/sexoDelDueno"
                     android:fontFamily="@font/poppins_semibold"
                     android:textSize="25sp"
                     />
